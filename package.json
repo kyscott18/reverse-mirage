@@ -1,0 +1,23 @@
+{
+  "name": "reverse-mirage",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "format": "rome format . --write",
+    "lint": "rome check .",
+    "lint:fix": "pnpm lint --apply"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@uniswap/sdk-core": "^3.2.2",
+    "abitype": "^0.8.1",
+    "viem": "^0.3.13"
+  },
+  "devDependencies": {
+    "rome": "^12.0.0",
+    "typescript": "^4"
+  }
+}
