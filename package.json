@@ -13,11 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "@uniswap/sdk-core": "^3.2.2",
-    "abitype": "^0.8.1",
-    "viem": "^0.3.13"
+    "abitype": "^0.8.3",
+    "viem": "^0.3.24"
   },
   "devDependencies": {
-    "rome": "^12.0.0",
-    "typescript": "^4"
+    "rome": "^12.1.0",
+    "typescript": "^5.0.4"
   }
 }
