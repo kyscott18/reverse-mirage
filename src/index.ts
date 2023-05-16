@@ -1,32 +1,15 @@
-import { Abi, AbiStateMutability } from 'abitype'
-import {
-  Chain,
-  PublicClient,
-  Transport,
-  ContractFunctionConfig,
-  ContractFunctionResult,
-  MulticallReturnType,
-  MulticallParameters,
-} from 'viem'
-import { multicall } from 'viem/contract'
+import { Chain, PublicClient, Transport, ReadContractParameters } from 'viem'
+import { readContract } from 'viem/contract'
+import { Abi } from 'abitype'
 
-export async function readReverseMirages<
+export async function readReverseMirage<
   TChain extends Chain | undefined,
-  TContracts extends ContractFunctionConfig[],
-  TAllowFailure extends boolean = true,
+  TAbi extends Abi | readonly unknown[],
+  TFunctionName extends string,
 >(
   client: PublicClient<Transport, TChain>,
-  args: MulticallParameters<TContracts, TAllowFailure>,
-): Promise<MulticallReturnType<TContracts, TAllowFailure>> {
-  const data = await multicall(client, args)
+  args: ReadContractParameters<TAbi, TFunctionName>,
+) {
+  const data = await readContract(client, args)
   return data
-}
-
-export type ReverseMirage<
-  TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctionName extends string = string,
-  TAbiStateMutability extends AbiStateMutability = AbiStateMutability,
-  TParse extends unknown = unknown,
-> = ContractFunctionConfig<TAbi, TFunctionName, TAbiStateMutability> & {
-  parse: (ret: ContractFunctionResult<TAbi, TFunctionName>) => TParse
 }

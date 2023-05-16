@@ -1,8 +1,8 @@
 import { Token } from '@uniswap/sdk-core'
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
-import { multicall } from 'viem/contract'
-import { readReverseMirages } from './index'
+import { readContract } from 'viem/contract'
+import { readReverseMirage } from './index'
 import { balanceOfMirage } from './token'
 
 const publicClient = createPublicClient({
@@ -16,18 +16,16 @@ const token = new Token(
   18,
 )
 
-const r1 = await readReverseMirages(publicClient, {
+const r1 = await readReverseMirage(
   //  ^?
-  allowFailure: false,
-  contracts: [
-    balanceOfMirage(token, '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2'),
-  ] as const,
-})
+  publicClient,
+  balanceOfMirage(token, '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2')
+    .contractConfig,
+)
 
-const r2 = await multicall(publicClient, {
+const r2 = await readContract(
   //  ^?
-  allowFailure: false,
-  contracts: [
-    balanceOfMirage(token, '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2'),
-  ] as const,
-})
+  publicClient,
+  balanceOfMirage(token, '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2')
+    .contractConfig,
+)
