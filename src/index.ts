@@ -16,10 +16,12 @@ export async function readReverseMirage<
   TParse extends unknown,
 >(
   client: PublicClient<Transport, TChain>,
-  args: ReadContractParameters<TAbi, TFunctionName>,
-  parse: (ret: ContractFunctionResult<TAbi, TFunctionName>) => TParse,
+  args: {
+    contractConfig: ReadContractParameters<TAbi, TFunctionName>
+    parse: (ret: ContractFunctionResult<TAbi, TFunctionName>) => TParse
+  },
 ) {
-  const data = parse(await readContract(client, args))
+  const data = args.parse(await readContract(client, args.contractConfig))
   return data
 }
 
