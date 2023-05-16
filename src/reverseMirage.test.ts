@@ -40,8 +40,16 @@ const r3 = await readReverseMirages(
           .contractConfig,
       ],
     },
+    parse: ([val]: [bigint]) =>
+      [
+        balanceOfMirage(
+          token,
+          '0xFBA3912Ca04dd458c843e2EE08967fC04f3579c2',
+        ).parse(val),
+      ] as const,
   } as const,
 )
+// want the dx of just passing the mirage
 
 const r4 = await multicall(
   //  ^?
