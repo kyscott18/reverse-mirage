@@ -2,10 +2,10 @@ import { Abi, AbiStateMutability } from 'abitype'
 import { ContractFunctionConfig, ContractFunctionResult } from 'viem'
 
 export type ReverseMirage<
-  TAbi extends Abi | readonly unknown[] = Abi,
+  TAbi extends Abi = Abi,
   TFunctionName extends string = string,
-  TParse extends unknown = unknown,
   TAbiStateMutability extends AbiStateMutability = AbiStateMutability,
+  TParse extends unknown = unknown,
 > = {
   contractConfig: ContractFunctionConfig<
     TAbi,
