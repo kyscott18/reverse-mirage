@@ -3,6 +3,7 @@ import {
   ContractFunctionConfig,
   ContractFunctionResult,
   MulticallParameters,
+  MulticallResult,
   MulticallResults,
   PublicClient,
   ReadContractParameters,
@@ -39,13 +40,34 @@ export async function readReverseMirages<
     parse: readonly [
       ...{
         [I in keyof TParse]: (
-          ret: MulticallResults<TContracts, TAllowFailure>[I &
-            keyof MulticallResults<TContracts, TAllowFailure>],
+          val: MulticallResults<TContracts, false>[I &
+            keyof MulticallResults<TContracts, false>],
         ) => TParse[I]
       },
     ]
   },
-): Promise<TParse> {
-  const data = await multicall(client, args.contractConfig)
-  return data.map((d, i) => args.parse[i](d)) as TParse
+) {
+  const data = (await multicall(
+    client,
+    args.contractConfig,
+  )) as MulticallResults<TContracts, TAllowFailure>
+
+  return data.map((d, i) => {
+    const parse = args.parse[i]
+
+    if (args.contractConfig.allowFailure) {
+      return (d as MulticallResult<unknown, true>).status === 'failure'
+        ? d
+        : {
+            status: 'success',
+            result: parse((d as MulticallResult<unknown, true>).result),
+          }
+    }
+
+    return parse(d)
+  }) as readonly [
+    ...{
+      [I in keyof TParse]: MulticallResult<TParse[I], TAllowFailure>
+    },
+  ]
 }
