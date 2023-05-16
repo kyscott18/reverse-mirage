@@ -1,11 +1,13 @@
 import {
   Chain,
+  ContractFunctionConfig,
   ContractFunctionResult,
+  MulticallParameters,
   PublicClient,
   ReadContractParameters,
   Transport,
 } from 'viem'
-import { readContract } from 'viem/contract'
+import { multicall, readContract } from 'viem/contract'
 import { Abi } from 'abitype'
 
 export async function readReverseMirage<
@@ -21,5 +23,19 @@ export async function readReverseMirage<
   },
 ): Promise<TParse> {
   const data = args.parse(await readContract(client, args.contractConfig))
+  return data
+}
+
+export async function readReverseMirages<
+  TChain extends Chain | undefined,
+  TContracts extends ContractFunctionConfig[],
+  TAllowFailure extends boolean = true,
+>(
+  client: PublicClient<Transport, TChain>,
+  args: {
+    contractConfig: MulticallParameters<TContracts, TAllowFailure>
+  },
+) {
+  const data = await multicall(client, args.contractConfig)
   return data
 }
