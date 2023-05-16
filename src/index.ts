@@ -1,5 +1,4 @@
 import {
-  CallParameters,
   Chain,
   ContractFunctionResult,
   PublicClient,
@@ -20,12 +19,7 @@ export async function readReverseMirage<
     contractConfig: ReadContractParameters<TAbi, TFunctionName>
     parse: (ret: ContractFunctionResult<TAbi, TFunctionName>) => TParse
   },
-) {
+): Promise<TParse> {
   const data = args.parse(await readContract(client, args.contractConfig))
   return data
 }
-
-export type ReadContractReturnType<
-  TAbi extends Abi = Abi,
-  TFunctionName extends string = string,
-> = ContractFunctionResult<TAbi, TFunctionName>
