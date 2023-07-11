@@ -39,6 +39,19 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+
+  build:
+    name: Build
+    needs: install
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Setup javascript env
+        uses: ./.github/actions/setup-js
+      - name: Build
+        run: pnpm build
+      
   test:
     # TODO: run anvil as an action
     if: false
