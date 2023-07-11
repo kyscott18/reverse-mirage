@@ -1,4 +1,4 @@
-import { testClient } from "./utils";
+import { testClient } from "./utils.js";
 import { Hex } from "viem";
 import { afterEach, beforeAll } from "vitest";
 

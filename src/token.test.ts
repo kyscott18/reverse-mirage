@@ -1,5 +1,5 @@
-import { ALICE, BOB, anvilEther, mockERC20 } from "./test/constants";
-import { publicClient, walletClient } from "./test/utils";
+import { ALICE, BOB, anvilEther, mockERC20 } from "./test/constants.js";
+import { publicClient, walletClient } from "./test/utils.js";
 import {
   erc20Allowance,
   erc20BalanceOf,
@@ -11,8 +11,8 @@ import {
   erc20Transfer,
   nativeBalance,
   nativeTransfer,
-} from "./token";
-import { readAndParse } from "./utils";
+} from "./token.js";
+import { readAndParse } from "./utils.js";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import { getAddress, isAddress, parseEther } from "viem";
 import { describe, expect, test } from "vitest";

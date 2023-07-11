@@ -1,4 +1,4 @@
-import { ALICE, localHttpUrl, localWsUrl } from "./constants";
+import { ALICE, localHttpUrl, localWsUrl } from "./constants.js";
 import {
   createPublicClient,
   createTestClient,

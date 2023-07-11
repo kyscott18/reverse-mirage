@@ -1,8 +1,8 @@
 import MockERC20 from "../../contracts/out/MockERC20.sol/MockERC20.json";
-import { forkBlockNumber, forkUrl } from "./constants";
-import { ALICE, BOB } from "./constants";
-import { mockErc20ABI } from "./generated";
-import { publicClient, testClient, walletClient } from "./utils";
+import { forkBlockNumber, forkUrl } from "./constants.js";
+import { ALICE, BOB } from "./constants.js";
+import { mockErc20ABI } from "./generated.js";
+import { publicClient, testClient, walletClient } from "./utils.js";
 import { startProxy } from "@viem/anvil";
 import invariant from "tiny-invariant";
 import { Hex, parseEther } from "viem";

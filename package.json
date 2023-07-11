@@ -2,7 +2,16 @@
   "name": "reverse-mirage",
   "version": "0.0.1",
   "description": "",
-  "main": "index.ts",
+  "type": "module",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo",
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/test/**/*"
+  ],
   "scripts": {
     "build": "pnpm run build:cjs && pnpm run build:esm",
     "build:cjs": "tsc --project tsconfig.build.json --module commonjs --outDir ./dist/cjs --removeComments && echo > ./dist/cjs/package.json '{\"type\":\"commonjs\"}'",

@@ -1,5 +1,5 @@
-import { erc20ABI } from "./erc20Abi";
-import { ReverseMirageRead } from "./types";
+import { erc20ABI } from "./erc20Abi.js";
+import { ReverseMirageRead } from "./types.js";
 import { NativeCurrency, Token } from "@uniswap/sdk-core";
 import { CurrencyAmount } from "@uniswap/sdk-core";
 import {
