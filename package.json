@@ -1,23 +1,31 @@
 {
   "name": "reverse-mirage",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "format": "rome format . --write",
     "lint": "rome check .",
-    "lint:fix": "pnpm lint --apply"
+    "lint:fix": "pnpm lint --apply",
+    "prepare": "husky install",
+    "typecheck": "tsc",
+    "test": "vitest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@uniswap/sdk-core": "^3.2.2",
-    "abitype": "^0.8.3",
-    "viem": "^0.3.24"
+    "@uniswap/sdk-core": "^4.0.2",
+    "viem": "^1.2.13"
   },
   "devDependencies": {
-    "rome": "^12.1.0",
-    "typescript": "^5.0.4"
+    "@testing-library/react": "^14.0.0",
+    "@viem/anvil": "^0.0.6",
+    "@wagmi/cli": "^1.3.0",
+    "husky": "^8.0.3",
+    "rome": "^12.1.3",
+    "tiny-invariant": "^1.3.1",
+    "typescript": "^5.1.6",
+    "vitest": "^0.33.0"
   }
 }
