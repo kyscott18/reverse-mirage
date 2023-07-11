@@ -2,10 +2,10 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    environment: "jsdom",
+    environment: "node",
     include: ["**/*.test.ts"],
-    setupFiles: ["./test/setup.ts"],
+    setupFiles: ["src/test/setup.ts"],
     testTimeout: 10_000,
-    globalSetup: ["./test/globalSetup.ts"],
+    globalSetup: ["src/test/globalSetup.ts"],
   },
 });

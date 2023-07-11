@@ -52,6 +52,5 @@ export default async function () {
     args: [BOB, parseEther("2")],
   });
   await publicClient.waitForTransactionReceipt({ hash: approveHash });
-  console.log(await testClient.snapshot());
   return () => Promise.all([shutdown(), testClient.reset()]);
 }
