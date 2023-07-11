@@ -1,4 +1,4 @@
-import MockERC20 from "../contracts/out/MockERC20.sol/MockERC20.json";
+import MockERC20 from "../../contracts/out/MockERC20.sol/MockERC20.json";
 import { forkBlockNumber, forkUrl } from "./constants";
 import { ALICE, BOB } from "./constants";
 import { mockErc20ABI } from "./generated";
