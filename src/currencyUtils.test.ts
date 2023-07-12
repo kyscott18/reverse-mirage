@@ -1,4 +1,4 @@
-import { currencyEqualTo, currencySort } from "./currencyUtils.js";
+import { currencyEqualTo, currencySortsBefore } from "./currencyUtils.js";
 import { anvilEther, mockERC20 } from "./test/constants.js";
 import { Address, zeroAddress } from "viem";
 import { describe, expect, test } from "vitest";
@@ -29,9 +29,9 @@ describe.concurrent("currency utils", () => {
   });
 
   test("can sort", () => {
-    expect(() => currencySort(mockERC20, mockERC20)).toThrowError();
+    expect(() => currencySortsBefore(mockERC20, mockERC20)).toThrowError();
     expect(() =>
-      currencySort(mockERC20, { ...mockERC20, chainID: 2 }),
+      currencySortsBefore(mockERC20, { ...mockERC20, chainID: 2 }),
     ).toThrowError();
 
     const zeroToken = {
@@ -41,9 +41,7 @@ describe.concurrent("currency utils", () => {
       symbol: "ZERO",
       decimals: 18,
     };
-    const [token0, token1] = currencySort(mockERC20, zeroToken);
 
-    expect(currencyEqualTo(zeroToken, token0)).toBe(true);
-    expect(currencyEqualTo(mockERC20, token1)).toBe(true);
+    expect(currencySortsBefore(mockERC20, zeroToken)).toBe(false);
   });
 });

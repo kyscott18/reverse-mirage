@@ -23,6 +23,14 @@ export type CurrencyAmount<TCurrency extends Currency> = {
   amount: bigint;
 };
 
+export type Price<
+  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Currency,
+> = {
+  numerator: CurrencyAmount<TBaseCurrency>;
+  denominator: CurrencyAmount<TQuoteCurrency>;
+};
+
 export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
   read: () => TRet | Promise<TRet>;
   parse: (data: TRet) => TParse;
