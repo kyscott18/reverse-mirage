@@ -1,8 +1,8 @@
-import { equalTo as currencyEqualTo } from "./currencyUtils.js";
+import { currencyEqualTo } from "./currencyUtils.js";
 import {
+  fractionMultiply,
+  fractionQuotient,
   makeFraction,
-  multiply as fractionMultiply,
-  quotient,
 } from "./fractionUtils.js";
 import { Currency, CurrencyAmount, Fraction } from "./types.js";
 import invariant from "tiny-invariant";
@@ -21,7 +21,7 @@ export const makeCurrencyAmountFromFraction = <TCurrency extends Currency>(
   amount: Fraction,
 ): CurrencyAmount<TCurrency> => ({
   currency,
-  amount: quotient(
+  amount: fractionQuotient(
     fractionMultiply(amount, makeFraction(10n ** BigInt(currency.decimals))),
   ),
 });
@@ -34,7 +34,7 @@ export const makeCurrencyAmountFromRaw = <TCurrency extends Currency>(
   amount,
 });
 
-export const add = <TCurrency extends Currency>(
+export const currencyAmountAdd = <TCurrency extends Currency>(
   a: CurrencyAmount<TCurrency>,
   b: CurrencyAmount<TCurrency>,
 ): CurrencyAmount<TCurrency> => {
@@ -43,7 +43,7 @@ export const add = <TCurrency extends Currency>(
   return { currency: a.currency, amount: a.amount + b.amount };
 };
 
-export const subtract = <TCurrency extends Currency>(
+export const currencyAmountSubtract = <TCurrency extends Currency>(
   a: CurrencyAmount<TCurrency>,
   b: CurrencyAmount<TCurrency>,
 ): CurrencyAmount<TCurrency> => {
@@ -52,25 +52,31 @@ export const subtract = <TCurrency extends Currency>(
   return { currency: a.currency, amount: a.amount - b.amount };
 };
 
-export const multiply = <TCurrency extends Currency>(
+export const currencyAmountMultiply = <TCurrency extends Currency>(
   a: CurrencyAmount<TCurrency>,
   b: CurrencyAmount<TCurrency>,
 ): CurrencyAmount<TCurrency> => {
   invariant(currencyEqualTo(a.currency, b.currency));
 
-  return { currency: a.currency, amount: a.amount * b.amount };
+  return {
+    currency: a.currency,
+    amount: (a.amount * b.amount) / 10n ** BigInt(a.currency.decimals),
+  };
 };
 
-export const divide = <TCurrency extends Currency>(
+export const currencyAmountDivide = <TCurrency extends Currency>(
   a: CurrencyAmount<TCurrency>,
   b: CurrencyAmount<TCurrency>,
 ): CurrencyAmount<TCurrency> => {
   invariant(currencyEqualTo(a.currency, b.currency));
 
-  return { currency: a.currency, amount: a.amount / b.amount };
+  return {
+    currency: a.currency,
+    amount: (a.amount * 10n ** BigInt(a.currency.decimals)) / b.amount,
+  };
 };
 
-export const lessThan = <TCurrency extends Currency>(
+export const currencyAmountLessThan = <TCurrency extends Currency>(
   a: CurrencyAmount<TCurrency>,
   b: CurrencyAmount<TCurrency>,
 ): boolean => {
@@ -79,22 +85,22 @@ export const lessThan = <TCurrency extends Currency>(
   return a.amount < b.amount;
 };
 
-export const greaterThan = <TCurrency extends Currency>(
-  a: CurrencyAmount<TCurrency>,
-  b: CurrencyAmount<TCurrency>,
-): boolean => {
-  invariant(currencyEqualTo(a.currency, b.currency));
-
-  return a.amount > b.amount;
-};
-
-export const equalTo = <TCurrency extends Currency>(
+export const currencyAmountEqualTo = <TCurrency extends Currency>(
   a: CurrencyAmount<TCurrency>,
   b: CurrencyAmount<TCurrency>,
 ): boolean => {
   invariant(currencyEqualTo(a.currency, b.currency));
 
   return a.amount === b.amount;
+};
+
+export const currencyAmountGreaterThan = <TCurrency extends Currency>(
+  a: CurrencyAmount<TCurrency>,
+  b: CurrencyAmount<TCurrency>,
+): boolean => {
+  invariant(currencyEqualTo(a.currency, b.currency));
+
+  return a.amount > b.amount;
 };
 
 // toSignificant

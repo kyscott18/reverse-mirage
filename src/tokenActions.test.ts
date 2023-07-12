@@ -1,5 +1,5 @@
 import {
-  equalTo,
+  currencyAmountEqualTo,
   makeCurrencyAmountFromString,
 } from "./currencyAmountUtils.js";
 import { readAndParse } from "./readUtils.js";
@@ -20,7 +20,7 @@ import {
 import { getAddress, isAddress } from "viem/utils";
 import { describe, expect, test } from "vitest";
 
-describe("token", () => {
+describe("token actions", () => {
   test("can deploy the token contract", async () => {
     expect(mockERC20.address).toBeDefined();
     expect(isAddress(mockERC20.address)).toBe(true);
@@ -56,7 +56,7 @@ describe("token", () => {
     );
 
     expect(
-      equalTo(
+      currencyAmountEqualTo(
         nativeBalanceBob,
         makeCurrencyAmountFromString(anvilEther, "10000"),
       ),
@@ -68,14 +68,20 @@ describe("token", () => {
       erc20BalanceOf(publicClient, { token: mockERC20, address: ALICE }),
     );
     expect(
-      equalTo(balanceOfAlice, makeCurrencyAmountFromString(mockERC20, ".75")),
+      currencyAmountEqualTo(
+        balanceOfAlice,
+        makeCurrencyAmountFromString(mockERC20, ".75"),
+      ),
     ).toBe(true);
 
     const balanceOfBob = await readAndParse(
       erc20BalanceOf(publicClient, { token: mockERC20, address: BOB }),
     );
     expect(
-      equalTo(balanceOfBob, makeCurrencyAmountFromString(mockERC20, ".25")),
+      currencyAmountEqualTo(
+        balanceOfBob,
+        makeCurrencyAmountFromString(mockERC20, ".25"),
+      ),
     ).toBe(true);
   });
 
@@ -88,7 +94,10 @@ describe("token", () => {
       }),
     );
     expect(
-      equalTo(allowance, makeCurrencyAmountFromString(mockERC20, "2")),
+      currencyAmountEqualTo(
+        allowance,
+        makeCurrencyAmountFromString(mockERC20, "2"),
+      ),
     ).toBe(true);
   });
 
@@ -97,7 +106,10 @@ describe("token", () => {
       erc20TotalSupply(publicClient, { token: mockERC20 }),
     );
     expect(
-      equalTo(totalSupply, makeCurrencyAmountFromString(mockERC20, "1")),
+      currencyAmountEqualTo(
+        totalSupply,
+        makeCurrencyAmountFromString(mockERC20, "1"),
+      ),
     ).toBe(true);
   });
 
@@ -130,7 +142,7 @@ describe("token", () => {
     );
 
     expect(
-      equalTo(
+      currencyAmountEqualTo(
         nativeBalanceBob,
         makeCurrencyAmountFromString(anvilEther, "10001"),
       ),
@@ -153,14 +165,20 @@ describe("token", () => {
       erc20BalanceOf(publicClient, { token: mockERC20, address: ALICE }),
     );
     expect(
-      equalTo(balanceOfAlice, makeCurrencyAmountFromString(mockERC20, ".5")),
+      currencyAmountEqualTo(
+        balanceOfAlice,
+        makeCurrencyAmountFromString(mockERC20, ".5"),
+      ),
     ).toBe(true);
 
     const balanceOfBob = await readAndParse(
       erc20BalanceOf(publicClient, { token: mockERC20, address: BOB }),
     );
     expect(
-      equalTo(balanceOfBob, makeCurrencyAmountFromString(mockERC20, ".5")),
+      currencyAmountEqualTo(
+        balanceOfBob,
+        makeCurrencyAmountFromString(mockERC20, ".5"),
+      ),
     ).toBe(true);
   });
 
