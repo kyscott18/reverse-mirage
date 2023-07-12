@@ -1,6 +1,7 @@
 import { currencyEqualTo, currencySortsBefore } from "./currencyUtils.js";
 import { anvilEther, mockERC20 } from "./test/constants.js";
-import { Address, zeroAddress } from "viem";
+import type { Address } from "viem";
+import { zeroAddress } from "viem";
 import { describe, expect, test } from "vitest";
 
 describe.concurrent("currency utils", () => {

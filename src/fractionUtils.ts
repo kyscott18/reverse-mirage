@@ -1,4 +1,4 @@
-import { BigIntIsh, Fraction } from "./types.js";
+import type { BigIntIsh, Fraction } from "./types.js";
 
 // should we check for zero in the denominator
 export const makeFraction = (

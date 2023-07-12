@@ -5,7 +5,8 @@ import {
   createWalletClient,
   http,
 } from "viem";
-import { Chain, localhost, mainnet } from "viem/chains";
+import { localhost, mainnet } from "viem/chains";
+import type { Chain } from "viem/chains";
 
 export const anvil = {
   ...localhost,

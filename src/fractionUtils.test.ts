@@ -10,7 +10,7 @@ import {
   fractionSubtract,
   makeFraction,
 } from "./fractionUtils.js";
-import { Fraction } from "./types.js";
+import type { Fraction } from "./types.js";
 import { describe, expect, test } from "vitest";
 
 const one: Fraction = { numerator: 1n, denominator: 1n };

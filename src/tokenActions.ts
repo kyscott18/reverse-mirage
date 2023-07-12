@@ -1,18 +1,18 @@
 import { makeCurrencyAmountFromRaw } from "./currencyAmountUtils.js";
 import { erc20ABI } from "./erc20Abi.js";
-import {
+import type {
   CurrencyAmount,
   NativeCurrency,
   ReverseMirageRead,
   Token,
 } from "./types.js";
-import {
+import type {
   Address,
   PublicClient,
   SendTransactionParameters,
   SimulateContractParameters,
-  getAddress,
 } from "viem";
+import { getAddress } from "viem/utils";
 
 export const nativeBalance = (
   publicClient: PublicClient,

@@ -1,5 +1,5 @@
 import { testClient } from "./utils.js";
-import { Hex } from "viem";
+import type { Hex } from "viem";
 import { afterEach, beforeAll } from "vitest";
 
 let id: Hex = "0x0";

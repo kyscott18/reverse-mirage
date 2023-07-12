@@ -5,7 +5,8 @@ import { mockErc20ABI } from "./generated.js";
 import { publicClient, testClient, walletClient } from "./utils.js";
 import { startProxy } from "@viem/anvil";
 import invariant from "tiny-invariant";
-import { Hex, parseEther } from "viem";
+import type { Hex } from "viem";
+import { parseEther } from "viem/utils";
 
 export default async function () {
   const shutdown = await startProxy({

@@ -4,7 +4,7 @@ import {
   fractionQuotient,
   makeFraction,
 } from "./fractionUtils.js";
-import { Currency, CurrencyAmount, Fraction } from "./types.js";
+import type { Currency, CurrencyAmount, Fraction } from "./types.js";
 import invariant from "tiny-invariant";
 import { parseUnits } from "viem/utils";
 

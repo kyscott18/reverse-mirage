@@ -1,4 +1,4 @@
-import { Currency, NativeCurrency, Token } from "./types.js";
+import type { Currency, NativeCurrency, Token } from "./types.js";
 import invariant from "tiny-invariant";
 
 export const isToken = (a: Currency): a is Token => "address" in a;

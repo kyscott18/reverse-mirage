@@ -1,10 +1,4 @@
-import {
-  BigIntIsh,
-  Currency,
-  CurrencyAmount,
-  Fraction,
-  Price,
-} from "./types.js";
+import type { Currency, CurrencyAmount, Price } from "./types.js";
 
 // export const makePriceFromFraction = <
 //   TBaseCurrency extends Currency,
