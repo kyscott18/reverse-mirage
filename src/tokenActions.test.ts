@@ -1,3 +1,8 @@
+import {
+  equalTo,
+  makeCurrencyAmountFromString,
+} from "./currencyAmountUtils.js";
+import { readAndParse } from "./readUtils.js";
 import { ALICE, BOB, anvilEther, mockERC20 } from "./test/constants.js";
 import { publicClient, walletClient } from "./test/utils.js";
 import {
@@ -11,10 +16,8 @@ import {
   erc20Transfer,
   nativeBalance,
   nativeTransfer,
-} from "./token.js";
-import { readAndParse } from "./utils.js";
-import { CurrencyAmount } from "@uniswap/sdk-core";
-import { getAddress, isAddress, parseEther } from "viem";
+} from "./tokenActions.js";
+import { getAddress, isAddress } from "viem/utils";
 import { describe, expect, test } from "vitest";
 
 describe("token", () => {
@@ -52,19 +55,28 @@ describe("token", () => {
       nativeBalance(publicClient, { nativeCurrency: anvilEther, address: BOB }),
     );
 
-    expect(nativeBalanceBob.equalTo("10000000000000000000000")).toBe(true);
+    expect(
+      equalTo(
+        nativeBalanceBob,
+        makeCurrencyAmountFromString(anvilEther, "10000"),
+      ),
+    ).toBe(true);
   });
 
   test("can read balance", async () => {
-    const balanceOfALICE = await readAndParse(
+    const balanceOfAlice = await readAndParse(
       erc20BalanceOf(publicClient, { token: mockERC20, address: ALICE }),
     );
-    expect(balanceOfALICE.equalTo("750000000000000000")).toBe(true);
+    expect(
+      equalTo(balanceOfAlice, makeCurrencyAmountFromString(mockERC20, ".75")),
+    ).toBe(true);
 
-    const balanceOfBOB = await readAndParse(
+    const balanceOfBob = await readAndParse(
       erc20BalanceOf(publicClient, { token: mockERC20, address: BOB }),
     );
-    expect(balanceOfBOB.equalTo("250000000000000000")).toBe(true);
+    expect(
+      equalTo(balanceOfBob, makeCurrencyAmountFromString(mockERC20, ".25")),
+    ).toBe(true);
   });
 
   test("can read allowance", async () => {
@@ -75,14 +87,18 @@ describe("token", () => {
         spender: BOB,
       }),
     );
-    expect(allowance.equalTo("2000000000000000000")).toBe(true);
+    expect(
+      equalTo(allowance, makeCurrencyAmountFromString(mockERC20, "2")),
+    ).toBe(true);
   });
 
   test("can read totalSupply", async () => {
     const totalSupply = await readAndParse(
       erc20TotalSupply(publicClient, { token: mockERC20 }),
     );
-    expect(totalSupply.equalTo("1000000000000000000")).toBe(true);
+    expect(
+      equalTo(totalSupply, makeCurrencyAmountFromString(mockERC20, "1")),
+    ).toBe(true);
   });
 
   test("can get token", async () => {
@@ -93,7 +109,7 @@ describe("token", () => {
     );
 
     expect(token.address).toBe(getAddress(mockERC20.address));
-    expect(token.chainId).toBe(1);
+    expect(token.chainID).toBe(1);
     expect(token.name).toBe("Mock ERC20");
     expect(token.symbol).toBe("MOCK");
     expect(token.decimals).toBe(18);
@@ -103,10 +119,7 @@ describe("token", () => {
     const transaction = await walletClient.sendTransaction({
       ...nativeTransfer({
         to: BOB,
-        amount: CurrencyAmount.fromRawAmount(
-          anvilEther,
-          parseEther("1").toString(),
-        ),
+        amount: makeCurrencyAmountFromString(anvilEther, "1"),
       }),
     });
 
@@ -116,7 +129,12 @@ describe("token", () => {
       nativeBalance(publicClient, { nativeCurrency: anvilEther, address: BOB }),
     );
 
-    expect(nativeBalanceBob.equalTo("10001000000000000000000")).toBe(true);
+    expect(
+      equalTo(
+        nativeBalanceBob,
+        makeCurrencyAmountFromString(anvilEther, "10001"),
+      ),
+    ).toBe(true);
   });
 
   test("can transfer", async () => {
@@ -124,25 +142,26 @@ describe("token", () => {
       account: ALICE,
       ...erc20Transfer({
         to: BOB,
-        amount: CurrencyAmount.fromRawAmount(
-          mockERC20,
-          parseEther(".25").toString(),
-        ),
+        amount: makeCurrencyAmountFromString(mockERC20, ".25"),
       }),
     });
 
     const transaction = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash: transaction });
 
-    const balanceOfALICE = await readAndParse(
+    const balanceOfAlice = await readAndParse(
       erc20BalanceOf(publicClient, { token: mockERC20, address: ALICE }),
     );
-    expect(balanceOfALICE.equalTo("500000000000000000")).toBe(true);
+    expect(
+      equalTo(balanceOfAlice, makeCurrencyAmountFromString(mockERC20, ".5")),
+    ).toBe(true);
 
-    const balanceOfBOB = await readAndParse(
+    const balanceOfBob = await readAndParse(
       erc20BalanceOf(publicClient, { token: mockERC20, address: BOB }),
     );
-    expect(balanceOfBOB.equalTo("500000000000000000")).toBe(true);
+    expect(
+      equalTo(balanceOfBob, makeCurrencyAmountFromString(mockERC20, ".5")),
+    ).toBe(true);
   });
 
   test.todo("can approve", async () => {});

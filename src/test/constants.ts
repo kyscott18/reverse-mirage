@@ -1,5 +1,4 @@
-import { Currency, NativeCurrency, Token } from "@uniswap/sdk-core";
-import { getContractAddress } from "viem";
+import { getContractAddress } from "viem/utils";
 
 export const localHttpUrl = "http://127.0.0.1:8545";
 export const localWsUrl = "ws://127.0.0.1:8545";
@@ -31,34 +30,17 @@ export const [ALICE, BOB] = ACCOUNTS;
 
 const mockERC20Address = getContractAddress({ from: ALICE, nonce: 375n });
 
-export const mockERC20 = new Token(
-  1,
-  mockERC20Address,
-  18,
-  "Mock ERC20",
-  "MOCK",
-);
+export const mockERC20 = {
+  chainID: 1,
+  address: mockERC20Address,
+  decimals: 18,
+  name: "Mock ERC20",
+  symbol: "MOCK",
+};
 
-const anvilWrappedEther = new Token(
-  1,
-  "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
-  18,
-  "WETH",
-  "Wrapped Anvil Ether",
-);
-
-class AnvilEther extends NativeCurrency {
-  public constructor() {
-    super(1, 18, "ETH", "Anvil Ether");
-  }
-
-  public get wrapped(): Token {
-    return anvilWrappedEther;
-  }
-
-  public equals(other: Currency): boolean {
-    return other.isNative && other.chainId === this.chainId;
-  }
-}
-
-export const anvilEther = new AnvilEther();
+export const anvilEther = {
+  chainID: 1,
+  decimals: 18,
+  name: "Anvil Ether",
+  symbol: "ETH",
+};

@@ -1,7 +1,11 @@
+import { makeCurrencyAmountFromRaw } from "./currencyAmountUtils.js";
 import { erc20ABI } from "./erc20Abi.js";
-import { ReverseMirageRead } from "./types.js";
-import { NativeCurrency, Token } from "@uniswap/sdk-core";
-import { CurrencyAmount } from "@uniswap/sdk-core";
+import {
+  CurrencyAmount,
+  NativeCurrency,
+  ReverseMirageRead,
+  Token,
+} from "./types.js";
 import {
   Address,
   PublicClient,
@@ -16,8 +20,7 @@ export const nativeBalance = (
 ) => {
   return {
     read: () => publicClient.getBalance({ address: args.address }),
-    parse: (data) =>
-      CurrencyAmount.fromRawAmount(args.nativeCurrency, data.toString()),
+    parse: (data) => makeCurrencyAmountFromRaw(args.nativeCurrency, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
@@ -33,7 +36,7 @@ export const erc20BalanceOf = (
         functionName: "balanceOf",
         args: [args.address],
       }),
-    parse: (data) => CurrencyAmount.fromRawAmount(args.token, data.toString()),
+    parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
@@ -49,7 +52,7 @@ export const erc20Allowance = (
         functionName: "allowance",
         args: [args.address, args.spender],
       }),
-    parse: (data) => CurrencyAmount.fromRawAmount(args.token, data.toString()),
+    parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
@@ -64,7 +67,7 @@ export const erc20TotalSupply = (
         address: getAddress(args.token.address),
         functionName: "totalSupply",
       }),
-    parse: (data) => CurrencyAmount.fromRawAmount(args.token, data.toString()),
+    parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
@@ -115,7 +118,7 @@ export const erc20Decimals = (
 
 export const erc20GetToken = (
   publicClient: PublicClient,
-  args: { token: Pick<Token, "address" | "chainId"> },
+  args: { token: Pick<Token, "address" | "chainID"> },
 ) => {
   return {
     read: () =>
@@ -124,14 +127,12 @@ export const erc20GetToken = (
         erc20Symbol(publicClient, args).read(),
         erc20Decimals(publicClient, args).read(),
       ]),
-    parse: (data) =>
-      new Token(
-        args.token.chainId,
-        args.token.address,
-        data[2],
-        data[1],
-        data[0],
-      ),
+    parse: (data) => ({
+      name: data[0],
+      symbol: data[1],
+      decimals: data[2],
+      ...args.token,
+    }),
   } satisfies ReverseMirageRead<[string, string, number]>;
 };
 
@@ -141,7 +142,7 @@ export const nativeTransfer = (args: {
 }) => {
   return {
     to: args.to,
-    value: BigInt(args.amount.quotient.toString()),
+    value: args.amount.amount,
   } satisfies Omit<SendTransactionParameters, "account" | "chain">;
 };
 
@@ -153,7 +154,7 @@ export const erc20Transfer = (args: {
     address: args.amount.currency.address as Address,
     abi: erc20ABI,
     functionName: "transfer",
-    args: [args.to, BigInt(args.amount.quotient.toString())],
+    args: [args.to, args.amount.amount],
   } satisfies SimulateContractParameters<typeof erc20ABI, "transfer">;
 };
 
@@ -165,7 +166,7 @@ export const erc20Approve = (args: {
     address: args.amount.currency.address as Address,
     abi: erc20ABI,
     functionName: "approve",
-    args: [args.spender, BigInt(args.amount.quotient.toString())],
+    args: [args.spender, args.amount.amount],
   } satisfies SimulateContractParameters<typeof erc20ABI, "approve">;
 };
 
@@ -178,6 +179,6 @@ export const erc20TransferFrom = (args: {
     address: args.amount.currency.address as Address,
     abi: erc20ABI,
     functionName: "transferFrom",
-    args: [args.to, args.from, BigInt(args.amount.quotient.toString())],
+    args: [args.to, args.from, args.amount.amount],
   } satisfies SimulateContractParameters<typeof erc20ABI, "transferFrom">;
 };
