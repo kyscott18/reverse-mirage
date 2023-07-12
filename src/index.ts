@@ -41,6 +41,23 @@ export {
   fractionGreaterThan,
 } from "./fractionUtils.js";
 
+export {
+  makePriceFromFraction,
+  makePriceFromAmounts,
+  makePrice,
+  priceInvert,
+  priceAdd,
+  priceSubtract,
+  priceMultiply,
+  priceDivide,
+  priceLessThan,
+  priceEqualTo,
+  priceGreaterThan,
+  priceQuote,
+  rawPrice,
+  adjustedPrice,
+} from "./priceUtils.js";
+
 export { readAndParse } from "./readUtils.js";
 
 export {
