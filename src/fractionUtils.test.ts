@@ -3,6 +3,7 @@ import {
   fractionDivide,
   fractionEqualTo,
   fractionGreaterThan,
+  fractionInvert,
   fractionLessThan,
   fractionMultiply,
   fractionQuotient,
@@ -39,6 +40,13 @@ describe.concurrent("fraction utils", () => {
     expect(fractionRemainder(two)).toBe(0n);
     expect(fractionRemainder(makeFraction(5, 3))).toBe(2n);
     expect(fractionRemainder(makeFraction(1, 2))).toBe(1n);
+  });
+
+  test("can invert", () => {
+    expect(fractionEqualTo(fractionInvert(one), one)).toBe(true);
+    expect(
+      fractionEqualTo(fractionInvert(two), { numerator: 1n, denominator: 2n }),
+    ).toBe(true);
   });
 
   test("can add", () => {

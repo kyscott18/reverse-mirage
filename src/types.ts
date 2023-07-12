@@ -24,11 +24,11 @@ export type CurrencyAmount<TCurrency extends Currency> = {
 };
 
 export type Price<
-  TBaseCurrency extends Currency,
   TQuoteCurrency extends Currency,
-> = {
-  numerator: CurrencyAmount<TBaseCurrency>;
-  denominator: CurrencyAmount<TQuoteCurrency>;
+  TBaseCurrency extends Currency,
+> = Fraction & {
+  quote: TQuoteCurrency;
+  base: TBaseCurrency;
 };
 
 export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
