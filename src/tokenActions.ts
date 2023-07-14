@@ -12,7 +12,6 @@ import type {
   SendTransactionParameters,
   SimulateContractParameters,
 } from "viem";
-import { getAddress } from "viem/utils";
 
 export const nativeBalance = (
   publicClient: PublicClient,
@@ -32,7 +31,7 @@ export const erc20BalanceOf = (
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address as Address,
+        address: args.token.address,
         functionName: "balanceOf",
         args: [args.address],
       }),
@@ -48,7 +47,7 @@ export const erc20Allowance = (
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: getAddress(args.token.address),
+        address: args.token.address,
         functionName: "allowance",
         args: [args.address, args.spender],
       }),
@@ -64,7 +63,7 @@ export const erc20TotalSupply = (
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: getAddress(args.token.address),
+        address: args.token.address,
         functionName: "totalSupply",
       }),
     parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
@@ -79,7 +78,7 @@ export const erc20Name = (
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: getAddress(args.token.address),
+        address: args.token.address,
         functionName: "name",
       }),
     parse: (data) => data,
@@ -94,7 +93,7 @@ export const erc20Symbol = (
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: getAddress(args.token.address),
+        address: args.token.address,
         functionName: "symbol",
       }),
     parse: (data: string) => data,
@@ -109,7 +108,7 @@ export const erc20Decimals = (
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: getAddress(args.token.address),
+        address: args.token.address,
         functionName: "decimals",
       }),
     parse: (data) => data,
@@ -151,7 +150,7 @@ export const erc20Transfer = (args: {
   amount: CurrencyAmount<Token>;
 }) => {
   return {
-    address: args.amount.currency.address as Address,
+    address: args.amount.currency.address,
     abi: erc20ABI,
     functionName: "transfer",
     args: [args.to, args.amount.amount],
@@ -163,7 +162,7 @@ export const erc20Approve = (args: {
   amount: CurrencyAmount<Token>;
 }) => {
   return {
-    address: args.amount.currency.address as Address,
+    address: args.amount.currency.address,
     abi: erc20ABI,
     functionName: "approve",
     args: [args.spender, args.amount.amount],
@@ -176,7 +175,7 @@ export const erc20TransferFrom = (args: {
   amount: CurrencyAmount<Token>;
 }) => {
   return {
-    address: args.amount.currency.address as Address,
+    address: args.amount.currency.address,
     abi: erc20ABI,
     functionName: "transferFrom",
     args: [args.to, args.from, args.amount.amount],

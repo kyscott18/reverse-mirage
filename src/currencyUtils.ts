@@ -7,14 +7,14 @@ export const isNativeCurrency = (a: Currency): a is NativeCurrency =>
   !("address" in a);
 
 export const currencyEqualTo = (a: Currency, b: Currency): boolean => {
-  if (isToken(a) !== isToken(b)) return false;
-  if (a.chainID !== b.chainID) return false;
-  if (a.decimals !== b.decimals) return false;
-  if (isToken(a) && isToken(b)) {
-    if (a.address.toLowerCase() !== b.address.toLowerCase()) return false;
-  }
-
-  return true;
+  return (
+    isToken(a) === isToken(b) &&
+    a.chainID === b.chainID &&
+    a.decimals === b.decimals &&
+    (isToken(a)
+      ? a.address.toLowerCase() === (b as Token).address.toLowerCase()
+      : true)
+  );
 };
 
 export const currencySortsBefore = (a: Token, b: Token): boolean => {

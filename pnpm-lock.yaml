@@ -6,13 +6,13 @@ settings:
 
 dependencies:
   viem:
-    specifier: ^1.2.13
-    version: 1.2.13(typescript@5.1.6)(zod@3.21.4)
+    specifier: ^1.2.14
+    version: 1.2.14(typescript@5.1.6)(zod@3.21.4)
 
 devDependencies:
   '@uniswap/sdk-core':
-    specifier: ^4.0.2
-    version: 4.0.2
+    specifier: ^4.0.3
+    version: 4.0.3
   '@viem/anvil':
     specifier: ^0.0.6
     version: 0.0.6
@@ -420,8 +420,8 @@ packages:
     resolution: {integrity: sha512-JIzsAvJeA/5iY6Y/OxZbv1lUcc8dNSE77lb2gnBH+/PJ3lFR1Ccvgwl5JWnHAkNHcRsT0TbpVOsiMKZ1F/yyJg==}
     dev: true
 
-  /@uniswap/sdk-core@4.0.2:
-    resolution: {integrity: sha512-rR5xobsAAP4yMYC7C+0+duVx0pFoDn2lV9kTWpoKgH1WJuw7hD1uDEvuevU2dL89TuixVgGvnYd0QxmrMtsIlg==}
+  /@uniswap/sdk-core@4.0.3:
+    resolution: {integrity: sha512-OXO1BdwQ29LW1TEJyCw5imqIC8HHSDd8d9kGQd+AXMzKbMYeMzxTRZn2U/LboYHr9XnE2wgFO4LnrXGIUyZ7/g==}
     engines: {node: '>=10'}
     dependencies:
       '@ethersproject/address': 5.7.0
@@ -542,7 +542,7 @@ packages:
       picocolors: 1.0.0
       prettier: 2.8.8
       typescript: 5.1.6
-      viem: 1.2.13(typescript@5.1.6)(zod@3.21.4)
+      viem: 1.2.14(typescript@5.1.6)(zod@3.21.4)
       zod: 3.21.4
     transitivePeerDependencies:
       - bufferutil
@@ -1869,8 +1869,8 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /viem@1.2.13(typescript@5.1.6)(zod@3.21.4):
-    resolution: {integrity: sha512-BhBbL/JieVZvM1hiSvzoQCsj96j7HoOx/apvl4YYIR/0m/tue4JK/a03P1GKPJ9S316HEB/bT6AIJMlXS/SyiQ==}
+  /viem@1.2.14(typescript@5.1.6)(zod@3.21.4):
+    resolution: {integrity: sha512-Hak+NGxdm+vRyt/cV8NbTlW1IRPKAmJBCx1SZZIc1uNVA/Rs6eN0Nh7mB8MbmA3FLJ0ymD/dSbB4MI9GGbGCgA==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
