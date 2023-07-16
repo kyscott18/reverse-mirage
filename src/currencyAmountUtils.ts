@@ -3,10 +3,10 @@ import type { BigIntIsh, Currency, CurrencyAmount, Fraction } from "./types.js";
 import invariant from "tiny-invariant";
 import { parseUnits } from "viem/utils";
 
-const scaleUp = (currency: Currency, amount: bigint) =>
+export const scaleUp = (currency: Currency, amount: bigint) =>
   amount * 10n ** BigInt(currency.decimals);
 
-const scaleDown = (currency: Currency, amount: bigint) =>
+export const scaleDown = (currency: Currency, amount: bigint) =>
   amount / 10n ** BigInt(currency.decimals);
 
 export const isCurrencyAmount = <TCurrency extends Currency>(
