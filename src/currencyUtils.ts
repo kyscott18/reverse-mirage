@@ -1,11 +1,20 @@
 import type { Currency, NativeCurrency, Token } from "./types.js";
 import invariant from "tiny-invariant";
 
-export const isToken = (a: Currency): a is Token => a.type === "token";
+/**
+ * Determines if x is a token type
+ */
+export const isToken = (x: Currency): x is Token => x.type === "token";
 
-export const isNativeCurrency = (a: Currency): a is NativeCurrency =>
-  a.type === "nativeCurrency";
+/**
+ * Determines if x is a native currency type
+ */
+export const isNativeCurrency = (x: Currency): x is NativeCurrency =>
+  x.type === "nativeCurrency";
 
+/**
+ * Determines if currency a is equal to currency b
+ */
 export const currencyEqualTo = (a: Currency, b: Currency): boolean => {
   return (
     isToken(a) === isToken(b) &&
@@ -17,6 +26,9 @@ export const currencyEqualTo = (a: Currency, b: Currency): boolean => {
   );
 };
 
+/**
+ * Determines if the address of a is less than the address of b
+ */
 export const currencySortsBefore = (a: Token, b: Token): boolean => {
   invariant(a.chainID === b.chainID, "chain mismatch");
   const aAddress = a.address.toLowerCase();

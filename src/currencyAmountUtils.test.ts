@@ -75,6 +75,7 @@ describe.concurrent("currency amount utils", () => {
       }),
     ).toThrowError();
     expect(currencyAmountEqualTo(currencyAmountAdd(one, one), two)).toBe(true);
+    expect(currencyAmountEqualTo(currencyAmountAdd(one, 1), two)).toBe(true);
   });
 
   test("can subtract", () => {
@@ -85,6 +86,9 @@ describe.concurrent("currency amount utils", () => {
       }),
     ).toThrowError();
     expect(currencyAmountEqualTo(currencyAmountSubtract(two, one), one)).toBe(
+      true,
+    );
+    expect(currencyAmountEqualTo(currencyAmountSubtract(two, 1), one)).toBe(
       true,
     );
   });
@@ -105,6 +109,9 @@ describe.concurrent("currency amount utils", () => {
     expect(currencyAmountEqualTo(currencyAmountMultiply(two, one), two)).toBe(
       true,
     );
+    expect(currencyAmountEqualTo(currencyAmountMultiply(two, 1), two)).toBe(
+      true,
+    );
   });
 
   test("can divide", () => {
@@ -123,6 +130,7 @@ describe.concurrent("currency amount utils", () => {
     expect(currencyAmountEqualTo(currencyAmountDivide(two, one), two)).toBe(
       true,
     );
+    expect(currencyAmountEqualTo(currencyAmountDivide(two, 1), two)).toBe(true);
   });
 
   test("can equal", () => {
@@ -135,6 +143,8 @@ describe.concurrent("currency amount utils", () => {
     expect(currencyAmountEqualTo(one, one)).toBe(true);
     expect(currencyAmountEqualTo(two, two)).toBe(true);
     expect(currencyAmountEqualTo(two, one)).toBe(false);
+    expect(currencyAmountEqualTo(two, 2)).toBe(true);
+    expect(currencyAmountEqualTo(two, 1)).toBe(false);
   });
 
   test("can less than", () => {
@@ -147,6 +157,8 @@ describe.concurrent("currency amount utils", () => {
     expect(currencyAmountLessThan(one, two)).toBe(true);
     expect(currencyAmountLessThan(two, one)).toBe(false);
     expect(currencyAmountLessThan(one, one)).toBe(false);
+    expect(currencyAmountLessThan(two, 1)).toBe(false);
+    expect(currencyAmountLessThan(one, 1)).toBe(false);
   });
 
   test("can greater than", () => {
@@ -159,6 +171,8 @@ describe.concurrent("currency amount utils", () => {
     expect(currencyAmountGreaterThan(two, one)).toBe(true);
     expect(currencyAmountGreaterThan(one, two)).toBe(false);
     expect(currencyAmountGreaterThan(one, one)).toBe(false);
+    expect(currencyAmountGreaterThan(one, 2)).toBe(false);
+    expect(currencyAmountGreaterThan(one, 1)).toBe(false);
   });
 
   test.todo("can print fixed");
