@@ -24,17 +24,19 @@ import { mockERC20 } from "./test/constants.js";
 import { describe, expect, test } from "vitest";
 
 const one = {
+  type: "price",
   quote: mockERC20,
   base: mockERC20,
   numerator: 1n,
   denominator: 1n,
-};
+} as const;
 const two = {
+  type: "price",
   quote: mockERC20,
   base: mockERC20,
   numerator: 2n,
   denominator: 1n,
-};
+} as const;
 
 describe.concurrent("price utils", () => {
   test("can make price from fraction", () => {
@@ -133,7 +135,11 @@ describe.concurrent("price utils", () => {
 
   test("can quote", () => {
     expect(() =>
-      priceQuote(one, { currency: { ...mockERC20, chainID: 2 }, amount: 2n }),
+      priceQuote(one, {
+        type: "currencyAmount",
+        currency: { ...mockERC20, chainID: 2 },
+        amount: 2n,
+      }),
     ).toThrowError();
     expect(
       currencyAmountEqualTo(
@@ -144,11 +150,23 @@ describe.concurrent("price utils", () => {
   });
 
   test("can raw price", () => {
-    expect(fractionEqualTo(rawPrice(one), one)).toBe(true);
+    expect(
+      fractionEqualTo(rawPrice(one), {
+        type: "fraction",
+        numerator: 1n,
+        denominator: 1n,
+      }),
+    ).toBe(true);
   });
 
   test("can adjusted price", () => {
-    expect(fractionEqualTo(adjustedPrice(one), one)).toBe(true);
+    expect(
+      fractionEqualTo(adjustedPrice(one), {
+        type: "fraction",
+        numerator: 1n,
+        denominator: 1n,
+      }),
+    ).toBe(true);
   });
 
   test.todo("can print fixed");
@@ -159,17 +177,19 @@ describe.concurrent("price utils", () => {
 const mockERC20Decimals = { ...mockERC20, decimals: 9 };
 
 const oneDecimals = {
+  type: "price",
   quote: mockERC20Decimals,
   base: mockERC20,
   numerator: 1n,
   denominator: 10n ** 9n,
-};
+} as const;
 const twoDecimals = {
+  type: "price",
   quote: mockERC20Decimals,
   base: mockERC20,
   numerator: 2n,
   denominator: 10n ** 9n,
-};
+} as const;
 
 describe.concurrent("price utils with decimals", () => {
   test("can make price from fraction", () => {
@@ -208,6 +228,7 @@ describe.concurrent("price utils with decimals", () => {
   test("can invert", () => {
     expect(
       priceEqualTo(priceInvert(oneDecimals), {
+        type: "price",
         quote: mockERC20,
         base: mockERC20Decimals,
         numerator: 10n ** 9n,
@@ -216,6 +237,7 @@ describe.concurrent("price utils with decimals", () => {
     ).toBe(true);
     expect(
       priceEqualTo(priceInvert(twoDecimals), {
+        type: "price",
         quote: mockERC20,
         base: mockERC20Decimals,
         numerator: 10n ** 9n,
@@ -284,6 +306,7 @@ describe.concurrent("price utils with decimals", () => {
   test("can raw price", () => {
     expect(
       fractionEqualTo(rawPrice(oneDecimals), {
+        type: "fraction",
         numerator: 1n,
         denominator: 10n ** 9n,
       }),
@@ -291,6 +314,12 @@ describe.concurrent("price utils with decimals", () => {
   });
 
   test("can adjusted price", () => {
-    expect(fractionEqualTo(adjustedPrice(oneDecimals), one)).toBe(true);
+    expect(
+      fractionEqualTo(adjustedPrice(oneDecimals), {
+        type: "fraction",
+        numerator: 1n,
+        denominator: 1n,
+      }),
+    ).toBe(true);
   });
 });

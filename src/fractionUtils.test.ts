@@ -14,8 +14,8 @@ import {
 import type { Fraction } from "./types.js";
 import { describe, expect, test } from "vitest";
 
-const one: Fraction = { numerator: 1n, denominator: 1n };
-const two: Fraction = { numerator: 2n, denominator: 1n };
+const one: Fraction = { type: "fraction", numerator: 1n, denominator: 1n };
+const two: Fraction = { type: "fraction", numerator: 2n, denominator: 1n };
 
 describe.concurrent("fraction utils", () => {
   test("can make fraction", async () => {
@@ -45,7 +45,11 @@ describe.concurrent("fraction utils", () => {
   test("can invert", () => {
     expect(fractionEqualTo(fractionInvert(one), one)).toBe(true);
     expect(
-      fractionEqualTo(fractionInvert(two), { numerator: 1n, denominator: 2n }),
+      fractionEqualTo(fractionInvert(two), {
+        type: "fraction",
+        numerator: 1n,
+        denominator: 2n,
+      }),
     ).toBe(true);
   });
 

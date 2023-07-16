@@ -27,6 +27,7 @@ export const makePriceFromFraction = <
   base: TBaseCurrency,
   price: Fraction,
 ): Price<TQuoteCurrency, TBaseCurrency> => ({
+  type: "price",
   quote,
   base,
   numerator: price.numerator * 10n ** BigInt(quote.decimals),
@@ -40,6 +41,7 @@ export const makePriceFromAmounts = <
   quote: CurrencyAmount<TQuoteCurrency>,
   base: CurrencyAmount<TBaseCurrency>,
 ): Price<TQuoteCurrency, TBaseCurrency> => ({
+  type: "price",
   quote: quote.currency,
   base: base.currency,
   numerator: base.amount,
@@ -55,6 +57,7 @@ export const makePrice = <
   numerator: BigIntIsh,
   denominator: BigIntIsh = 1,
 ): Price<TQuoteCurrency, TBaseCurrency> => ({
+  type: "price",
   quote,
   base,
   numerator: BigInt(numerator) * 10n ** BigInt(quote.decimals),
@@ -67,9 +70,10 @@ export const priceInvert = <
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
 ): Price<TBaseCurrency, TQuoteCurrency> => ({
+  ...fractionInvert(rawPrice(price)),
+  type: "price",
   quote: price.base,
   base: price.quote,
-  ...fractionInvert(price),
 });
 
 export const priceAdd = <
@@ -84,9 +88,10 @@ export const priceAdd = <
   );
 
   return {
+    ...fractionAdd(rawPrice(a), rawPrice(b)),
+    type: "price",
     quote: a.quote,
     base: a.base,
-    ...fractionAdd(a, b),
   };
 };
 
@@ -102,9 +107,10 @@ export const priceSubtract = <
   );
 
   return {
+    ...fractionSubtract(rawPrice(a), rawPrice(b)),
+    type: "price",
     quote: a.quote,
     base: a.base,
-    ...fractionSubtract(a, b),
   };
 };
 
@@ -119,9 +125,10 @@ export const priceMultiply = <
     currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
   );
 
-  const fraction = fractionMultiply(a, b);
+  const fraction = fractionMultiply(rawPrice(a), rawPrice(b));
 
   return {
+    type: "price",
     quote: a.quote,
     base: a.base,
     numerator: fraction.numerator * 10n ** BigInt(a.base.decimals),
@@ -140,9 +147,10 @@ export const priceDivide = <
     currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
   );
 
-  const fraction = fractionDivide(a, b);
+  const fraction = fractionDivide(rawPrice(a), rawPrice(b));
 
   return {
+    type: "price",
     quote: a.quote,
     base: a.base,
     numerator: fraction.numerator * 10n ** BigInt(a.quote.decimals),
@@ -161,7 +169,7 @@ export const priceLessThan = <
     currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
   );
 
-  return fractionLessThan(a, b);
+  return fractionLessThan(rawPrice(a), rawPrice(b));
 };
 
 export const priceEqualTo = <
@@ -175,7 +183,7 @@ export const priceEqualTo = <
     currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
   );
 
-  return fractionEqualTo(a, b);
+  return fractionEqualTo(rawPrice(a), rawPrice(b));
 };
 
 export const priceGreaterThan = <
@@ -189,7 +197,7 @@ export const priceGreaterThan = <
     currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
   );
 
-  return fractionGreaterThan(a, b);
+  return fractionGreaterThan(rawPrice(a), rawPrice(b));
 };
 
 export const priceQuote = <
@@ -212,7 +220,11 @@ export const rawPrice = <
   TBaseCurrency extends Currency,
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
-): Fraction => price;
+): Fraction => ({
+  type: "fraction",
+  numerator: price.numerator,
+  denominator: price.denominator,
+});
 
 export const adjustedPrice = <
   TQuoteCurrency extends Currency,
@@ -220,6 +232,7 @@ export const adjustedPrice = <
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
 ): Fraction => ({
+  type: "fraction",
   numerator: price.numerator * 10n ** BigInt(price.base.decimals),
   denominator: price.denominator * 10n ** BigInt(price.quote.decimals),
 });

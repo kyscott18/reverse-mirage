@@ -1,10 +1,10 @@
 import type { Currency, NativeCurrency, Token } from "./types.js";
 import invariant from "tiny-invariant";
 
-export const isToken = (a: Currency): a is Token => "address" in a;
+export const isToken = (a: Currency): a is Token => a.type === "token";
 
 export const isNativeCurrency = (a: Currency): a is NativeCurrency =>
-  !("address" in a);
+  a.type === "nativeCurrency";
 
 export const currencyEqualTo = (a: Currency, b: Currency): boolean => {
   return (

@@ -36,12 +36,13 @@ describe.concurrent("currency utils", () => {
     ).toThrowError();
 
     const zeroToken = {
+      type: "token",
       chainID: 1,
       address: zeroAddress,
       name: "Zero Token",
       symbol: "ZERO",
       decimals: 18,
-    };
+    } as const;
 
     expect(currencySortsBefore(mockERC20, zeroToken)).toBe(false);
   });

@@ -1,16 +1,19 @@
 import { currencyEqualTo, currencySortsBefore } from "./currencyUtils.js";
 import { mockERC20 } from "./test/constants.js";
+import type { Token } from "./types.js";
 import { Token as UniswapToken } from "@uniswap/sdk-core";
 import { zeroAddress } from "viem";
 import { bench, describe } from "vitest";
 
 const zeroToken = {
+  type: "token",
   chainID: 1,
   address: zeroAddress,
   name: "Zero Token",
   symbol: "ZERO",
   decimals: 18,
-};
+} as const satisfies Token;
+
 const uniswapMockERC20 = new UniswapToken(
   mockERC20.chainID,
   mockERC20.address,

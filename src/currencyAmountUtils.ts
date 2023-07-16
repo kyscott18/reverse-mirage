@@ -11,7 +11,8 @@ import { parseUnits } from "viem/utils";
 export const makeCurrencyAmountFromString = <TCurrency extends Currency>(
   currency: TCurrency,
   amount: string,
-) => ({
+): CurrencyAmount<TCurrency> => ({
+  type: "currencyAmount",
   currency,
   amount: parseUnits(amount, currency.decimals),
 });
@@ -20,6 +21,7 @@ export const makeCurrencyAmountFromFraction = <TCurrency extends Currency>(
   currency: TCurrency,
   amount: Fraction,
 ): CurrencyAmount<TCurrency> => ({
+  type: "currencyAmount",
   currency,
   amount: fractionQuotient(
     fractionMultiply(amount, makeFraction(10n ** BigInt(currency.decimals))),
@@ -30,6 +32,7 @@ export const makeCurrencyAmountFromRaw = <TCurrency extends Currency>(
   currency: TCurrency,
   amount: bigint,
 ): CurrencyAmount<TCurrency> => ({
+  type: "currencyAmount",
   currency,
   amount,
 });
@@ -40,7 +43,11 @@ export const currencyAmountAdd = <TCurrency extends Currency>(
 ): CurrencyAmount<TCurrency> => {
   invariant(currencyEqualTo(a.currency, b.currency));
 
-  return { currency: a.currency, amount: a.amount + b.amount };
+  return {
+    type: "currencyAmount",
+    currency: a.currency,
+    amount: a.amount + b.amount,
+  };
 };
 
 export const currencyAmountSubtract = <TCurrency extends Currency>(
@@ -49,7 +56,11 @@ export const currencyAmountSubtract = <TCurrency extends Currency>(
 ): CurrencyAmount<TCurrency> => {
   invariant(currencyEqualTo(a.currency, b.currency));
 
-  return { currency: a.currency, amount: a.amount - b.amount };
+  return {
+    type: "currencyAmount",
+    currency: a.currency,
+    amount: a.amount - b.amount,
+  };
 };
 
 export const currencyAmountMultiply = <TCurrency extends Currency>(
@@ -59,6 +70,7 @@ export const currencyAmountMultiply = <TCurrency extends Currency>(
   invariant(currencyEqualTo(a.currency, b.currency));
 
   return {
+    type: "currencyAmount",
     currency: a.currency,
     amount: (a.amount * b.amount) / 10n ** BigInt(a.currency.decimals),
   };
@@ -71,6 +83,7 @@ export const currencyAmountDivide = <TCurrency extends Currency>(
   invariant(currencyEqualTo(a.currency, b.currency));
 
   return {
+    type: "currencyAmount",
     currency: a.currency,
     amount: (a.amount * 10n ** BigInt(a.currency.decimals)) / b.amount,
   };

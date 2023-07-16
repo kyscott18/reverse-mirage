@@ -12,11 +12,20 @@ import {
 } from "./currencyAmountUtils.js";
 import { makeFraction } from "./fractionUtils.js";
 import { mockERC20 } from "./test/constants.js";
+import type { CurrencyAmount } from "./types.js";
 import { parseEther } from "viem/utils";
 import { describe, expect, test } from "vitest";
 
-const one = { currency: mockERC20, amount: parseEther("1") };
-const two = { currency: mockERC20, amount: parseEther("2") };
+const one = {
+  type: "currencyAmount",
+  currency: mockERC20,
+  amount: parseEther("1"),
+} as const satisfies CurrencyAmount<typeof mockERC20>;
+const two = {
+  type: "currencyAmount",
+  currency: mockERC20,
+  amount: parseEther("2"),
+} as const satisfies CurrencyAmount<typeof mockERC20>;
 
 describe.concurrent("currency amount utils", () => {
   test("can make currency amount from string", () => {

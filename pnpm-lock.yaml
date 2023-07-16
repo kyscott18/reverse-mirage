@@ -5,9 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  tiny-invariant:
+    specifier: ^1.3.1
+    version: 1.3.1
   viem:
-    specifier: ^1.2.14
-    version: 1.2.14(typescript@5.1.6)(zod@3.21.4)
+    specifier: ^1.2.15
+    version: 1.2.15(typescript@5.1.6)(zod@3.21.4)
 
 devDependencies:
   '@uniswap/sdk-core':
@@ -25,9 +28,6 @@ devDependencies:
   rome:
     specifier: ^12.1.3
     version: 12.1.3
-  tiny-invariant:
-    specifier: ^1.3.1
-    version: 1.3.1
   typescript:
     specifier: ^5.1.6
     version: 5.1.6
@@ -542,7 +542,7 @@ packages:
       picocolors: 1.0.0
       prettier: 2.8.8
       typescript: 5.1.6
-      viem: 1.2.14(typescript@5.1.6)(zod@3.21.4)
+      viem: 1.2.15(typescript@5.1.6)(zod@3.21.4)
       zod: 3.21.4
     transitivePeerDependencies:
       - bufferutil
@@ -1803,7 +1803,6 @@ packages:
 
   /tiny-invariant@1.3.1:
     resolution: {integrity: sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==}
-    dev: true
 
   /tinybench@2.5.0:
     resolution: {integrity: sha512-kRwSG8Zx4tjF9ZiyH4bhaebu+EDz1BOx9hOigYHlUW4xxI/wKIUQUqo018UlU4ar6ATPBsaMrdbKZ+tmPdohFA==}
@@ -1869,8 +1868,8 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
-  /viem@1.2.14(typescript@5.1.6)(zod@3.21.4):
-    resolution: {integrity: sha512-Hak+NGxdm+vRyt/cV8NbTlW1IRPKAmJBCx1SZZIc1uNVA/Rs6eN0Nh7mB8MbmA3FLJ0ymD/dSbB4MI9GGbGCgA==}
+  /viem@1.2.15(typescript@5.1.6)(zod@3.21.4):
+    resolution: {integrity: sha512-M67YS3WQC/3vx12TvYxt9dlxqHjgXIwblyUdy7E6cZ2MNtyoSvq9HgkacfY0+SDZAbisVsUX8mi9Lb1bB5pUAQ==}
     peerDependencies:
       typescript: '>=5.0.4'
     peerDependenciesMeta:
