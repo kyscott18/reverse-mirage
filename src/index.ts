@@ -8,6 +8,7 @@ export {
 } from "./constants.js";
 
 export {
+  isCurrencyAmount,
   makeCurrencyAmountFromString,
   makeCurrencyAmountFromFraction,
   makeCurrencyAmountFromRaw,
@@ -28,6 +29,7 @@ export {
 } from "./currencyUtils.js";
 
 export {
+  isFraction,
   makeFraction,
   fractionQuotient,
   fractionRemainder,
@@ -42,6 +44,7 @@ export {
 } from "./fractionUtils.js";
 
 export {
+  isPrice,
   makePriceFromFraction,
   makePriceFromAmounts,
   makePrice,

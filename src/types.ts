@@ -1,6 +1,7 @@
 import type { Address } from "viem";
 
 export type Fraction = {
+  type: "fraction";
   numerator: bigint;
   denominator: bigint;
 };
@@ -8,17 +9,22 @@ export type Fraction = {
 export type BigIntIsh = bigint | string | number;
 
 export type NativeCurrency = {
+  type: "nativeCurrency";
   name: string;
   symbol: string;
   decimals: number;
   chainID: number;
 };
 
-export type Token = NativeCurrency & { address: Address };
+export type Token = Omit<NativeCurrency, "type"> & {
+  type: "token";
+  address: Address;
+};
 
 export type Currency = NativeCurrency | Token;
 
 export type CurrencyAmount<TCurrency extends Currency> = {
+  type: "currencyAmount";
   currency: TCurrency;
   amount: bigint;
 };
@@ -26,7 +32,8 @@ export type CurrencyAmount<TCurrency extends Currency> = {
 export type Price<
   TQuoteCurrency extends Currency,
   TBaseCurrency extends Currency,
-> = Fraction & {
+> = Omit<Fraction, "type"> & {
+  type: "price";
   quote: TQuoteCurrency;
   base: TBaseCurrency;
 };
