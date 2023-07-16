@@ -58,6 +58,7 @@ describe.concurrent("fraction utils", () => {
     expect(fractionEqualTo(fractionAdd(one, makeFraction(4n, 4n)), two)).toBe(
       true,
     );
+    expect(fractionEqualTo(fractionAdd(one, 1), two)).toBe(true);
   });
 
   test("can subtract", () => {
@@ -65,6 +66,7 @@ describe.concurrent("fraction utils", () => {
     expect(
       fractionEqualTo(fractionSubtract(two, makeFraction(4n, 4n)), one),
     ).toBe(true);
+    expect(fractionEqualTo(fractionSubtract(two, 1), one)).toBe(true);
   });
 
   test("can multiply", () => {
@@ -77,6 +79,9 @@ describe.concurrent("fraction utils", () => {
     expect(fractionEqualTo(fractionMultiply(two, two), makeFraction(4))).toBe(
       true,
     );
+
+    expect(fractionEqualTo(fractionMultiply(one, 1), one)).toBe(true);
+    expect(fractionEqualTo(fractionMultiply(one, 2), two)).toBe(true);
   });
 
   test("can divide", () => {
@@ -89,6 +94,9 @@ describe.concurrent("fraction utils", () => {
     expect(fractionEqualTo(fractionDivide(makeFraction(4), two), two)).toBe(
       true,
     );
+
+    expect(fractionEqualTo(fractionDivide(one, 1), one)).toBe(true);
+    expect(fractionEqualTo(fractionDivide(two, 1), two)).toBe(true);
   });
 
   test("can less than", () => {
@@ -97,11 +105,16 @@ describe.concurrent("fraction utils", () => {
 
     expect(fractionLessThan(two, one)).toBe(false);
     expect(fractionLessThan(two, makeFraction(4n, 4n))).toBe(false);
+
+    expect(fractionLessThan(one, 2)).toBe(true);
+    expect(fractionLessThan(two, 1)).toBe(false);
   });
 
   test("can equal to", () => {
     expect(fractionEqualTo(two, two)).toBe(true);
     expect(fractionEqualTo(makeFraction(4n, 2n), two)).toBe(true);
+
+    expect(fractionEqualTo(one, 1)).toBe(true);
   });
 
   test("can greater than", () => {
@@ -110,6 +123,9 @@ describe.concurrent("fraction utils", () => {
 
     expect(fractionGreaterThan(one, two)).toBe(false);
     expect(fractionGreaterThan(makeFraction(4n, 4n), two)).toBe(false);
+
+    expect(fractionGreaterThan(two, 1)).toBe(true);
+    expect(fractionGreaterThan(one, 2)).toBe(false);
   });
 
   test.todo("can print fixed");
