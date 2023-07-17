@@ -81,8 +81,6 @@ export {
 
 export { nativeBalance } from "./native/reads.js";
 
-export { nativeTransfer } from "./native/writes.js";
-
 export type {
   Fraction,
   BigIntIsh,
@@ -92,4 +90,5 @@ export type {
   CurrencyAmount,
   Price,
   ReverseMirageRead,
+  ReverseMirageWrite,
 } from "./types.js";

@@ -1,4 +1,4 @@
-import type { Address } from "viem";
+import type { Abi, Address, Hash, SimulateContractReturnType } from "viem";
 
 export type Fraction = {
   type: "fraction";
@@ -42,3 +42,12 @@ export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
   read: () => TRet | Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
+
+export type ReverseMirageWrite<
+  TAbi extends Abi | readonly unknown[] = Abi,
+  TFunctionName extends string = string,
+> = Promise<{
+  hash: Hash;
+  request: SimulateContractReturnType<TAbi, TFunctionName>["request"];
+  result: SimulateContractReturnType<TAbi, TFunctionName>["result"];
+}>;

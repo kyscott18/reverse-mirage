@@ -1,41 +1,59 @@
-import type { CurrencyAmount, Token } from "../types.js";
+import type { CurrencyAmount, ReverseMirageWrite, Token } from "../types.js";
 import { erc20ABI } from "./erc20Abi.js";
+import type { PublicClient, WalletClient } from "viem";
 import type { Address } from "viem/accounts";
-import type { SimulateContractParameters } from "viem/actions";
 
-export const erc20Transfer = (args: {
-  to: Address;
-  amount: CurrencyAmount<Token>;
-}) => {
-  return {
+export const erc20Transfer = async (
+  publicClient: PublicClient,
+  walletClient: WalletClient,
+  args: {
+    to: Address;
+    amount: CurrencyAmount<Token>;
+  },
+): Promise<ReverseMirageWrite<typeof erc20ABI, "transfer">> => {
+  const { request, result } = await publicClient.simulateContract({
     address: args.amount.currency.address,
     abi: erc20ABI,
     functionName: "transfer",
     args: [args.to, args.amount.amount],
-  } satisfies SimulateContractParameters<typeof erc20ABI, "transfer">;
+  });
+  const hash = await walletClient.writeContract(request);
+  return { hash, result, request };
 };
 
-export const erc20Approve = (args: {
-  spender: Address;
-  amount: CurrencyAmount<Token>;
-}) => {
-  return {
+export const erc20Approve = async (
+  publicClient: PublicClient,
+  walletClient: WalletClient,
+  args: {
+    spender: Address;
+    amount: CurrencyAmount<Token>;
+  },
+): Promise<ReverseMirageWrite<typeof erc20ABI, "approve">> => {
+  const { request, result } = await publicClient.simulateContract({
     address: args.amount.currency.address,
     abi: erc20ABI,
     functionName: "approve",
     args: [args.spender, args.amount.amount],
-  } satisfies SimulateContractParameters<typeof erc20ABI, "approve">;
+  });
+  const hash = await walletClient.writeContract(request);
+  return { hash, result, request };
 };
 
-export const erc20TransferFrom = (args: {
-  from: Address;
-  to: Address;
-  amount: CurrencyAmount<Token>;
-}) => {
-  return {
+export const erc20TransferFrom = async (
+  publicClient: PublicClient,
+  walletClient: WalletClient,
+  args: {
+    from: Address;
+    to: Address;
+    amount: CurrencyAmount<Token>;
+  },
+): Promise<ReverseMirageWrite<typeof erc20ABI, "transferFrom">> => {
+  const { request, result } = await publicClient.simulateContract({
     address: args.amount.currency.address,
     abi: erc20ABI,
     functionName: "transferFrom",
     args: [args.to, args.from, args.amount.amount],
-  } satisfies SimulateContractParameters<typeof erc20ABI, "transferFrom">;
+  });
+  const hash = await walletClient.writeContract(request);
+  return { hash, result, request };
 };
