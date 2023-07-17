@@ -1,10 +1,10 @@
 import {
   currencyAmountEqualTo,
   makeCurrencyAmountFromString,
-} from "./currencyAmountUtils.js";
-import { readAndParse } from "./readUtils.js";
-import { ALICE, BOB, anvilEther, mockERC20 } from "./test/constants.js";
-import { publicClient, walletClient } from "./test/utils.js";
+} from "../currencyAmountUtils.js";
+import { readAndParse } from "../readUtils.js";
+import { ALICE, BOB, mockERC20 } from "../test/constants.js";
+import { publicClient } from "../test/utils.js";
 import {
   erc20Allowance,
   erc20BalanceOf,
@@ -13,14 +13,11 @@ import {
   erc20Name,
   erc20Symbol,
   erc20TotalSupply,
-  erc20Transfer,
-  nativeBalance,
-  nativeTransfer,
-} from "./tokenActions.js";
+} from "./reads.js";
 import { getAddress, isAddress } from "viem/utils";
 import { describe, expect, test } from "vitest";
 
-describe("token actions", () => {
+describe("erc20 reads", () => {
   test("can deploy the token contract", async () => {
     expect(mockERC20.address).toBeDefined();
     expect(isAddress(mockERC20.address)).toBe(true);
@@ -48,19 +45,6 @@ describe("token actions", () => {
     );
 
     expect(decimals).toBe(18);
-  });
-
-  test("can read native balance", async () => {
-    const nativeBalanceBob = await readAndParse(
-      nativeBalance(publicClient, { nativeCurrency: anvilEther, address: BOB }),
-    );
-
-    expect(
-      currencyAmountEqualTo(
-        nativeBalanceBob,
-        makeCurrencyAmountFromString(anvilEther, "10000"),
-      ),
-    ).toBe(true);
   });
 
   test("can read balance", async () => {
@@ -125,61 +109,6 @@ describe("token actions", () => {
     expect(token.name).toBe("Mock ERC20");
     expect(token.symbol).toBe("MOCK");
     expect(token.decimals).toBe(18);
-  });
-
-  test("can native transfer", async () => {
-    const transaction = await walletClient.sendTransaction({
-      ...nativeTransfer({
-        to: BOB,
-        amount: makeCurrencyAmountFromString(anvilEther, "1"),
-      }),
-    });
-
-    await publicClient.waitForTransactionReceipt({ hash: transaction });
-
-    const nativeBalanceBob = await readAndParse(
-      nativeBalance(publicClient, { nativeCurrency: anvilEther, address: BOB }),
-    );
-
-    expect(
-      currencyAmountEqualTo(
-        nativeBalanceBob,
-        makeCurrencyAmountFromString(anvilEther, "10001"),
-      ),
-    ).toBe(true);
-  });
-
-  test("can transfer", async () => {
-    const { request } = await publicClient.simulateContract({
-      account: ALICE,
-      ...erc20Transfer({
-        to: BOB,
-        amount: makeCurrencyAmountFromString(mockERC20, ".25"),
-      }),
-    });
-
-    const transaction = await walletClient.writeContract(request);
-    await publicClient.waitForTransactionReceipt({ hash: transaction });
-
-    const balanceOfAlice = await readAndParse(
-      erc20BalanceOf(publicClient, { token: mockERC20, address: ALICE }),
-    );
-    expect(
-      currencyAmountEqualTo(
-        balanceOfAlice,
-        makeCurrencyAmountFromString(mockERC20, ".5"),
-      ),
-    ).toBe(true);
-
-    const balanceOfBob = await readAndParse(
-      erc20BalanceOf(publicClient, { token: mockERC20, address: BOB }),
-    );
-    expect(
-      currencyAmountEqualTo(
-        balanceOfBob,
-        makeCurrencyAmountFromString(mockERC20, ".5"),
-      ),
-    ).toBe(true);
   });
 
   test.todo("can approve", async () => {});

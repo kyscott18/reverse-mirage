@@ -64,7 +64,6 @@ export {
 export { readAndParse } from "./readUtils.js";
 
 export {
-  nativeBalance,
   erc20BalanceOf,
   erc20Allowance,
   erc20TotalSupply,
@@ -72,11 +71,17 @@ export {
   erc20Symbol,
   erc20Decimals,
   erc20GetToken,
-  nativeTransfer,
+} from "./erc20/reads.js";
+
+export {
   erc20Transfer,
   erc20Approve,
   erc20TransferFrom,
-} from "./tokenActions.js";
+} from "./erc20/writes.js";
+
+export { nativeBalance } from "./native/reads.js";
+
+export { nativeTransfer } from "./native/writes.js";
 
 export type {
   Fraction,

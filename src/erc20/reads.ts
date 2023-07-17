@@ -1,27 +1,7 @@
-import { makeCurrencyAmountFromRaw } from "./currencyAmountUtils.js";
-import { erc20ABI } from "./erc20Abi.js";
-import type {
-  CurrencyAmount,
-  NativeCurrency,
-  ReverseMirageRead,
-  Token,
-} from "./types.js";
-import type {
-  Address,
-  PublicClient,
-  SendTransactionParameters,
-  SimulateContractParameters,
-} from "viem";
-
-export const nativeBalance = (
-  publicClient: PublicClient,
-  args: { nativeCurrency: NativeCurrency; address: Address },
-) => {
-  return {
-    read: () => publicClient.getBalance({ address: args.address }),
-    parse: (data) => makeCurrencyAmountFromRaw(args.nativeCurrency, data),
-  } satisfies ReverseMirageRead<bigint>;
-};
+import { makeCurrencyAmountFromRaw } from "../currencyAmountUtils.js";
+import { erc20ABI } from "../erc20/erc20Abi.js";
+import type { ReverseMirageRead, Token } from "../types.js";
+import type { Address, PublicClient } from "viem";
 
 export const erc20BalanceOf = (
   publicClient: PublicClient,
@@ -133,51 +113,4 @@ export const erc20GetToken = (
       ...args.token,
     }),
   } satisfies ReverseMirageRead<[string, string, number]>;
-};
-
-export const nativeTransfer = (args: {
-  to: Address;
-  amount: CurrencyAmount<NativeCurrency>;
-}) => {
-  return {
-    to: args.to,
-    value: args.amount.amount,
-  } satisfies Omit<SendTransactionParameters, "account" | "chain">;
-};
-
-export const erc20Transfer = (args: {
-  to: Address;
-  amount: CurrencyAmount<Token>;
-}) => {
-  return {
-    address: args.amount.currency.address,
-    abi: erc20ABI,
-    functionName: "transfer",
-    args: [args.to, args.amount.amount],
-  } satisfies SimulateContractParameters<typeof erc20ABI, "transfer">;
-};
-
-export const erc20Approve = (args: {
-  spender: Address;
-  amount: CurrencyAmount<Token>;
-}) => {
-  return {
-    address: args.amount.currency.address,
-    abi: erc20ABI,
-    functionName: "approve",
-    args: [args.spender, args.amount.amount],
-  } satisfies SimulateContractParameters<typeof erc20ABI, "approve">;
-};
-
-export const erc20TransferFrom = (args: {
-  from: Address;
-  to: Address;
-  amount: CurrencyAmount<Token>;
-}) => {
-  return {
-    address: args.amount.currency.address,
-    abi: erc20ABI,
-    functionName: "transferFrom",
-    args: [args.to, args.from, args.amount.amount],
-  } satisfies SimulateContractParameters<typeof erc20ABI, "transferFrom">;
 };
