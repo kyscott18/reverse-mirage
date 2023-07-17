@@ -1,11 +1,12 @@
 import type { CurrencyAmount, ReverseMirageWrite, Token } from "../types.js";
 import { erc20ABI } from "./erc20Abi.js";
-import type { PublicClient, WalletClient } from "viem";
+import type { Account, PublicClient, WalletClient } from "viem";
 import type { Address } from "viem/accounts";
 
 export const erc20Transfer = async (
   publicClient: PublicClient,
   walletClient: WalletClient,
+  account: Account | Address,
   args: {
     to: Address;
     amount: CurrencyAmount<Token>;
@@ -16,6 +17,7 @@ export const erc20Transfer = async (
     abi: erc20ABI,
     functionName: "transfer",
     args: [args.to, args.amount.amount],
+    account,
   });
   const hash = await walletClient.writeContract(request);
   return { hash, result, request };
@@ -24,6 +26,7 @@ export const erc20Transfer = async (
 export const erc20Approve = async (
   publicClient: PublicClient,
   walletClient: WalletClient,
+  account: Account | Address,
   args: {
     spender: Address;
     amount: CurrencyAmount<Token>;
@@ -34,6 +37,7 @@ export const erc20Approve = async (
     abi: erc20ABI,
     functionName: "approve",
     args: [args.spender, args.amount.amount],
+    account,
   });
   const hash = await walletClient.writeContract(request);
   return { hash, result, request };
@@ -42,6 +46,7 @@ export const erc20Approve = async (
 export const erc20TransferFrom = async (
   publicClient: PublicClient,
   walletClient: WalletClient,
+  account: Account | Address,
   args: {
     from: Address;
     to: Address;
@@ -53,6 +58,7 @@ export const erc20TransferFrom = async (
     abi: erc20ABI,
     functionName: "transferFrom",
     args: [args.to, args.from, args.amount.amount],
+    account,
   });
   const hash = await walletClient.writeContract(request);
   return { hash, result, request };

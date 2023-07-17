@@ -41,7 +41,7 @@ afterAll(async () => {
 
 describe("erc20 writes", () => {
   test("can transfer", async () => {
-    const { hash } = await erc20Transfer(publicClient, walletClient, {
+    const { hash } = await erc20Transfer(publicClient, walletClient, ALICE, {
       to: BOB,
       amount: makeCurrencyAmountFromString(mockERC20, ".5"),
     });
