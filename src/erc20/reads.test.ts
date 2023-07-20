@@ -32,7 +32,6 @@ beforeAll(async () => {
   const { contractAddress } = await publicClient.waitForTransactionReceipt({
     hash: deployHash,
   });
-  console.log(contractAddress);
   invariant(contractAddress);
 
   const mintHash = await walletClient.writeContract({

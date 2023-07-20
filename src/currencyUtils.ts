@@ -1,5 +1,6 @@
 import type { Currency, NativeCurrency, Token } from "./types.js";
 import invariant from "tiny-invariant";
+import { isAddressEqual } from "viem";
 
 /**
  * Determines if x is a token type
@@ -20,9 +21,7 @@ export const currencyEqualTo = (a: Currency, b: Currency): boolean => {
     isToken(a) === isToken(b) &&
     a.chainID === b.chainID &&
     a.decimals === b.decimals &&
-    (isToken(a)
-      ? a.address.toLowerCase() === (b as Token).address.toLowerCase()
-      : true)
+    (isToken(a) ? isAddressEqual(a.address, (b as Token).address) : true)
   );
 };
 
