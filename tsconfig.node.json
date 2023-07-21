@@ -1,11 +1,14 @@
 {
   // This configuration is used for local development and type checking of configuration and script files that are not part of the build.
-  "include": ["vitest.config.ts", "wagmi.config.ts"],
+  "include": [
+    "vitest.config.ts",
+    "wagmi.config.ts"
+  ],
   "compilerOptions": {
     "strict": true,
     "composite": true,
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "allowSyntheticDefaultImports": true
   }
 }
