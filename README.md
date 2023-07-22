@@ -7,4 +7,4 @@
 [bundle]: https://bundlephobia.com/result?p=reverse-mirage@latest
 [bundle-badge]:https://img.shields.io/bundlephobia/minzip/reverse-mirage/latest.svg
 
-Application level typescript utilities for the Ethereum Virtual Machine
+Application level typescript utilities for the Ethereum Virtual Machine.
