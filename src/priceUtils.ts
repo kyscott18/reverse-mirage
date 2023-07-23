@@ -1,5 +1,4 @@
-import { makeCurrencyAmountFromRaw, scaleUp } from "./currencyAmountUtils.js";
-import { currencyEqualTo } from "./currencyUtils.js";
+import { type Amount, makeAmountFromRaw, scaleUp } from "./amountUtils.js";
 import {
   fractionAdd,
   fractionDivide,
@@ -10,26 +9,20 @@ import {
   fractionMultiply,
   fractionSubtract,
 } from "./fractionUtils.js";
-import type {
-  BigIntIsh,
-  Currency,
-  CurrencyAmount,
-  Fraction,
-  Price,
-} from "./types.js";
+import type { BigIntIsh, Fraction, Price } from "./types.js";
 import invariant from "tiny-invariant";
 
 export const isPrice = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   x: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): x is Price<TQuoteCurrency, TBaseCurrency> =>
   typeof x === "object" && "type" in x && x.type === "price";
 
 export const makePriceFromFraction = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   quote: TQuoteCurrency,
   base: TBaseCurrency,
@@ -38,27 +31,31 @@ export const makePriceFromFraction = <
   type: "price",
   quote,
   base,
-  numerator: price.numerator * 10n ** BigInt(quote.decimals),
-  denominator: price.denominator * 10n ** BigInt(base.decimals),
+  numerator: quote.decimals
+    ? price.numerator * 10n ** BigInt(quote.decimals)
+    : price.numerator,
+  denominator: base.decimals
+    ? price.denominator * 10n ** BigInt(base.decimals)
+    : price.denominator,
 });
 
 export const makePriceFromAmounts = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
-  quote: CurrencyAmount<TQuoteCurrency>,
-  base: CurrencyAmount<TBaseCurrency>,
+  quote: Amount<TQuoteCurrency>,
+  base: Amount<TBaseCurrency>,
 ): Price<TQuoteCurrency, TBaseCurrency> => ({
   type: "price",
-  quote: quote.currency,
-  base: base.currency,
+  quote: quote.token,
+  base: base.token,
   numerator: base.amount,
   denominator: quote.amount,
 });
 
 export const makePrice = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   quote: TQuoteCurrency,
   base: TBaseCurrency,
@@ -68,13 +65,17 @@ export const makePrice = <
   type: "price",
   quote,
   base,
-  numerator: BigInt(numerator) * 10n ** BigInt(quote.decimals),
-  denominator: BigInt(denominator) * 10n ** BigInt(base.decimals),
+  numerator: quote.decimals
+    ? BigInt(numerator) * 10n ** BigInt(quote.decimals)
+    : BigInt(numerator),
+  denominator: base.decimals
+    ? BigInt(denominator) * 10n ** BigInt(base.decimals)
+    : BigInt(denominator),
 });
 
 export const priceInvert = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
 ): Price<TBaseCurrency, TQuoteCurrency> => ({
@@ -85,16 +86,13 @@ export const priceInvert = <
 });
 
 export const priceAdd = <
-  TBaseCurrency extends Currency,
-  TQuoteCurrency extends Currency,
+  TBaseCurrency extends Amount["token"],
+  TQuoteCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): Price<TQuoteCurrency, TBaseCurrency> => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? {
@@ -107,16 +105,13 @@ export const priceAdd = <
 };
 
 export const priceSubtract = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): Price<TQuoteCurrency, TBaseCurrency> => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? {
@@ -133,16 +128,13 @@ export const priceSubtract = <
 };
 
 export const priceMultiply = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): Price<TQuoteCurrency, TBaseCurrency> => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? {
@@ -166,16 +158,13 @@ export const priceMultiply = <
 };
 
 export const priceDivide = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): Price<TQuoteCurrency, TBaseCurrency> => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? {
@@ -199,16 +188,13 @@ export const priceDivide = <
 };
 
 export const priceLessThan = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): boolean => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? fractionLessThan(rawPrice(a), rawPrice(b))
@@ -216,16 +202,13 @@ export const priceLessThan = <
 };
 
 export const priceEqualTo = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): boolean => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? fractionEqualTo(rawPrice(a), rawPrice(b))
@@ -233,16 +216,13 @@ export const priceEqualTo = <
 };
 
 export const priceGreaterThan = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   a: Price<TQuoteCurrency, TBaseCurrency>,
   b: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): boolean => {
-  if (isPrice(b))
-    invariant(
-      currencyEqualTo(a.base, b.base) && currencyEqualTo(a.quote, b.quote),
-    );
+  if (isPrice(b)) invariant(a.base === b.base && a.quote === b.quote);
 
   return isPrice(b)
     ? fractionGreaterThan(rawPrice(a), rawPrice(b))
@@ -250,23 +230,23 @@ export const priceGreaterThan = <
 };
 
 export const priceQuote = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
-  currencyAmount: CurrencyAmount<TBaseCurrency>,
-): CurrencyAmount<TQuoteCurrency> => {
-  invariant(currencyEqualTo(price.base, currencyAmount.currency));
+  amount: Amount<TBaseCurrency>,
+): Amount<TQuoteCurrency> => {
+  invariant(price.base === amount.token);
 
-  return makeCurrencyAmountFromRaw(
+  return makeAmountFromRaw(
     price.quote,
-    (price.numerator * currencyAmount.amount) / price.denominator,
+    (price.numerator * amount.amount) / price.denominator,
   );
 };
 
 export const rawPrice = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
 ): Fraction => ({
@@ -276,14 +256,18 @@ export const rawPrice = <
 });
 
 export const adjustedPrice = <
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Amount["token"],
+  TBaseCurrency extends Amount["token"],
 >(
   price: Price<TQuoteCurrency, TBaseCurrency>,
 ): Fraction => ({
   type: "fraction",
-  numerator: price.numerator * 10n ** BigInt(price.base.decimals),
-  denominator: price.denominator * 10n ** BigInt(price.quote.decimals),
+  numerator: price.base.decimals
+    ? price.numerator * 10n ** BigInt(price.base.decimals)
+    : price.numerator,
+  denominator: price.quote.decimals
+    ? price.denominator * 10n ** BigInt(price.quote.decimals)
+    : price.denominator,
 });
 
 // to fixed

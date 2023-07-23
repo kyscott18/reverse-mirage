@@ -8,25 +8,18 @@ export {
 } from "./constants.js";
 
 export {
-  isCurrencyAmount,
-  makeCurrencyAmountFromString,
-  makeCurrencyAmountFromFraction,
-  makeCurrencyAmountFromRaw,
-  currencyAmountAdd,
-  currencyAmountSubtract,
-  currencyAmountMultiply,
-  currencyAmountDivide,
-  currencyAmountLessThan,
-  currencyAmountEqualTo,
-  currencyAmountGreaterThan,
-} from "./currencyAmountUtils.js";
-
-export {
-  isToken,
-  isNativeCurrency,
-  currencyEqualTo,
-  currencySortsBefore,
-} from "./currencyUtils.js";
+  isAmount,
+  makeAmountFromString,
+  makeAmountFromFraction,
+  makeAmountFromRaw,
+  amountAdd,
+  amountSubtract,
+  amountMultiply,
+  amountDivide,
+  amountLessThan,
+  amountEqualTo,
+  amountGreaterThan,
+} from "./amountUtils.js";
 
 export {
   isFraction,
@@ -79,15 +72,17 @@ export {
   erc20TransferFrom,
 } from "./erc20/writes.js";
 
+export type { ERC20, ERC20Amount } from "./erc20/types.js";
+
 export { nativeBalance } from "./native/reads.js";
 
+export type { NativeCurrency, NativeCurrencyAmount } from "./native/types.js";
+
 export type {
-  Fraction,
   BigIntIsh,
-  NativeCurrency,
+  Fraction,
   Token,
-  Currency,
-  CurrencyAmount,
+  TokenData,
   Price,
   ReverseMirageRead,
   ReverseMirageWrite,

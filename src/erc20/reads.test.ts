@@ -1,8 +1,5 @@
 import MockERC20 from "../../contracts/out/MockERC20.sol/MockERC20.json";
-import {
-  currencyAmountEqualTo,
-  makeCurrencyAmountFromString,
-} from "../currencyAmountUtils.js";
+import { amountEqualTo, makeAmountFromString } from "../amountUtils.js";
 import { readAndParse } from "../readUtils.js";
 import { ALICE, BOB, mockERC20 } from "../test/constants.js";
 import { mockErc20ABI } from "../test/generated.js";
@@ -71,7 +68,7 @@ describe("erc20 reads", () => {
 
   test("can read name", async () => {
     const name = await readAndParse(
-      erc20Name(publicClient, { token: mockERC20 }),
+      erc20Name(publicClient, { erc20: mockERC20 }),
     );
 
     expect(name).toBe("Mock ERC20");
@@ -79,7 +76,7 @@ describe("erc20 reads", () => {
 
   test("can read symbol", async () => {
     const symbol = await readAndParse(
-      erc20Symbol(publicClient, { token: mockERC20 }),
+      erc20Symbol(publicClient, { erc20: mockERC20 }),
     );
 
     expect(symbol).toBe("MOCK");
@@ -87,7 +84,7 @@ describe("erc20 reads", () => {
 
   test("can read decimals", async () => {
     const decimals = await readAndParse(
-      erc20Decimals(publicClient, { token: mockERC20 }),
+      erc20Decimals(publicClient, { erc20: mockERC20 }),
     );
 
     expect(decimals).toBe(18);
@@ -95,58 +92,46 @@ describe("erc20 reads", () => {
 
   test("can read balance", async () => {
     const balanceOfAlice = await readAndParse(
-      erc20BalanceOf(publicClient, { token: mockERC20, address: ALICE }),
+      erc20BalanceOf(publicClient, { erc20: mockERC20, address: ALICE }),
     );
     expect(
-      currencyAmountEqualTo(
-        balanceOfAlice,
-        makeCurrencyAmountFromString(mockERC20, ".75"),
-      ),
+      amountEqualTo(balanceOfAlice, makeAmountFromString(mockERC20, ".75")),
     ).toBe(true);
 
     const balanceOfBob = await readAndParse(
-      erc20BalanceOf(publicClient, { token: mockERC20, address: BOB }),
+      erc20BalanceOf(publicClient, { erc20: mockERC20, address: BOB }),
     );
     expect(
-      currencyAmountEqualTo(
-        balanceOfBob,
-        makeCurrencyAmountFromString(mockERC20, ".25"),
-      ),
+      amountEqualTo(balanceOfBob, makeAmountFromString(mockERC20, ".25")),
     ).toBe(true);
   });
 
   test("can read allowance", async () => {
     const allowance = await readAndParse(
       erc20Allowance(publicClient, {
-        token: mockERC20,
+        erc20: mockERC20,
         address: ALICE,
         spender: BOB,
       }),
     );
-    expect(
-      currencyAmountEqualTo(
-        allowance,
-        makeCurrencyAmountFromString(mockERC20, "2"),
-      ),
-    ).toBe(true);
+    expect(amountEqualTo(allowance, makeAmountFromString(mockERC20, "2"))).toBe(
+      true,
+    );
   });
 
   test("can read totalSupply", async () => {
     const totalSupply = await readAndParse(
-      erc20TotalSupply(publicClient, { token: mockERC20 }),
+      erc20TotalSupply(publicClient, { erc20: mockERC20 }),
     );
     expect(
-      currencyAmountEqualTo(
-        totalSupply,
-        makeCurrencyAmountFromString(mockERC20, "1"),
-      ),
+      amountEqualTo(totalSupply, makeAmountFromString(mockERC20, "1")),
     ).toBe(true);
   });
 
   test("can get token", async () => {
     const token = await readAndParse(
       erc20GetToken(publicClient, {
-        token: mockERC20,
+        erc20: mockERC20,
       }),
     );
 

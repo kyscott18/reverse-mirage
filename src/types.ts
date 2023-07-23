@@ -1,4 +1,6 @@
-import type { Abi, Address, Hash, SimulateContractReturnType } from "viem";
+import type { Abi, Hash, SimulateContractReturnType } from "viem";
+
+export type BigIntIsh = bigint | string | number;
 
 export type Fraction = {
   type: "fraction";
@@ -6,32 +8,21 @@ export type Fraction = {
   denominator: bigint;
 };
 
-export type BigIntIsh = bigint | string | number;
-
-export type NativeCurrency = {
-  type: "nativeCurrency";
+export type Token<TType extends string = string> = {
+  type: TType;
   name: string;
   symbol: string;
-  decimals: number;
   chainID: number;
 };
 
-export type Token = Omit<NativeCurrency, "type"> & {
-  type: "token";
-  address: Address;
-};
-
-export type Currency = NativeCurrency | Token;
-
-export type CurrencyAmount<TCurrency extends Currency> = {
-  type: "currencyAmount";
-  currency: TCurrency;
-  amount: bigint;
-};
+export type TokenData<TToken extends Token<string>, TData extends object> = {
+  type: `${TToken["type"]}${string}`;
+  token: TToken;
+} & TData;
 
 export type Price<
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Token,
+  TBaseCurrency extends Token,
 > = Omit<Fraction, "type"> & {
   type: "price";
   quote: TQuoteCurrency;

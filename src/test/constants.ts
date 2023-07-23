@@ -1,4 +1,5 @@
-import type { NativeCurrency, Token } from "../types.js";
+import type { ERC20 } from "../erc20/types.js";
+import type { NativeCurrency } from "../native/types.js";
 import { getContractAddress } from "viem/utils";
 
 export const localHttpUrl = "http://127.0.0.1:8545";
@@ -32,13 +33,13 @@ export const [ALICE, BOB] = ACCOUNTS;
 const mockERC20Address = getContractAddress({ from: ALICE, nonce: 375n });
 
 export const mockERC20 = {
-  type: "token",
+  type: "erc20",
   chainID: 1,
   address: mockERC20Address,
   decimals: 18,
   name: "Mock ERC20",
   symbol: "MOCK",
-} as const satisfies Token;
+} as const satisfies ERC20;
 
 export const anvilEther = {
   type: "nativeCurrency",
