@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     foundry({
       project: "contracts/",
+      include: ["MockERC20.sol/**"],
     }),
   ],
 });

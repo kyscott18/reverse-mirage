@@ -72,17 +72,17 @@ export {
   erc20TransferFrom,
 } from "./erc20/writes.js";
 
+export type { ERC20, ERC20Amount } from "./erc20/types.js";
+
 export { nativeBalance } from "./native/reads.js";
+
+export type { NativeCurrency, NativeCurrencyAmount } from "./native/types.js";
 
 export type {
   BigIntIsh,
   Fraction,
   Token,
   TokenData,
-  NativeCurrency,
-  ERC20,
-  NativeCurrencyAmount,
-  ERC20Amount,
   Price,
   ReverseMirageRead,
   ReverseMirageWrite,

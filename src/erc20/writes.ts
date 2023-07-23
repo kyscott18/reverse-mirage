@@ -1,5 +1,6 @@
-import type { ERC20, ERC20Amount, ReverseMirageWrite } from "../types.js";
+import type { ReverseMirageWrite } from "../types.js";
 import { erc20ABI } from "./erc20Abi.js";
+import type { ERC20, ERC20Amount } from "./types.js";
 import type { Account, PublicClient, WalletClient } from "viem";
 import type { Address } from "viem/accounts";
 

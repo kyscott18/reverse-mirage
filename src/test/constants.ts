@@ -1,4 +1,5 @@
-import type { ERC20, NativeCurrency } from "../types.js";
+import type { ERC20 } from "../erc20/types.js";
+import type { NativeCurrency } from "../native/types.js";
 import { getContractAddress } from "viem/utils";
 
 export const localHttpUrl = "http://127.0.0.1:8545";

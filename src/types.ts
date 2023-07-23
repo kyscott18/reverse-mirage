@@ -1,4 +1,4 @@
-import type { Abi, Address, Hash, SimulateContractReturnType } from "viem";
+import type { Abi, Hash, SimulateContractReturnType } from "viem";
 
 export type BigIntIsh = bigint | string | number;
 
@@ -19,30 +19,6 @@ export type TokenData<TToken extends Token<string>, TData extends object> = {
   type: `${TToken["type"]}${string}`;
   token: TToken;
 } & TData;
-
-export type NativeCurrency = Token<"nativeCurrency"> & {
-  decimals: number;
-};
-
-export type ERC20 = Token<"erc20"> & {
-  address: Address;
-  decimals: number;
-};
-
-// export type ERC1155 = Omit<Token, "type"> & {
-//   type: "erc1155";
-//   address: Address;
-//   id: Hex;
-//   decimals: number;
-// };
-
-export type NativeCurrencyAmount<TNativeCurrency extends NativeCurrency> =
-  TokenData<TNativeCurrency, { amount: bigint }>;
-
-export type ERC20Amount<TERC20 extends ERC20> = TokenData<
-  TERC20,
-  { amount: bigint }
->;
 
 export type Price<
   TQuoteCurrency extends Token,

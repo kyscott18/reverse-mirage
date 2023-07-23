@@ -1,5 +1,6 @@
 import { makeAmountFromRaw } from "../amountUtils.js";
-import type { NativeCurrency, ReverseMirageRead } from "../types.js";
+import type { ReverseMirageRead } from "../types.js";
+import type { NativeCurrency } from "./types.js";
 import type { Address, PublicClient } from "viem";
 
 export const nativeBalance = (
