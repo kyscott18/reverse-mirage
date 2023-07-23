@@ -18,7 +18,7 @@
   "scripts": {
     "bench": "vitest bench",
     "bench:ci": "CI=true vitest bench",
-    "build": "tsc --project tsconfig.build.json --outdir ./dist",
+    "build": "tsup",
     "format": "rome format . --write",
     "lint": "rome check .",
     "lint:fix": "pnpm lint --apply",
@@ -47,6 +47,7 @@
     "@wagmi/cli": "^1.3.0",
     "husky": "^8.0.3",
     "rome": "^12.1.3",
+    "tsup": "^7.1.0",
     "typescript": "^5.1.6",
     "viem": "^1.4.0",
     "vitest": "^0.33.0"
