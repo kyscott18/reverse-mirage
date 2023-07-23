@@ -1,14 +1,14 @@
 import {
-  currencyAmountAdd,
-  currencyAmountDivide,
-  currencyAmountEqualTo,
-  currencyAmountGreaterThan,
-  currencyAmountLessThan,
-  currencyAmountMultiply,
-  currencyAmountSubtract,
-  makeCurrencyAmountFromRaw,
-  makeCurrencyAmountFromString,
-} from "./currencyAmountUtils.js";
+  amountAdd,
+  amountDivide,
+  amountEqualTo,
+  amountGreaterThan,
+  amountLessThan,
+  amountMultiply,
+  amountSubtract,
+  makeAmountFromRaw,
+  makeAmountFromString,
+} from "./amountUtils.js";
 import { mockERC20 } from "./test/constants.js";
 import {
   CurrencyAmount as UniswapCurrencyAmount,
@@ -23,16 +23,16 @@ const uniswapMockERC20 = new UniswapToken(
   mockERC20.name,
   mockERC20.symbol,
 );
-const rmAmount = makeCurrencyAmountFromString(mockERC20, "52");
+const rmAmount = makeAmountFromString(mockERC20, "52");
 const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(
   uniswapMockERC20,
   52,
   1,
 );
 
-describe("create currency amount from string", () => {
+describe("create amount from string", () => {
   bench("reverse mirage", () => {
-    makeCurrencyAmountFromString(mockERC20, "52");
+    makeAmountFromString(mockERC20, "52");
   });
 
   bench("uniswap", () => {
@@ -40,9 +40,9 @@ describe("create currency amount from string", () => {
   });
 });
 
-describe("create currency amount from raw", () => {
+describe("create amount from raw", () => {
   bench("reverse mirage", () => {
-    makeCurrencyAmountFromRaw(mockERC20, 1000000000000000000n);
+    makeAmountFromRaw(mockERC20, 1000000000000000000n);
   });
 
   bench("uniswap", () => {
@@ -53,63 +53,63 @@ describe("create currency amount from raw", () => {
   });
 });
 
-describe("currency amount add", () => {
+describe("amount add", () => {
   bench("reverse mirage", () => {
-    currencyAmountAdd(rmAmount, rmAmount);
+    amountAdd(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.add(uniAmount);
   });
 });
 
-describe("currency amount subtract", () => {
+describe("amount subtract", () => {
   bench("reverse mirage", () => {
-    currencyAmountSubtract(rmAmount, rmAmount);
+    amountSubtract(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.subtract(uniAmount);
   });
 });
 
-describe("currency amount multiply", () => {
+describe("amount multiply", () => {
   bench("reverse mirage", () => {
-    currencyAmountMultiply(rmAmount, rmAmount);
+    amountMultiply(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.multiply(uniAmount);
   });
 });
 
-describe("currency amount divide", () => {
+describe("amount divide", () => {
   bench("reverse mirage", () => {
-    currencyAmountDivide(rmAmount, rmAmount);
+    amountDivide(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.divide(uniAmount);
   });
 });
 
-describe("currency amount less than", () => {
+describe("amount less than", () => {
   bench("reverse mirage", () => {
-    currencyAmountLessThan(rmAmount, rmAmount);
+    amountLessThan(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.lessThan(uniAmount);
   });
 });
 
-describe("currency amount equalTo", () => {
+describe("amount equalTo", () => {
   bench("reverse mirage", () => {
-    currencyAmountEqualTo(rmAmount, rmAmount);
+    amountEqualTo(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.equalTo(uniAmount);
   });
 });
 
-describe("currency amount greater than", () => {
+describe("amount greater than", () => {
   bench("reverse mirage", () => {
-    currencyAmountGreaterThan(rmAmount, rmAmount);
+    amountGreaterThan(rmAmount, rmAmount);
   });
   bench("uniswap", () => {
     uniAmount.greaterThan(uniAmount);

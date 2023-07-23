@@ -1,8 +1,8 @@
 import {
-  currencyAmountEqualTo,
-  makeCurrencyAmountFromRaw,
-  makeCurrencyAmountFromString,
-} from "./currencyAmountUtils.js";
+  amountEqualTo,
+  makeAmountFromRaw,
+  makeAmountFromString,
+} from "./amountUtils.js";
 import { fractionEqualTo, makeFraction } from "./fractionUtils.js";
 import {
   adjustedPrice,
@@ -21,6 +21,7 @@ import {
   rawPrice,
 } from "./priceUtils.js";
 import { mockERC20 } from "./test/constants.js";
+import { zeroAddress } from "viem";
 import { describe, expect, test } from "vitest";
 
 const one = {
@@ -52,8 +53,8 @@ describe.concurrent("price utils", () => {
     expect(
       priceEqualTo(
         makePriceFromAmounts(
-          makeCurrencyAmountFromRaw(mockERC20, 1n),
-          makeCurrencyAmountFromRaw(mockERC20, 1n),
+          makeAmountFromRaw(mockERC20, 1n),
+          makeAmountFromRaw(mockERC20, 1n),
         ),
         one,
       ),
@@ -148,15 +149,15 @@ describe.concurrent("price utils", () => {
   test("can quote", () => {
     expect(() =>
       priceQuote(one, {
-        type: "currencyAmount",
-        currency: { ...mockERC20, chainID: 2 },
+        type: "erc20Amount",
+        token: { ...mockERC20, address: zeroAddress },
         amount: 2n,
       }),
     ).toThrowError();
     expect(
-      currencyAmountEqualTo(
-        priceQuote(two, makeCurrencyAmountFromRaw(mockERC20, 1n)),
-        makeCurrencyAmountFromRaw(mockERC20, 2n),
+      amountEqualTo(
+        priceQuote(two, makeAmountFromRaw(mockERC20, 1n)),
+        makeAmountFromRaw(mockERC20, 2n),
       ),
     ).toBe(true);
   });
@@ -217,8 +218,8 @@ describe.concurrent("price utils with decimals", () => {
     expect(
       priceEqualTo(
         makePriceFromAmounts(
-          makeCurrencyAmountFromRaw(mockERC20Decimals, 1n),
-          makeCurrencyAmountFromRaw(mockERC20, 1n),
+          makeAmountFromRaw(mockERC20Decimals, 1n),
+          makeAmountFromRaw(mockERC20, 1n),
         ),
         oneDecimals,
       ),
@@ -321,9 +322,9 @@ describe.concurrent("price utils with decimals", () => {
 
   test("can quote", () => {
     expect(
-      currencyAmountEqualTo(
-        priceQuote(twoDecimals, makeCurrencyAmountFromString(mockERC20, "1")),
-        makeCurrencyAmountFromString(mockERC20Decimals, "2"),
+      amountEqualTo(
+        priceQuote(twoDecimals, makeAmountFromString(mockERC20, "1")),
+        makeAmountFromString(mockERC20Decimals, "2"),
       ),
     ).toBe(true);
   });

@@ -1,64 +1,64 @@
-import { makeCurrencyAmountFromRaw } from "../currencyAmountUtils.js";
+import { makeAmountFromRaw } from "../amountUtils.js";
 import { erc20ABI } from "../erc20/erc20Abi.js";
-import type { ReverseMirageRead, Token } from "../types.js";
+import type { ERC20, ReverseMirageRead } from "../types.js";
 import type { Address, PublicClient } from "viem";
 
 export const erc20BalanceOf = (
   publicClient: PublicClient,
-  args: { token: Token; address: Address },
+  args: { erc20: ERC20; address: Address },
 ) => {
   return {
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address,
+        address: args.erc20.address,
         functionName: "balanceOf",
         args: [args.address],
       }),
-    parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
+    parse: (data) => makeAmountFromRaw(args.erc20, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20Allowance = (
   publicClient: PublicClient,
-  args: { token: Token; address: Address; spender: Address },
+  args: { erc20: ERC20; address: Address; spender: Address },
 ) => {
   return {
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address,
+        address: args.erc20.address,
         functionName: "allowance",
         args: [args.address, args.spender],
       }),
-    parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
+    parse: (data) => makeAmountFromRaw(args.erc20, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20TotalSupply = (
   publicClient: PublicClient,
-  args: { token: Token },
+  args: { erc20: ERC20 },
 ) => {
   return {
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address,
+        address: args.erc20.address,
         functionName: "totalSupply",
       }),
-    parse: (data) => makeCurrencyAmountFromRaw(args.token, data),
+    parse: (data) => makeAmountFromRaw(args.erc20, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
 export const erc20Name = (
   publicClient: PublicClient,
-  args: { token: Pick<Token, "address"> },
+  args: { erc20: Pick<ERC20, "address"> },
 ) => {
   return {
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address,
+        address: args.erc20.address,
         functionName: "name",
       }),
     parse: (data) => data,
@@ -67,13 +67,13 @@ export const erc20Name = (
 
 export const erc20Symbol = (
   publicClient: PublicClient,
-  args: { token: Pick<Token, "address"> },
+  args: { erc20: Pick<ERC20, "address"> },
 ) => {
   return {
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address,
+        address: args.erc20.address,
         functionName: "symbol",
       }),
     parse: (data: string) => data,
@@ -82,13 +82,13 @@ export const erc20Symbol = (
 
 export const erc20Decimals = (
   publicClient: PublicClient,
-  args: { token: Pick<Token, "address"> },
+  args: { erc20: Pick<ERC20, "address"> },
 ) => {
   return {
     read: () =>
       publicClient.readContract({
         abi: erc20ABI,
-        address: args.token.address,
+        address: args.erc20.address,
         functionName: "decimals",
       }),
     parse: (data) => data,
@@ -97,7 +97,7 @@ export const erc20Decimals = (
 
 export const erc20GetToken = (
   publicClient: PublicClient,
-  args: { token: Pick<Token, "address" | "chainID"> },
+  args: { erc20: Pick<ERC20, "address" | "chainID"> },
 ) => {
   return {
     read: () =>
@@ -110,7 +110,7 @@ export const erc20GetToken = (
       name: data[0],
       symbol: data[1],
       decimals: data[2],
-      ...args.token,
+      ...args.erc20,
     }),
   } satisfies ReverseMirageRead<[string, string, number]>;
 };

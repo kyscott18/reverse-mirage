@@ -1,37 +1,52 @@
 import type { Abi, Address, Hash, SimulateContractReturnType } from "viem";
 
+export type BigIntIsh = bigint | string | number;
+
 export type Fraction = {
   type: "fraction";
   numerator: bigint;
   denominator: bigint;
 };
 
-export type BigIntIsh = bigint | string | number;
-
-export type NativeCurrency = {
-  type: "nativeCurrency";
+export type Token<TType extends string = string> = {
+  type: TType;
   name: string;
   symbol: string;
-  decimals: number;
   chainID: number;
 };
 
-export type Token = Omit<NativeCurrency, "type"> & {
-  type: "token";
+export type TokenData<TToken extends Token<string>, TData extends object> = {
+  type: `${TToken["type"]}${string}`;
+  token: TToken;
+} & TData;
+
+export type NativeCurrency = Token<"nativeCurrency"> & {
+  decimals: number;
+};
+
+export type ERC20 = Token<"erc20"> & {
   address: Address;
+  decimals: number;
 };
 
-export type Currency = NativeCurrency | Token;
+// export type ERC1155 = Omit<Token, "type"> & {
+//   type: "erc1155";
+//   address: Address;
+//   id: Hex;
+//   decimals: number;
+// };
 
-export type CurrencyAmount<TCurrency extends Currency> = {
-  type: "currencyAmount";
-  currency: TCurrency;
-  amount: bigint;
-};
+export type NativeCurrencyAmount<TNativeCurrency extends NativeCurrency> =
+  TokenData<TNativeCurrency, { amount: bigint }>;
+
+export type ERC20Amount<TERC20 extends ERC20> = TokenData<
+  TERC20,
+  { amount: bigint }
+>;
 
 export type Price<
-  TQuoteCurrency extends Currency,
-  TBaseCurrency extends Currency,
+  TQuoteCurrency extends Token,
+  TBaseCurrency extends Token,
 > = Omit<Fraction, "type"> & {
   type: "price";
   quote: TQuoteCurrency;

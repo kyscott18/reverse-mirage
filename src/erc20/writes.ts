@@ -1,4 +1,4 @@
-import type { CurrencyAmount, ReverseMirageWrite, Token } from "../types.js";
+import type { ERC20, ERC20Amount, ReverseMirageWrite } from "../types.js";
 import { erc20ABI } from "./erc20Abi.js";
 import type { Account, PublicClient, WalletClient } from "viem";
 import type { Address } from "viem/accounts";
@@ -9,11 +9,11 @@ export const erc20Transfer = async (
   account: Account | Address,
   args: {
     to: Address;
-    amount: CurrencyAmount<Token>;
+    amount: ERC20Amount<ERC20>;
   },
 ): Promise<ReverseMirageWrite<typeof erc20ABI, "transfer">> => {
   const { request, result } = await publicClient.simulateContract({
-    address: args.amount.currency.address,
+    address: args.amount.token.address,
     abi: erc20ABI,
     functionName: "transfer",
     args: [args.to, args.amount.amount],
@@ -29,11 +29,11 @@ export const erc20Approve = async (
   account: Account | Address,
   args: {
     spender: Address;
-    amount: CurrencyAmount<Token>;
+    amount: ERC20Amount<ERC20>;
   },
 ): Promise<ReverseMirageWrite<typeof erc20ABI, "approve">> => {
   const { request, result } = await publicClient.simulateContract({
-    address: args.amount.currency.address,
+    address: args.amount.token.address,
     abi: erc20ABI,
     functionName: "approve",
     args: [args.spender, args.amount.amount],
@@ -50,11 +50,11 @@ export const erc20TransferFrom = async (
   args: {
     from: Address;
     to: Address;
-    amount: CurrencyAmount<Token>;
+    amount: ERC20Amount<ERC20>;
   },
 ): Promise<ReverseMirageWrite<typeof erc20ABI, "transferFrom">> => {
   const { request, result } = await publicClient.simulateContract({
-    address: args.amount.currency.address,
+    address: args.amount.token.address,
     abi: erc20ABI,
     functionName: "transferFrom",
     args: [args.to, args.from, args.amount.amount],
