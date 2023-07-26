@@ -1,8 +1,8 @@
 import MockERC20 from "../../../../contracts/out/MockERC20.sol/MockERC20.json";
+import { mockErc20ABI } from "../../../../test/generated.js";
 import { amountEqualTo, makeAmountFromString } from "../amountUtils.js";
 import { readAndParse } from "../readUtils.js";
 import { ALICE, BOB, mockERC20 } from "../test/constants.js";
-import { mockErc20ABI } from "../test/generated.js";
 import { publicClient, testClient, walletClient } from "../test/utils.js";
 import {
   erc20Allowance,

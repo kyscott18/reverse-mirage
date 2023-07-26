@@ -7,3 +7,6 @@
 # typescript
 *.tsbuildinfo
 
+# @wagmi/cli
+test/generated.ts
+

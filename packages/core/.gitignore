@@ -26,4 +26,4 @@ yarn-error.log*
 *.tsbuildinfo
 
 # @wagmi/cli
-src/generated.ts
+src/test/generated.ts
