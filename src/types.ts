@@ -15,7 +15,7 @@ export type Token<TType extends string = string> = {
   chainID: number;
 };
 
-export type TokenData<TToken extends Token<string>, TData extends object> = {
+export type TokenData<TToken extends Token, TData extends object> = {
   type: `${TToken["type"]}${string}`;
   token: TToken;
 } & TData;
