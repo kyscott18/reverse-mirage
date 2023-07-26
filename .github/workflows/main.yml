@@ -35,7 +35,7 @@ jobs:
       - name: Codegen
         run: pnpm wagmi generate
       - name: Check types
-        run: pnpm tsc
+        run: pnpm typecheck
       - name: Lint
         run: pnpm lint
 

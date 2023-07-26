@@ -1,4 +1,4 @@
-import MockERC20 from "../../contracts/out/MockERC20.sol/MockERC20.json";
+import MockERC20 from "../../../../contracts/out/MockERC20.sol/MockERC20.json";
 import { amountEqualTo, makeAmountFromString } from "../amountUtils.js";
 import { readAndParse } from "../readUtils.js";
 import { ALICE, BOB, mockERC20 } from "../test/constants.js";

@@ -8,6 +8,7 @@ export {
 } from "./constants.js";
 
 export {
+  type Amount,
   isAmount,
   makeAmountFromString,
   makeAmountFromFraction,
