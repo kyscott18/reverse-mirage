@@ -11,5 +11,8 @@
   },
   "editor.codeActionsOnSave": {
     "source.organizeImports.rome": true
+  },  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#D65076",
+    "titleBar.inactiveBackground": "#D65076"
   }
 }
