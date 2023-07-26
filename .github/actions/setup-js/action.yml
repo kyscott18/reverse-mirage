@@ -1,18 +1,16 @@
 name: "Setup javascript env"
 runs:
-  using: "composite"
+  using: composite
   steps:
     - name: Set up pnpm
-    - uses: pnpm/action-setup@v2
-      with:
-        version: latest
+      uses: pnpm/action-setup@v2
 
-    - name: Set up node 
+    - name: Set up node
       uses: actions/setup-node@v3
       with:
-        cache: "pnpm"
+        cache: pnpm
         node-version: latest
 
-    - name: Install Dependencies
+    - name: Install dependencies
       shell: bash
       run: pnpm install
