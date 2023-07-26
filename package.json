@@ -6,6 +6,8 @@
   "type": "module",
   "workspaces": ["packages/*"],
   "scripts": {
+    "install:packages": "pnpm --filter './packages/**' install",
+    "preinstall": "npx -y only-allow pnpm",
     "build": "pnpm --filter 'reverse-mirage' build",
     "lint": "pnpm --parallel lint",
     "format": "pnpm --parallel format",
