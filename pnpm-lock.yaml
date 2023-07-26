@@ -4,42 +4,50 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  tiny-invariant:
-    specifier: ^1.3.1
-    version: 1.3.1
+importers:
 
-devDependencies:
-  '@changesets/cli':
-    specifier: ^2.26.2
-    version: 2.26.2
-  '@uniswap/sdk-core':
-    specifier: ^4.0.6
-    version: 4.0.6
-  '@viem/anvil':
-    specifier: ^0.0.6
-    version: 0.0.6
-  '@wagmi/cli':
-    specifier: ^1.3.0
-    version: 1.3.0(typescript@5.1.6)
-  husky:
-    specifier: ^8.0.3
-    version: 8.0.3
-  rome:
-    specifier: ^12.1.3
-    version: 12.1.3
-  tsup:
-    specifier: ^7.1.0
-    version: 7.1.0(typescript@5.1.6)
-  typescript:
-    specifier: ^5.1.6
-    version: 5.1.6
-  viem:
-    specifier: ^1.4.1
-    version: 1.4.1(typescript@5.1.6)(zod@3.21.4)
-  vitest:
-    specifier: ^0.33.0
-    version: 0.33.0
+  .:
+    devDependencies:
+      '@changesets/cli':
+        specifier: ^2.26.2
+        version: 2.26.2
+      '@wagmi/cli':
+        specifier: ^1.3.0
+        version: 1.3.0(typescript@5.1.6)
+      rome:
+        specifier: ^12.1.3
+        version: 12.1.3
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
+
+  packages/core:
+    dependencies:
+      tiny-invariant:
+        specifier: ^1.3.1
+        version: 1.3.1
+    devDependencies:
+      '@uniswap/sdk-core':
+        specifier: ^4.0.6
+        version: 4.0.6
+      '@viem/anvil':
+        specifier: ^0.0.6
+        version: 0.0.6
+      rome:
+        specifier: ^12.1.3
+        version: 12.1.3
+      tsup:
+        specifier: ^7.1.0
+        version: 7.1.0(typescript@5.1.6)
+      typescript:
+        specifier: ^5.1.6
+        version: 5.1.6
+      viem:
+        specifier: ^1.4.1
+        version: 1.4.1(typescript@5.1.6)(zod@3.21.4)
+      vitest:
+        specifier: ^0.33.0
+        version: 0.33.0
 
 packages:
 
@@ -2145,12 +2153,6 @@ packages:
   /human-signals@4.3.1:
     resolution: {integrity: sha512-nZXjEF2nbo7lIw3mgYjItAfgQXog3OjJogSbKa2CQIIvSGWcKgeJnQlNXip6NglNzYH45nSRiEVimMvYL8DDqQ==}
     engines: {node: '>=14.18.0'}
-    dev: true
-
-  /husky@8.0.3:
-    resolution: {integrity: sha512-+dQSyqPh4x1hlO1swXBiNb2HzTDN1I2IGLQx1GrBuiqFJfoMrnZWwVmatvSiO+Iz8fBUnf+lekwNo4c2LlXItg==}
-    engines: {node: '>=14'}
-    hasBin: true
     dev: true
 
   /iconv-lite@0.4.24:

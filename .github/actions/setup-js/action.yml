@@ -1,29 +1,18 @@
 name: "Setup javascript env"
 runs:
-  using: "composite"
+  using: composite
   steps:
-    - uses: pnpm/action-setup@v2
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2
       with:
         version: latest
-    - name: Set up Node 
+
+    - name: Set up node
       uses: actions/setup-node@v3
       with:
-        cache: "pnpm"
+        cache: pnpm
         node-version: latest
-    - name: Cache pnpm
-      uses: actions/cache@v3
-      with:
-        path: ~/.pnpm-store
-        key: pnpm-${{ hashFiles('pnpm-lock.yaml') }}
-        restore-keys: pnpm-
-    - name: Cache node_modules
-      uses: actions/cache@v3
-      id: cache-node-modules
-      with:
-        path: node_modules
-        key: modules-${{ hashFiles('pnpm-lock.yaml') }}
 
-    - name: Install Dependencies
+    - name: Install dependencies
       shell: bash
-      if: steps.cache-node-modules.outputs.cache-hit != 'true'
-      run: pnpm i --frozen-lockfile
+      run: pnpm install
