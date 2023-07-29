@@ -5,13 +5,17 @@ import { getContractAddress } from "viem/utils";
 export const localHttpUrl = "http://127.0.0.1:8545";
 export const localWsUrl = "ws://127.0.0.1:8545";
 
-export const forkBlockNumber = BigInt(
-  Number(process.env.VITE_ANVIL_BLOCK_NUMBER!),
-);
+if (!process.env.VITE_ANVIL_BLOCK_NUMBER) {
+  throw new Error('Missing environment variable "ANVIL_BLOCK_NUMBER"');
+}
 
-export const forkUrl = process.env.VITE_ANVIL_FORK_URL!;
+export const forkBlockNumber = BigInt(process.env.VITE_ANVIL_BLOCK_NUMBER);
 
-export const blockTime = Number(process.env.VITE_ANVIL_BLOCK_TIME!);
+if (!process.env.VITE_ANVIL_FORK_URL) {
+  throw new Error('Missing environment variable "ANVIL_FORK_URL"');
+}
+
+export const forkUrl = process.env.VITE_ANVIL_FORK_URL;
 
 // Test accounts
 export const ACCOUNTS = [
