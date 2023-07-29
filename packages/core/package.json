@@ -26,13 +26,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest"
   },
-  "keywords": [
-    "eth",
-    "ethereum",
-    "dapps",
-    "wallet",
-    "web3"
-  ],
+  "keywords": ["eth", "ethereum", "dapps", "web3"],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
