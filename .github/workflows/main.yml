@@ -43,8 +43,6 @@ jobs:
         run: pnpm build
       
   test:
-    # TODO: run anvil as an action
-    if: false
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -57,9 +55,9 @@ jobs:
         with:
           version: nightly
       - name: Codegen
-        run: pnpm wagmi generate
+        run: pnpm codegen
       - name: Run tests
-        run: pnpm run test
+        run: pnpm test:ci
         env:
           VITE_ANVIL_FORK_URL: ${{ secrets.VITE_ANVIL_FORK_URL }}
           VITE_ANVIL_BLOCK_NUMBER: ${{ secrets.VITE_ANVIL_BLOCK_NUMBER }}
