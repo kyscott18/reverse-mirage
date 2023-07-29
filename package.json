@@ -8,10 +8,13 @@
   "scripts": {
     "install:packages": "pnpm --filter './packages/**' install",
     "preinstall": "npx -y only-allow pnpm",
+    "codegen": "pnpm wagmi generate",
     "build": "pnpm --filter 'reverse-mirage' build",
     "lint": "pnpm --parallel lint",
     "format": "pnpm --parallel format",
-    "typecheck": "pnpm --parallel typecheck"
+    "typecheck": "pnpm --parallel typecheck",
+    "test": "pnpm --parallel test",
+    "test:ci": "pnpm --parallel test:ci"
   },
   "keywords": [],
   "author": "",

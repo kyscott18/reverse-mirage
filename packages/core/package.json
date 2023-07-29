@@ -24,7 +24,8 @@
     "lint": "rome check .",
     "lint:fix": "pnpm lint --apply",
     "typecheck": "tsc --noEmit",
-    "test": "vitest"
+    "test": "vitest",
+    "test:ci": "CI=true vitest"
   },
   "keywords": ["eth", "ethereum", "dapps", "web3"],
   "author": "Kyle Scott",
