@@ -6,11 +6,11 @@ import {
   amountLessThan,
   amountMultiply,
   amountSubtract,
-  makeAmountFromFraction,
-  makeAmountFromRaw,
-  makeAmountFromString,
+  createAmountFromFraction,
+  createAmountFromRaw,
+  createAmountFromString,
 } from "./amountUtils.js";
-import { makeFraction } from "./fractionUtils.js";
+import { createFraction } from "./fractionUtils.js";
 import type { Token, TokenData } from "./types.js";
 import { parseEther } from "viem/utils";
 import { describe, expect, test } from "vitest";
@@ -53,56 +53,72 @@ const twoDecimals = {
 } as const satisfies TokenData<typeof mockTokenDecimals, { amount: bigint }>;
 
 describe.concurrent(" mount utils", () => {
-  test("can make  amount from string", () => {
-    expect(amountEqualTo(makeAmountFromString(mockToken, "1"), one)).toBe(true);
-    expect(amountEqualTo(makeAmountFromString(mockToken, "2"), two)).toBe(true);
-
-    // decimals
-    expect(
-      amountEqualTo(makeAmountFromString(mockTokenDecimals, "1"), oneDecimals),
-    ).toBe(true);
-    expect(
-      amountEqualTo(makeAmountFromString(mockTokenDecimals, "2"), twoDecimals),
-    ).toBe(true);
-  });
-
-  test("can make amount from bigint", () => {
-    expect(amountEqualTo(makeAmountFromRaw(mockToken, 1n), one)).toBe(true);
-    expect(amountEqualTo(makeAmountFromRaw(mockToken, 2n), two)).toBe(true);
+  test("can create  amount from string", () => {
+    expect(amountEqualTo(createAmountFromString(mockToken, "1"), one)).toBe(
+      true,
+    );
+    expect(amountEqualTo(createAmountFromString(mockToken, "2"), two)).toBe(
+      true,
+    );
 
     // decimals
     expect(
       amountEqualTo(
-        makeAmountFromRaw(mockTokenDecimals, parseEther("1")),
+        createAmountFromString(mockTokenDecimals, "1"),
         oneDecimals,
       ),
     ).toBe(true);
     expect(
       amountEqualTo(
-        makeAmountFromRaw(mockTokenDecimals, parseEther("2")),
+        createAmountFromString(mockTokenDecimals, "2"),
         twoDecimals,
       ),
     ).toBe(true);
   });
 
-  test("can make amount from fraction", () => {
-    expect(
-      amountEqualTo(makeAmountFromFraction(mockToken, makeFraction(1)), one),
-    ).toBe(true);
-    expect(
-      amountEqualTo(makeAmountFromFraction(mockToken, makeFraction(2)), two),
-    ).toBe(true);
+  test("can create amount from bigint", () => {
+    expect(amountEqualTo(createAmountFromRaw(mockToken, 1n), one)).toBe(true);
+    expect(amountEqualTo(createAmountFromRaw(mockToken, 2n), two)).toBe(true);
 
     // decimals
     expect(
       amountEqualTo(
-        makeAmountFromFraction(mockTokenDecimals, makeFraction(1)),
+        createAmountFromRaw(mockTokenDecimals, parseEther("1")),
         oneDecimals,
       ),
     ).toBe(true);
     expect(
       amountEqualTo(
-        makeAmountFromFraction(mockTokenDecimals, makeFraction(2)),
+        createAmountFromRaw(mockTokenDecimals, parseEther("2")),
+        twoDecimals,
+      ),
+    ).toBe(true);
+  });
+
+  test("can create amount from fraction", () => {
+    expect(
+      amountEqualTo(
+        createAmountFromFraction(mockToken, createFraction(1)),
+        one,
+      ),
+    ).toBe(true);
+    expect(
+      amountEqualTo(
+        createAmountFromFraction(mockToken, createFraction(2)),
+        two,
+      ),
+    ).toBe(true);
+
+    // decimals
+    expect(
+      amountEqualTo(
+        createAmountFromFraction(mockTokenDecimals, createFraction(1)),
+        oneDecimals,
+      ),
+    ).toBe(true);
+    expect(
+      amountEqualTo(
+        createAmountFromFraction(mockTokenDecimals, createFraction(2)),
         twoDecimals,
       ),
     ).toBe(true);

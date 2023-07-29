@@ -10,7 +10,7 @@ export const isFraction = (x: Fraction | BigIntIsh): x is Fraction =>
 /**
  * Create a fraction
  */
-export const makeFraction = (
+export const createFraction = (
   numerator: BigIntIsh,
   denominator: BigIntIsh = 1,
 ): Fraction => {

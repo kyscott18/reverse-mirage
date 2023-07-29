@@ -1,4 +1,5 @@
 import {
+  createFraction,
   fractionAdd,
   fractionDivide,
   fractionEqualTo,
@@ -8,17 +9,16 @@ import {
   fractionQuotient,
   fractionRemainder,
   fractionSubtract,
-  makeFraction,
 } from "./fractionUtils.js";
 import { Fraction } from "@uniswap/sdk-core";
 import { bench, describe } from "vitest";
 
-const rmFraction = makeFraction(5, 2);
+const rmFraction = createFraction(5, 2);
 const uniFraction = new Fraction(5, 2);
 
 describe("create fraction", () => {
   bench("reverse mirage", () => {
-    makeFraction(52, 1);
+    createFraction(52, 1);
   });
 
   bench("uniswap", () => {

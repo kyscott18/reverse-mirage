@@ -6,8 +6,8 @@ import {
   amountLessThan,
   amountMultiply,
   amountSubtract,
-  makeAmountFromRaw,
-  makeAmountFromString,
+  createAmountFromRaw,
+  createAmountFromString,
 } from "./amountUtils.js";
 import { mockERC20 } from "./test/constants.js";
 import {
@@ -23,7 +23,7 @@ const uniswapMockERC20 = new UniswapToken(
   mockERC20.name,
   mockERC20.symbol,
 );
-const rmAmount = makeAmountFromString(mockERC20, "52");
+const rmAmount = createAmountFromString(mockERC20, "52");
 const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(
   uniswapMockERC20,
   52,
@@ -32,7 +32,7 @@ const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(
 
 describe("create amount from string", () => {
   bench("reverse mirage", () => {
-    makeAmountFromString(mockERC20, "52");
+    createAmountFromString(mockERC20, "52");
   });
 
   bench("uniswap", () => {
@@ -42,7 +42,7 @@ describe("create amount from string", () => {
 
 describe("create amount from raw", () => {
   bench("reverse mirage", () => {
-    makeAmountFromRaw(mockERC20, 1000000000000000000n);
+    createAmountFromRaw(mockERC20, 1000000000000000000n);
   });
 
   bench("uniswap", () => {

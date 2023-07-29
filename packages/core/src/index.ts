@@ -10,9 +10,9 @@ export {
 export {
   type Amount,
   isAmount,
-  makeAmountFromString,
-  makeAmountFromFraction,
-  makeAmountFromRaw,
+  createAmountFromString,
+  createAmountFromFraction,
+  createAmountFromRaw,
   amountAdd,
   amountSubtract,
   amountMultiply,
@@ -24,7 +24,7 @@ export {
 
 export {
   isFraction,
-  makeFraction,
+  createFraction,
   fractionQuotient,
   fractionRemainder,
   fractionInvert,
@@ -39,9 +39,9 @@ export {
 
 export {
   isPrice,
-  makePriceFromFraction,
-  makePriceFromAmounts,
-  makePrice,
+  createPriceFromFraction,
+  createPriceFromAmounts,
+  createPrice,
   priceInvert,
   priceAdd,
   priceSubtract,
@@ -67,6 +67,8 @@ export {
   erc20GetToken,
 } from "./erc20/reads.js";
 
+export { createErc20 } from "./erc20/utils.js";
+
 export {
   erc20Transfer,
   erc20Approve,
@@ -76,6 +78,8 @@ export {
 export type { ERC20, ERC20Amount } from "./erc20/types.js";
 
 export { nativeBalance } from "./native/reads.js";
+
+export { createNativeCurrency } from "./native/utils.js";
 
 export type { NativeCurrency, NativeCurrencyAmount } from "./native/types.js";
 

@@ -1,4 +1,4 @@
-import { amountEqualTo, makeAmountFromString } from "../amountUtils.js";
+import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { readAndParse } from "../readUtils.js";
 import { BOB, anvilEther } from "../test/constants.js";
 import { publicClient } from "../test/utils.js";
@@ -14,7 +14,7 @@ describe("native reads", () => {
     expect(
       amountEqualTo(
         nativeBalanceBob,
-        makeAmountFromString(anvilEther, "10000"),
+        createAmountFromString(anvilEther, "10000"),
       ),
     ).toBe(true);
   });

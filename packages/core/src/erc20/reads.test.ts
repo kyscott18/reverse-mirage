@@ -1,6 +1,6 @@
 import MockERC20 from "../../../../contracts/out/MockERC20.sol/MockERC20.json";
 import { mockErc20ABI } from "../../../../test/generated.js";
-import { amountEqualTo, makeAmountFromString } from "../amountUtils.js";
+import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { readAndParse } from "../readUtils.js";
 import { ALICE, BOB, mockERC20 } from "../test/constants.js";
 import { publicClient, testClient, walletClient } from "../test/utils.js";
@@ -95,14 +95,14 @@ describe("erc20 reads", () => {
       erc20BalanceOf(publicClient, { erc20: mockERC20, address: ALICE }),
     );
     expect(
-      amountEqualTo(balanceOfAlice, makeAmountFromString(mockERC20, ".75")),
+      amountEqualTo(balanceOfAlice, createAmountFromString(mockERC20, ".75")),
     ).toBe(true);
 
     const balanceOfBob = await readAndParse(
       erc20BalanceOf(publicClient, { erc20: mockERC20, address: BOB }),
     );
     expect(
-      amountEqualTo(balanceOfBob, makeAmountFromString(mockERC20, ".25")),
+      amountEqualTo(balanceOfBob, createAmountFromString(mockERC20, ".25")),
     ).toBe(true);
   });
 
@@ -114,9 +114,9 @@ describe("erc20 reads", () => {
         spender: BOB,
       }),
     );
-    expect(amountEqualTo(allowance, makeAmountFromString(mockERC20, "2"))).toBe(
-      true,
-    );
+    expect(
+      amountEqualTo(allowance, createAmountFromString(mockERC20, "2")),
+    ).toBe(true);
   });
 
   test("can read totalSupply", async () => {
@@ -124,7 +124,7 @@ describe("erc20 reads", () => {
       erc20TotalSupply(publicClient, { erc20: mockERC20 }),
     );
     expect(
-      amountEqualTo(totalSupply, makeAmountFromString(mockERC20, "1")),
+      amountEqualTo(totalSupply, createAmountFromString(mockERC20, "1")),
     ).toBe(true);
   });
 

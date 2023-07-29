@@ -1,4 +1,4 @@
-import { type Amount, makeAmountFromRaw, scaleUp } from "./amountUtils.js";
+import { type Amount, createAmountFromRaw, scaleUp } from "./amountUtils.js";
 import {
   fractionAdd,
   fractionDivide,
@@ -20,7 +20,7 @@ export const isPrice = <
 ): x is Price<TQuoteCurrency, TBaseCurrency> =>
   typeof x === "object" && "type" in x && x.type === "price";
 
-export const makePriceFromFraction = <
+export const createPriceFromFraction = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
 >(
@@ -39,7 +39,7 @@ export const makePriceFromFraction = <
     : price.denominator,
 });
 
-export const makePriceFromAmounts = <
+export const createPriceFromAmounts = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
 >(
@@ -53,7 +53,7 @@ export const makePriceFromAmounts = <
   denominator: quote.amount,
 });
 
-export const makePrice = <
+export const createPrice = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
 >(
@@ -101,7 +101,11 @@ export const priceAdd = <
         quote: a.quote,
         base: a.base,
       }
-    : makePriceFromFraction(a.quote, a.base, fractionAdd(adjustedPrice(a), b));
+    : createPriceFromFraction(
+        a.quote,
+        a.base,
+        fractionAdd(adjustedPrice(a), b),
+      );
 };
 
 export const priceSubtract = <
@@ -120,7 +124,7 @@ export const priceSubtract = <
         quote: a.quote,
         base: a.base,
       }
-    : makePriceFromFraction(
+    : createPriceFromFraction(
         a.quote,
         a.base,
         fractionSubtract(adjustedPrice(a), b),
@@ -150,7 +154,7 @@ export const priceMultiply = <
           fractionMultiply(rawPrice(a), rawPrice(b)).denominator,
         ),
       }
-    : makePriceFromFraction(
+    : createPriceFromFraction(
         a.quote,
         a.base,
         fractionMultiply(adjustedPrice(a), b),
@@ -180,7 +184,7 @@ export const priceDivide = <
           fractionDivide(rawPrice(a), rawPrice(b)).denominator,
         ),
       }
-    : makePriceFromFraction(
+    : createPriceFromFraction(
         a.quote,
         a.base,
         fractionDivide(adjustedPrice(a), b),
@@ -238,7 +242,7 @@ export const priceQuote = <
 ): Amount<TQuoteCurrency> => {
   invariant(price.base === amount.token);
 
-  return makeAmountFromRaw(
+  return createAmountFromRaw(
     price.quote,
     (price.numerator * amount.amount) / price.denominator,
   );

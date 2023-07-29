@@ -1,12 +1,12 @@
-import { makeAmountFromRaw } from "../amountUtils.js";
+import { createAmountFromRaw } from "../amountUtils.js";
 import type { ReverseMirageRead } from "../types.js";
 import { erc20ABI } from "./erc20Abi.js";
-import type { ERC20 } from "./types.js";
-import type { Address, PublicClient } from "viem";
+import type { ERC20, ERC20Amount } from "./types.js";
+import { type Address, type PublicClient, getAddress } from "viem";
 
-export const erc20BalanceOf = (
+export const erc20BalanceOf = <TERC20 extends ERC20>(
   publicClient: PublicClient,
-  args: { erc20: ERC20; address: Address },
+  args: { erc20: TERC20; address: Address },
 ) => {
   return {
     read: () =>
@@ -16,13 +16,13 @@ export const erc20BalanceOf = (
         functionName: "balanceOf",
         args: [args.address],
       }),
-    parse: (data) => makeAmountFromRaw(args.erc20, data),
+    parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
-export const erc20Allowance = (
+export const erc20Allowance = <TERC20 extends ERC20>(
   publicClient: PublicClient,
-  args: { erc20: ERC20; address: Address; spender: Address },
+  args: { erc20: TERC20; address: Address; spender: Address },
 ) => {
   return {
     read: () =>
@@ -32,13 +32,13 @@ export const erc20Allowance = (
         functionName: "allowance",
         args: [args.address, args.spender],
       }),
-    parse: (data) => makeAmountFromRaw(args.erc20, data),
+    parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
-export const erc20TotalSupply = (
+export const erc20TotalSupply = <TERC20 extends ERC20>(
   publicClient: PublicClient,
-  args: { erc20: ERC20 },
+  args: { erc20: TERC20 },
 ) => {
   return {
     read: () =>
@@ -47,7 +47,7 @@ export const erc20TotalSupply = (
         address: args.erc20.address,
         functionName: "totalSupply",
       }),
-    parse: (data) => makeAmountFromRaw(args.erc20, data),
+    parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
   } satisfies ReverseMirageRead<bigint>;
 };
 
@@ -107,11 +107,13 @@ export const erc20GetToken = (
         erc20Symbol(publicClient, args).read(),
         erc20Decimals(publicClient, args).read(),
       ]),
-    parse: (data) => ({
+    parse: (data): ERC20 => ({
+      type: "erc20",
       name: data[0],
       symbol: data[1],
       decimals: data[2],
-      ...args.erc20,
+      address: getAddress(args.erc20.address),
+      chainID: args.erc20.chainID,
     }),
   } satisfies ReverseMirageRead<[string, string, number]>;
 };

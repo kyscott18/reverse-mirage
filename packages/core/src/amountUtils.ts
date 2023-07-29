@@ -17,7 +17,7 @@ export const isAmount = <TAmount extends Amount>(
   x: TAmount | BigIntIsh,
 ): x is TAmount => typeof x === "object" && "amount" in x;
 
-export const makeAmountFromString = <TToken extends Amount["token"]>(
+export const createAmountFromString = <TToken extends Amount["token"]>(
   token: TToken,
   amount: string,
 ): Amount<TToken> => ({
@@ -26,7 +26,7 @@ export const makeAmountFromString = <TToken extends Amount["token"]>(
   amount: token.decimals ? parseUnits(amount, token.decimals) : BigInt(amount),
 });
 
-export const makeAmountFromFraction = <TToken extends Amount["token"]>(
+export const createAmountFromFraction = <TToken extends Amount["token"]>(
   token: TToken,
   amount: Fraction,
 ): Amount<TToken> => ({
@@ -35,7 +35,7 @@ export const makeAmountFromFraction = <TToken extends Amount["token"]>(
   amount: scaleUp(token, amount.numerator) / amount.denominator,
 });
 
-export const makeAmountFromRaw = <TToken extends Amount["token"]>(
+export const createAmountFromRaw = <TToken extends Amount["token"]>(
   token: TToken,
   amount: bigint,
 ): Amount<TToken> => ({
@@ -53,8 +53,8 @@ export const amountAdd = <TToken extends Amount["token"]>(
   }
 
   return isAmount(b)
-    ? makeAmountFromRaw(a.token, a.amount + b.amount)
-    : makeAmountFromRaw(a.token, a.amount + scaleUp(a.token, BigInt(b)));
+    ? createAmountFromRaw(a.token, a.amount + b.amount)
+    : createAmountFromRaw(a.token, a.amount + scaleUp(a.token, BigInt(b)));
 };
 
 export const amountSubtract = <TToken extends Amount["token"]>(
@@ -66,8 +66,8 @@ export const amountSubtract = <TToken extends Amount["token"]>(
   }
 
   return isAmount(b)
-    ? makeAmountFromRaw(a.token, a.amount - b.amount)
-    : makeAmountFromRaw(a.token, a.amount - scaleUp(a.token, BigInt(b)));
+    ? createAmountFromRaw(a.token, a.amount - b.amount)
+    : createAmountFromRaw(a.token, a.amount - scaleUp(a.token, BigInt(b)));
 };
 
 export const amountMultiply = <TToken extends Amount["token"]>(
@@ -79,8 +79,8 @@ export const amountMultiply = <TToken extends Amount["token"]>(
   }
 
   return isAmount(b)
-    ? makeAmountFromRaw(a.token, scaleDown(a.token, a.amount * b.amount))
-    : makeAmountFromRaw(a.token, a.amount * BigInt(b));
+    ? createAmountFromRaw(a.token, scaleDown(a.token, a.amount * b.amount))
+    : createAmountFromRaw(a.token, a.amount * BigInt(b));
 };
 
 export const amountDivide = <TToken extends Amount["token"]>(
@@ -92,8 +92,8 @@ export const amountDivide = <TToken extends Amount["token"]>(
   }
 
   return isAmount(b)
-    ? makeAmountFromRaw(a.token, scaleUp(a.token, a.amount) / b.amount)
-    : makeAmountFromRaw(a.token, a.amount / BigInt(b));
+    ? createAmountFromRaw(a.token, scaleUp(a.token, a.amount) / b.amount)
+    : createAmountFromRaw(a.token, a.amount / BigInt(b));
 };
 
 export const amountLessThan = <TToken extends Amount["token"]>(
