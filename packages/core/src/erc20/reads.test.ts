@@ -8,10 +8,10 @@ import {
   erc20Allowance,
   erc20BalanceOf,
   erc20Decimals,
-  erc20GetToken,
   erc20Name,
   erc20Symbol,
   erc20TotalSupply,
+  getErc20,
 } from "./reads.js";
 import invariant from "tiny-invariant";
 import type { Hex } from "viem";
@@ -130,7 +130,7 @@ describe("erc20 reads", () => {
 
   test("can get token", async () => {
     const token = await readAndParse(
-      erc20GetToken(publicClient, {
+      getErc20(publicClient, {
         erc20: mockERC20,
       }),
     );

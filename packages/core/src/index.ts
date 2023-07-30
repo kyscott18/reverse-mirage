@@ -64,7 +64,8 @@ export {
   erc20Name,
   erc20Symbol,
   erc20Decimals,
-  erc20GetToken,
+  getErc20,
+  getErc20Permit,
 } from "./erc20/reads.js";
 
 export { createErc20 } from "./erc20/utils.js";

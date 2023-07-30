@@ -64,3 +64,7 @@ export const erc20TransferFrom = async (
   const hash = await walletClient.writeContract(request);
   return { hash, result, request };
 };
+
+export const erc20SignPermit = async () => {};
+
+export const erc20Permit = async () => {};

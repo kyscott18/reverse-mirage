@@ -15,3 +15,5 @@ export const createErc20 = (
   decimals,
   chainID,
 });
+
+export const getPermitTypedDataHash = () => {};

@@ -20,6 +20,10 @@ export const erc20BalanceOf = <TERC20 extends ERC20>(
   } satisfies ReverseMirageRead<bigint>;
 };
 
+export const erc20PermitNonce = () => {};
+
+export const erc20PermitData = () => {};
+
 export const erc20Allowance = <TERC20 extends ERC20>(
   publicClient: PublicClient,
   args: { erc20: TERC20; address: Address; spender: Address },
@@ -96,7 +100,7 @@ export const erc20Decimals = (
   } satisfies ReverseMirageRead<number>;
 };
 
-export const erc20GetToken = (
+export const getErc20 = (
   publicClient: PublicClient,
   args: { erc20: Pick<ERC20, "address" | "chainID"> },
 ) => {
@@ -117,3 +121,5 @@ export const erc20GetToken = (
     }),
   } satisfies ReverseMirageRead<[string, string, number]>;
 };
+
+export const getErc20Permit = () => {};
