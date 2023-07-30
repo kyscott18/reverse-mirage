@@ -128,6 +128,8 @@ describe("erc20 reads", () => {
     ).toBe(true);
   });
 
+  test.todo("can read nonce");
+
   test("can get token", async () => {
     const token = await readAndParse(
       getErc20(publicClient, {
@@ -142,7 +144,7 @@ describe("erc20 reads", () => {
     expect(token.decimals).toBe(18);
   });
 
-  test.todo("can approve", async () => {});
+  test.todo("can get permit token");
 
-  test.todo("can transfer from", async () => {});
+  test.todo("can check if permit");
 });
