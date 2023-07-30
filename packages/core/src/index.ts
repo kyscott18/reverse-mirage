@@ -84,6 +84,8 @@ export { createNativeCurrency } from "./native/utils.js";
 
 export type { NativeCurrency, NativeCurrencyAmount } from "./native/types.js";
 
+export { erc20ABI } from "./generated.js";
+
 export type {
   BigIntIsh,
   Fraction,

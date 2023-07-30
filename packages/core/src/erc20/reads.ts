@@ -1,6 +1,6 @@
 import { createAmountFromRaw } from "../amountUtils.js";
+import { erc20ABI } from "../generated.js";
 import type { ReverseMirageRead } from "../types.js";
-import { erc20ABI } from "./erc20Abi.js";
 import type { ERC20, ERC20Amount } from "./types.js";
 import { type Address, type PublicClient, getAddress } from "viem";
 
