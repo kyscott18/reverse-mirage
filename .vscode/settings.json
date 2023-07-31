@@ -6,6 +6,9 @@
   "[typescript]": {
     "editor.defaultFormatter": "rome.rome"
   },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "rome.rome"
+  },
   "[json]": {
     "editor.defaultFormatter": "rome.rome"
   },
