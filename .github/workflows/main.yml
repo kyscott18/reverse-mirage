@@ -25,6 +25,8 @@ jobs:
           version: nightly
       - name: Codegen
         run: pnpm codegen
+      - name: Build
+        run: pnpm build
       - name: Check types
         run: pnpm typecheck
       - name: Lint
