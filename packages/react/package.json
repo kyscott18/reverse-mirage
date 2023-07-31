@@ -1,6 +1,6 @@
 {
   "name": "reverse-mirage-react",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Application level react typescript utilities for Ethereum",
   "type": "module",
   "sideEffects": false,
