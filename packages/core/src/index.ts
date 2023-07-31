@@ -64,7 +64,8 @@ export {
   erc20Name,
   erc20Symbol,
   erc20Decimals,
-  erc20GetToken,
+  getErc20,
+  getErc20Permit,
 } from "./erc20/reads.js";
 
 export { createErc20 } from "./erc20/utils.js";
@@ -82,6 +83,8 @@ export { nativeBalance } from "./native/reads.js";
 export { createNativeCurrency } from "./native/utils.js";
 
 export type { NativeCurrency, NativeCurrencyAmount } from "./native/types.js";
+
+export { erc20ABI } from "./generated.js";
 
 export type {
   BigIntIsh,

@@ -24,7 +24,7 @@ jobs:
         with:
           version: nightly
       - name: Codegen
-        run: pnpm wagmi generate
+        run: pnpm codegen
       - name: Check types
         run: pnpm typecheck
       - name: Lint

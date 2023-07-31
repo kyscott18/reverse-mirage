@@ -63,4 +63,6 @@ describe("erc20 writes", () => {
   test.todo("can approve", async () => {});
 
   test.todo("can transfer from", async () => {});
+
+  test.todo("can permit");
 });
