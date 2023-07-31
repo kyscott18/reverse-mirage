@@ -1,6 +1,6 @@
 {
   "name": "reverse-mirage-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Application level react typescript utilities for Ethereum",
   "type": "module",
   "sideEffects": false,
@@ -23,7 +23,12 @@
     "lint:fix": "pnpm lint --apply",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "web3"
+  ],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
