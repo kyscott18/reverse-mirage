@@ -9,7 +9,7 @@
     "install:packages": "pnpm --filter './packages/**' install",
     "preinstall": "npx -y only-allow pnpm",
     "codegen": "pnpm wagmi generate",
-    "build": "pnpm --filter 'reverse-mirage' build",
+    "build": "pnpm --parallel build",
     "lint": "pnpm --parallel lint",
     "format": "pnpm --parallel format",
     "typecheck": "pnpm --parallel typecheck",
