@@ -1,5 +1,12 @@
 # reverse-mirage
 
+## 0.1.6
+
+### Patch Changes
+
+- ec33558: Add support for permit (eip-2612)
+- 0f3db69: Trying to fix the ci
+
 ## 0.1.5
 
 ### Patch Changes
