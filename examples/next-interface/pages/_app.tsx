@@ -1,4 +1,5 @@
-// import { EnvironmentProvider } from "@/contexts/environment";
+import { ALICE } from "@/constants";
+import { EnvironmentProvider } from "@/contexts/environment";
 import "@/styles/globals.css";
 import {
   RainbowKitProvider,
@@ -10,6 +11,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
+import { createTestClient, createWalletClient, http } from "viem";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
 import { foundry } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
@@ -19,6 +21,18 @@ const { chains, publicClient, webSocketPublicClient } = configureChains(
   [publicProvider()],
   { pollingInterval: 1000 },
 );
+
+export const testClient = createTestClient({
+  chain: foundry,
+  mode: "anvil",
+  transport: http(),
+});
+
+export const walletClient = createWalletClient({
+  chain: foundry,
+  transport: http(),
+  account: ALICE,
+});
 
 export { chains };
 
@@ -46,16 +60,16 @@ export default function App({ Component, pageProps }: AppProps) {
           coolMode
           chains={chains}
         >
-          {/* <EnvironmentProvider> */}
-          <Component {...pageProps} />;
-          <Toaster
-            toastOptions={{
-              style: {
-                width: "310px",
-              },
-            }}
-          />
-          {/* </EnvironmentProvider> */}
+          <EnvironmentProvider>
+            <Component {...pageProps} />;
+            <Toaster
+              toastOptions={{
+                style: {
+                  width: "310px",
+                },
+              }}
+            />
+          </EnvironmentProvider>
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiConfig>

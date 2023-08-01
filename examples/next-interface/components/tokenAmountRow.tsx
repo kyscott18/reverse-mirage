@@ -21,7 +21,7 @@ export default function TokenAmountRow({
   erc20AmountQuery: UseQueryResult<ERC20Amount<ERC20>>;
 }) {
   const transferMutation = useTransfer(
-    createAmountFromString(erc20, "0.001"),
+    createAmountFromString(erc20, "0.5"),
     "0x59A6AbC89C158ef88d5872CaB4aC3B08474883D9",
   );
 
