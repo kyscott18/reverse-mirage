@@ -11,15 +11,12 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import type { AppProps } from "next/app";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig, configureChains, createConfig } from "wagmi";
-import { goerli, sepolia } from "wagmi/chains";
+import { foundry } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia, goerli],
-  [
-    // alchemyProvider({ apiKey: process.env.SEPOLIA_ALCHEMY_KEY! }),
-    publicProvider(),
-  ],
+  [foundry],
+  [publicProvider()],
   { pollingInterval: 1000 },
 );
 

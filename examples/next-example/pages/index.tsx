@@ -2,11 +2,10 @@
 // import CurrencyAmountRow from "@/components/currencyAmountRow";
 // import { useEnvironment } from "@/contexts/environment";
 // import { useBalances } from "@/hooks/useBalances";
-import { useMemo } from "react";
 import { useAccount } from "wagmi";
 
 export default function Home() {
-  const { isConnected, address } = useAccount();
+  const { isConnected } = useAccount();
   // const { nativeCurrency, wrappedNative } = useEnvironment();
 
   // const tokens = useMemo(
