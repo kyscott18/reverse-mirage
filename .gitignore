@@ -10,3 +10,6 @@
 # @wagmi/cli
 test/generated.ts
 
+# docs
+dist
+cache

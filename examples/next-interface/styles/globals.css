@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #f5f5f4;
+  background-image: url("/background.png");
+  background-size: cover;
+}
+
+@layer base {
+  h1 {
+    @apply text-2xl font-bold text-default sm:text-4xl;
+  }
+  h2 {
+    @apply text-xl font-semibold text-default sm:text-2xl;
+  }
+}
+
+@layer components {
+  .p1 {
+    @apply text-lg font-semibold text-default;
+  }
+
+  .p2 {
+    @apply font-medium text-default;
+  }
+
+  .p3 {
+    @apply font-medium text-gray-500;
+  }
+
+  .p4 {
+    @apply text-xs font-medium text-default;
+  }
+
+  .p5 {
+    @apply text-xs font-medium text-secondary;
+  }
+
+  .spinner {
+    animation: spin 5s linear infinite;
+  }
+
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+}
