@@ -8,11 +8,11 @@ import { erc20BalanceOf } from "./reads.js";
 import { erc20Transfer } from "./writes.js";
 import invariant from "tiny-invariant";
 import { type Hex, parseEther } from "viem";
-import { beforeAll, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test } from "vitest";
 
 let id: Hex | undefined = undefined;
 
-beforeAll(async () => {
+beforeEach(async () => {
   if (id === undefined) {
     const deployHash = await walletClient.deployContract({
       account: ALICE,
