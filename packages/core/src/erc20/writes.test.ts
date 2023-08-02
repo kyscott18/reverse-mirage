@@ -8,32 +8,35 @@ import { erc20BalanceOf } from "./reads.js";
 import { erc20Transfer } from "./writes.js";
 import invariant from "tiny-invariant";
 import { type Hex, parseEther } from "viem";
-import { afterAll, beforeAll, describe, expect, test } from "vitest";
+import { beforeAll, describe, expect, test } from "vitest";
+
+let id: Hex | undefined = undefined;
 
 beforeAll(async () => {
-  const deployHash = await walletClient.deployContract({
-    account: ALICE,
-    abi: mockErc20ABI,
-    bytecode: MockERC20.bytecode.object as Hex,
-    args: ["Mock ERC20", "MOCK", 18],
-  });
+  if (id === undefined) {
+    const deployHash = await walletClient.deployContract({
+      account: ALICE,
+      abi: mockErc20ABI,
+      bytecode: MockERC20.bytecode.object as Hex,
+      args: ["Mock ERC20", "MOCK", 18],
+    });
 
-  const { contractAddress } = await publicClient.waitForTransactionReceipt({
-    hash: deployHash,
-  });
-  invariant(contractAddress);
+    const { contractAddress } = await publicClient.waitForTransactionReceipt({
+      hash: deployHash,
+    });
+    invariant(contractAddress);
 
-  const mintHash = await walletClient.writeContract({
-    abi: mockErc20ABI,
-    functionName: "mint",
-    address: contractAddress,
-    args: [ALICE, parseEther("1")],
-  });
-  await publicClient.waitForTransactionReceipt({ hash: mintHash });
-});
-
-afterAll(async () => {
-  await testClient.reset();
+    const mintHash = await walletClient.writeContract({
+      abi: mockErc20ABI,
+      functionName: "mint",
+      address: contractAddress,
+      args: [ALICE, parseEther("1")],
+    });
+    await publicClient.waitForTransactionReceipt({ hash: mintHash });
+  } else {
+    await testClient.revert({ id });
+  }
+  id = await testClient.snapshot();
 });
 
 describe("erc20 writes", () => {
