@@ -5,13 +5,13 @@ import {
   createWalletClient,
   http,
 } from "viem";
-import { mainnet } from "viem/chains";
+import { foundry } from "viem/chains";
 import type { Chain } from "viem/chains";
 
 export const pool = Number(process.env.VITEST_POOL_ID ?? 1);
 export const anvil = {
-  ...mainnet, // We are using a mainnet fork for testing.
-  id: 1, // We configured our anvil instance to use `123` as the chain id (see `globalSetup.ts`);
+  ...foundry, // We are using a mainnet fork for testing.
+  id: foundry.id,
   rpcUrls: {
     // These rpc urls are automatically used in the transports.
     default: {

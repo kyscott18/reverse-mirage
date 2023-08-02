@@ -1,21 +1,7 @@
 import type { ERC20 } from "../erc20/types.js";
 import type { NativeCurrency } from "../native/types.js";
+import { foundry } from "viem/chains";
 import { getContractAddress } from "viem/utils";
-
-export const localHttpUrl = "http://127.0.0.1:8545";
-export const localWsUrl = "ws://127.0.0.1:8545";
-
-if (!process.env.VITE_ANVIL_BLOCK_NUMBER) {
-  throw new Error('Missing environment variable "ANVIL_BLOCK_NUMBER"');
-}
-
-export const forkBlockNumber = BigInt(process.env.VITE_ANVIL_BLOCK_NUMBER);
-
-if (!process.env.VITE_ANVIL_FORK_URL) {
-  throw new Error('Missing environment variable "ANVIL_FORK_URL"');
-}
-
-export const forkUrl = process.env.VITE_ANVIL_FORK_URL;
 
 // Test accounts
 export const ACCOUNTS = [
@@ -34,11 +20,11 @@ export const ACCOUNTS = [
 // Named accounts
 export const [ALICE, BOB] = ACCOUNTS;
 
-const mockERC20Address = getContractAddress({ from: ALICE, nonce: 375n });
+const mockERC20Address = getContractAddress({ from: ALICE, nonce: 0n });
 
 export const mockERC20 = {
   type: "erc20",
-  chainID: 1,
+  chainID: foundry.id,
   address: mockERC20Address,
   decimals: 18,
   name: "Mock ERC20",
@@ -47,7 +33,7 @@ export const mockERC20 = {
 
 export const anvilEther = {
   type: "nativeCurrency",
-  chainID: 1,
+  chainID: foundry.id,
   decimals: 18,
   name: "Anvil Ether",
   symbol: "ETH",

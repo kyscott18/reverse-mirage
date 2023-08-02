@@ -13,7 +13,7 @@ importers:
         version: 2.26.2
       '@wagmi/cli':
         specifier: ^1.3.0
-        version: 1.3.0(typescript@5.1.6)(wagmi@1.3.9)
+        version: 1.3.0(typescript@5.1.6)
       rome:
         specifier: ^12.1.3
         version: 12.1.3
@@ -24,7 +24,7 @@ importers:
         specifier: 1.0.0-beta.7
         version: 1.0.0-beta.7(@algolia/client-search@4.19.1)(search-insights@2.7.0)
 
-  examples/next-example:
+  examples/next-interface:
     dependencies:
       '@rainbow-me/rainbowkit':
         specifier: ^1.0.1
@@ -84,12 +84,6 @@ importers:
       '@types/react-dom':
         specifier: ^18.2.7
         version: 18.2.7
-      '@viem/anvil':
-        specifier: ^0.0.6
-        version: 0.0.6
-      '@wagmi/cli':
-        specifier: ^1.3.0
-        version: 1.3.0(typescript@5.1.6)(wagmi@1.3.9)
       autoprefixer:
         specifier: ^10.4.14
         version: 10.4.14(postcss@8.4.27)
@@ -108,91 +102,6 @@ importers:
       typescript:
         specifier: ^5.1.6
         version: 5.1.6
-      vitest:
-        specifier: ^0.33.0
-        version: 0.33.0
-
-  examples/next-interface:
-    dependencies:
-      '@rainbow-me/rainbowkit':
-        specifier: ^1.0.1
-        version: 1.0.1(@types/react@18.2.18)(react-dom@18.2.0)(react@18.2.0)(viem@1.5.0)(wagmi@1.3.9)
-      '@tanstack/react-query':
-        specifier: ^4.32.0
-        version: 4.32.0(react-dom@18.2.0)(react@18.2.0)
-      clsx:
-        specifier: ^2.0.0
-        version: 2.0.0
-      next:
-        specifier: 13.4.12
-        version: 13.4.12(@babel/core@7.22.9)(react-dom@18.2.0)(react@18.2.0)
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      react-countup:
-        specifier: ^6.4.2
-        version: 6.4.2(@babel/core@7.22.9)(react@18.2.0)
-      react-dom:
-        specifier: 18.2.0
-        version: 18.2.0(react@18.2.0)
-      react-hot-toast:
-        specifier: ^2.4.1
-        version: 2.4.1(csstype@3.1.2)(react-dom@18.2.0)(react@18.2.0)
-      reverse-mirage:
-        specifier: workspace:*
-        version: link:../../packages/core
-      reverse-mirage-react:
-        specifier: workspace:*
-        version: link:../../packages/react
-      tiny-invariant:
-        specifier: ^1.3.1
-        version: 1.3.1
-      ts-extras:
-        specifier: ^0.11.0
-        version: 0.11.0
-      unstated-next:
-        specifier: ^1.1.0
-        version: 1.1.0
-      viem:
-        specifier: ^1.5.0
-        version: 1.5.0(typescript@5.1.6)
-      wagmi:
-        specifier: ^1.3.9
-        version: 1.3.9(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.5.0)
-    devDependencies:
-      '@tanstack/react-query-devtools':
-        specifier: ^4.32.0
-        version: 4.32.0(@tanstack/react-query@4.32.0)(react-dom@18.2.0)(react@18.2.0)
-      '@types/node':
-        specifier: ^20.4.5
-        version: 20.4.5
-      '@types/react':
-        specifier: ^18.2.18
-        version: 18.2.18
-      '@types/react-dom':
-        specifier: ^18.2.7
-        version: 18.2.7
-      autoprefixer:
-        specifier: ^10.4.14
-        version: 10.4.14(postcss@8.4.27)
-      csstype:
-        specifier: ^3.1.2
-        version: 3.1.2
-      postcss:
-        specifier: ^8.4.27
-        version: 8.4.27
-      rome:
-        specifier: ^12.1.3
-        version: 12.1.3
-      tailwindcss:
-        specifier: ^3.3.3
-        version: 3.3.3
-      typescript:
-        specifier: ^5.1.6
-        version: 5.1.6
-      vitest:
-        specifier: ^0.33.0
-        version: 0.33.0
 
   packages/core:
     dependencies:
@@ -1378,7 +1287,7 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.4(@types/react@18.2.18)(react@18.2.0)
-      viem: 1.5.0(typescript@5.1.6)
+      viem: 1.5.0(typescript@5.1.6)(zod@3.21.4)
       wagmi: 1.3.9(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.5.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1480,7 +1389,7 @@ packages:
     resolution: {integrity: sha512-gYw0ki/EAuV1oSyMxpqandHjnthZjYYy+YWpTAzf8BqfXM3ItcZLpjxfg+3+mXW8HIO+3jw6T9iiqEXsqHaMMw==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.8.0
-      viem: 1.5.0(typescript@5.1.6)
+      viem: 1.5.0(typescript@5.1.6)(zod@3.21.4)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -1857,7 +1766,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.7
+      vite: 4.4.7(@types/node@20.4.5)
       vue: 3.3.4
     dev: true
 
@@ -2082,7 +1991,7 @@ packages:
     dependencies:
       typescript: 5.1.6
 
-  /@wagmi/cli@1.3.0(typescript@5.1.6)(wagmi@1.3.9):
+  /@wagmi/cli@1.3.0(typescript@5.1.6):
     resolution: {integrity: sha512-/YXmdp0XWgQEwRSVO8IjVB8KY5HK+6+eqJsZI3a+y3XMH4T/NxVBoT/JxTqV6HEivr3HOLgDcTzvQhNy3mZ0HA==}
     engines: {node: '>=14'}
     hasBin: true
@@ -2121,7 +2030,6 @@ packages:
       prettier: 2.8.8
       typescript: 5.1.6
       viem: 1.5.0(typescript@5.1.6)(zod@3.21.4)
-      wagmi: 1.3.9(react-dom@18.2.0)(react@18.2.0)(typescript@5.1.6)(viem@1.5.0)
       zod: 3.21.4
     transitivePeerDependencies:
       - bufferutil
@@ -2149,10 +2057,10 @@ packages:
       '@walletconnect/legacy-provider': 2.0.0
       '@walletconnect/modal': 2.5.9(react@18.2.0)
       '@walletconnect/utils': 2.9.0
-      abitype: 0.8.7(typescript@5.1.6)
+      abitype: 0.8.7(typescript@5.1.6)(zod@3.21.4)
       eventemitter3: 4.0.7
       typescript: 5.1.6
-      viem: 1.5.0(typescript@5.1.6)
+      viem: 1.5.0(typescript@5.1.6)(zod@3.21.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - bufferutil
@@ -2174,10 +2082,10 @@ packages:
     dependencies:
       '@wagmi/chains': 1.6.0(typescript@5.1.6)
       '@wagmi/connectors': 2.6.6(@wagmi/chains@1.6.0)(react@18.2.0)(typescript@5.1.6)(viem@1.5.0)
-      abitype: 0.8.7(typescript@5.1.6)
+      abitype: 0.8.7(typescript@5.1.6)(zod@3.21.4)
       eventemitter3: 4.0.7
       typescript: 5.1.6
-      viem: 1.5.0(typescript@5.1.6)
+      viem: 1.5.0(typescript@5.1.6)(zod@3.21.4)
       zustand: 4.3.9(react@18.2.0)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
@@ -2538,17 +2446,6 @@ packages:
       jsonparse: 1.3.1
       through: 2.3.8
 
-  /abitype@0.8.7(typescript@5.1.6):
-    resolution: {integrity: sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3 >=3.19.1
-    peerDependenciesMeta:
-      zod:
-        optional: true
-    dependencies:
-      typescript: 5.1.6
-
   /abitype@0.8.7(typescript@5.1.6)(zod@3.21.4):
     resolution: {integrity: sha512-wQ7hV8Yg/yKmGyFpqrNZufCxbszDe5es4AZGYPBitocfSqXtjrTG9JMWFcc4N30ukl2ve48aBTwt7NJxVQdU3w==}
     peerDependencies:
@@ -2560,20 +2457,6 @@ packages:
     dependencies:
       typescript: 5.1.6
       zod: 3.21.4
-    dev: true
-
-  /abitype@0.9.3(typescript@5.1.6):
-    resolution: {integrity: sha512-dz4qCQLurx97FQhnb/EIYTk/ldQ+oafEDUqC0VVIeQS1Q48/YWt/9YNfMmp9SLFqN41ktxny3c8aYxHjmFIB/w==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-      zod: ^3 >=3.19.1
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-      zod:
-        optional: true
-    dependencies:
-      typescript: 5.1.6
 
   /abitype@0.9.3(typescript@5.1.6)(zod@3.21.4):
     resolution: {integrity: sha512-dz4qCQLurx97FQhnb/EIYTk/ldQ+oafEDUqC0VVIeQS1Q48/YWt/9YNfMmp9SLFqN41ktxny3c8aYxHjmFIB/w==}
@@ -6505,29 +6388,6 @@ packages:
       react: 18.2.0
       use-sync-external-store: 1.2.0(react@18.2.0)
 
-  /viem@1.5.0(typescript@5.1.6):
-    resolution: {integrity: sha512-+SVCVaXJRR+fE9q6Sf6q9droB6TunPGY1JfwB3uTdxwWrkgr3qq/NbXaRdtEk+TyaOEjzZQr7t6vUzjOL0zL0Q==}
-    peerDependencies:
-      typescript: '>=5.0.4'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@adraffy/ens-normalize': 1.9.0
-      '@noble/curves': 1.0.0
-      '@noble/hashes': 1.3.0
-      '@scure/bip32': 1.3.0
-      '@scure/bip39': 1.2.0
-      '@wagmi/chains': 1.6.0(typescript@5.1.6)
-      abitype: 0.9.3(typescript@5.1.6)
-      isomorphic-ws: 5.0.0(ws@8.12.0)
-      typescript: 5.1.6
-      ws: 8.12.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-      - zod
-
   /viem@1.5.0(typescript@5.1.6)(zod@3.21.4):
     resolution: {integrity: sha512-+SVCVaXJRR+fE9q6Sf6q9droB6TunPGY1JfwB3uTdxwWrkgr3qq/NbXaRdtEk+TyaOEjzZQr7t6vUzjOL0zL0Q==}
     peerDependencies:
@@ -6573,41 +6433,6 @@ packages:
       - terser
     dev: true
 
-  /vite@4.4.7:
-    resolution: {integrity: sha512-6pYf9QJ1mHylfVh39HpuSfMPojPSKVxZvnclX1K1FyZ1PXDOcLBibdq5t1qxJSnL63ca8Wf4zts6mD8u8oc9Fw==}
-    engines: {node: ^14.18.0 || >=16.0.0}
-    hasBin: true
-    peerDependencies:
-      '@types/node': '>= 14'
-      less: '*'
-      lightningcss: ^1.21.0
-      sass: '*'
-      stylus: '*'
-      sugarss: '*'
-      terser: ^5.4.0
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-      less:
-        optional: true
-      lightningcss:
-        optional: true
-      sass:
-        optional: true
-      stylus:
-        optional: true
-      sugarss:
-        optional: true
-      terser:
-        optional: true
-    dependencies:
-      esbuild: 0.18.17
-      postcss: 8.4.27
-      rollup: 3.26.3
-    optionalDependencies:
-      fsevents: 2.3.2
-    dev: true
-
   /vite@4.4.7(@types/node@20.4.5):
     resolution: {integrity: sha512-6pYf9QJ1mHylfVh39HpuSfMPojPSKVxZvnclX1K1FyZ1PXDOcLBibdq5t1qxJSnL63ca8Wf4zts6mD8u8oc9Fw==}
     engines: {node: ^14.18.0 || >=16.0.0}
@@ -6639,7 +6464,7 @@ packages:
       '@types/node': 20.4.5
       esbuild: 0.18.17
       postcss: 8.4.27
-      rollup: 3.27.0
+      rollup: 3.26.3
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
@@ -6659,7 +6484,7 @@ packages:
       mark.js: 8.11.1
       minisearch: 6.1.0
       shiki: 0.14.3
-      vite: 4.4.7
+      vite: 4.4.7(@types/node@20.4.5)
       vue: 3.3.4
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -6800,11 +6625,11 @@ packages:
       '@tanstack/react-query': 4.32.0(react-dom@18.2.0)(react@18.2.0)
       '@tanstack/react-query-persist-client': 4.32.0(@tanstack/react-query@4.32.0)
       '@wagmi/core': 1.3.8(react@18.2.0)(typescript@5.1.6)(viem@1.5.0)
-      abitype: 0.8.7(typescript@5.1.6)
+      abitype: 0.8.7(typescript@5.1.6)(zod@3.21.4)
       react: 18.2.0
       typescript: 5.1.6
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.5.0(typescript@5.1.6)
+      viem: 1.5.0(typescript@5.1.6)(zod@3.21.4)
     transitivePeerDependencies:
       - '@react-native-async-storage/async-storage'
       - bufferutil
