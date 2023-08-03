@@ -23,12 +23,7 @@
     "lint:fix": "pnpm lint --apply",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": [
-    "eth",
-    "ethereum",
-    "dapps",
-    "web3"
-  ],
+  "keywords": ["eth", "ethereum", "dapps", "web3"],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
@@ -36,7 +31,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
-      "default": "./dist/cjs/index.js"
+      "default": "./dist/index.cjs"
     }
   },
   "size-limit": [

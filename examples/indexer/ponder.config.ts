@@ -1,4 +1,5 @@
 import type { Config } from "@ponder/core";
+import { erc20ABI } from "reverse-mirage";
 
 export const config: Config = {
   networks: [
@@ -9,7 +10,7 @@ export const config: Config = {
       name: "ERC20",
       network: "foundry",
       address: "0x0",
-      abi: "./abis/ExampleContract.json",
+      abi: erc20ABI,
       startBlock: 1234567,
     },
   ],
