@@ -134,3 +134,12 @@ describe("amount to fixed", () => {
     uniAmount.toFixed(2);
   });
 });
+
+describe("amount to significant", () => {
+  bench("reverse mirage", () => {
+    amountToNumber(rmAmount).toPrecision(2);
+  });
+  bench("uniswap", () => {
+    uniAmount.toSignificant(2);
+  });
+});
