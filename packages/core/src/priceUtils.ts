@@ -8,6 +8,7 @@ import {
   fractionLessThan,
   fractionMultiply,
   fractionSubtract,
+  fractionToNumber,
 } from "./fractionUtils.js";
 import type { BigIntIsh, Fraction, Price } from "./types.js";
 import invariant from "tiny-invariant";
@@ -248,22 +249,16 @@ export const priceQuote = <
   );
 };
 
-export const rawPrice = <
-  TQuoteCurrency extends Amount["token"],
-  TBaseCurrency extends Amount["token"],
->(
-  price: Price<TQuoteCurrency, TBaseCurrency>,
+export const rawPrice = (
+  price: Price<Amount["token"], Amount["token"]>,
 ): Fraction => ({
   type: "fraction",
   numerator: price.numerator,
   denominator: price.denominator,
 });
 
-export const adjustedPrice = <
-  TQuoteCurrency extends Amount["token"],
-  TBaseCurrency extends Amount["token"],
->(
-  price: Price<TQuoteCurrency, TBaseCurrency>,
+export const adjustedPrice = (
+  price: Price<Amount["token"], Amount["token"]>,
 ): Fraction => ({
   type: "fraction",
   numerator: price.base.decimals
@@ -274,6 +269,6 @@ export const adjustedPrice = <
     : price.denominator,
 });
 
-// to fixed
-
-// to significant
+export const priceToNumber = (
+  price: Price<Amount["token"], Amount["token"]>,
+): number => fractionToNumber(adjustedPrice(price));

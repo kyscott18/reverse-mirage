@@ -9,6 +9,7 @@ import {
   fractionQuotient,
   fractionRemainder,
   fractionSubtract,
+  fractionToNumber,
 } from "./fractionUtils.js";
 import { Fraction } from "@uniswap/sdk-core";
 import { bench, describe } from "vitest";
@@ -113,5 +114,23 @@ describe("fraction greater than", () => {
 
   bench("uniswap", () => {
     uniFraction.greaterThan(uniFraction);
+  });
+});
+
+describe("fraction to fixed", () => {
+  bench("reverse mirage", () => {
+    fractionToNumber(rmFraction).toFixed(2);
+  });
+  bench("uniswap", () => {
+    uniFraction.toFixed(2);
+  });
+});
+
+describe("fraction to signification", () => {
+  bench("reverse mirage", () => {
+    fractionToNumber(rmFraction).toPrecision(2);
+  });
+  bench("uniswap", () => {
+    uniFraction.toSignificant(2);
   });
 });

@@ -6,6 +6,7 @@ import {
   amountLessThan,
   amountMultiply,
   amountSubtract,
+  amountToNumber,
   createAmountFromRaw,
   createAmountFromString,
 } from "./amountUtils.js";
@@ -113,5 +114,32 @@ describe("amount greater than", () => {
   });
   bench("uniswap", () => {
     uniAmount.greaterThan(uniAmount);
+  });
+});
+
+describe("amount to number", () => {
+  bench("reverse mirage", () => {
+    amountToNumber(rmAmount);
+  });
+  bench("uniswap", () => {
+    +uniAmount.toExact();
+  });
+});
+
+describe("amount to fixed", () => {
+  bench("reverse mirage", () => {
+    amountToNumber(rmAmount).toFixed(2);
+  });
+  bench("uniswap", () => {
+    uniAmount.toFixed(2);
+  });
+});
+
+describe("amount to significant", () => {
+  bench("reverse mirage", () => {
+    amountToNumber(rmAmount).toPrecision(2);
+  });
+  bench("uniswap", () => {
+    uniAmount.toSignificant(2);
   });
 });

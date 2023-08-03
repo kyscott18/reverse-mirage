@@ -20,6 +20,7 @@ export {
   amountLessThan,
   amountEqualTo,
   amountGreaterThan,
+  amountToNumber,
 } from "./amountUtils.js";
 
 export {
@@ -35,6 +36,7 @@ export {
   fractionLessThan,
   fractionEqualTo,
   fractionGreaterThan,
+  fractionToNumber,
 } from "./fractionUtils.js";
 
 export {
@@ -53,6 +55,7 @@ export {
   priceQuote,
   rawPrice,
   adjustedPrice,
+  priceToNumber,
 } from "./priceUtils.js";
 
 export { readAndParse } from "./readUtils.js";

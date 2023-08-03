@@ -6,6 +6,7 @@ import {
   amountLessThan,
   amountMultiply,
   amountSubtract,
+  amountToNumber,
   createAmountFromFraction,
   createAmountFromRaw,
   createAmountFromString,
@@ -52,7 +53,7 @@ const twoDecimals = {
   amount: parseEther("2"),
 } as const satisfies TokenData<typeof mockTokenDecimals, { amount: bigint }>;
 
-describe.concurrent(" mount utils", () => {
+describe.concurrent("amount utils", () => {
   test("can create  amount from string", () => {
     expect(amountEqualTo(createAmountFromString(mockToken, "1"), one)).toBe(
       true,
@@ -269,7 +270,11 @@ describe.concurrent(" mount utils", () => {
     expect(amountGreaterThan(oneDecimals, 1)).toBe(false);
   });
 
-  test.todo("can print fixed");
+  test("can to number", () => {
+    expect(amountToNumber(one)).toBe(1);
+    expect(amountToNumber(two)).toBe(2);
 
-  test.todo("can print significant");
+    expect(amountToNumber(oneDecimals)).toBe(1);
+    expect(amountToNumber(twoDecimals)).toBe(2);
+  });
 });

@@ -150,6 +150,5 @@ export const fractionEqualTo = (
     ? a.numerator * b.denominator === a.denominator * b.numerator
     : a.numerator === a.denominator * BigInt(b);
 
-// toSignificant
-
-// toFixed
+export const fractionToNumber = (fraction: Fraction): number =>
+  Number(fraction.numerator) / Number(fraction.denominator);
