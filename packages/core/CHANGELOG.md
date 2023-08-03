@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 0.1.7
+
+### Patch Changes
+
+- f183b95: Add functions for converting to numbers
+
 ## 0.1.6
 
 ### Patch Changes
