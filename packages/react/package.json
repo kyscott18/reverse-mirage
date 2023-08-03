@@ -62,9 +62,9 @@
   },
   "devDependencies": {
     "rome": "^12.1.3",
-    "tsup": "^7.1.0",
+    "tsup": "^7.2.0",
     "typescript": "^5.1.6",
-    "viem": "^1.5.0",
+    "viem": "^1.5.2",
     "wagmi": "^1.3.9"
   },
   "packageManager": "pnpm@8.6.10"

@@ -135,6 +135,5 @@ export const amountGreaterThan = <TToken extends Amount["token"]>(
     : a.amount > scaleUp(a.token, BigInt(b));
 };
 
-// toSignificant
-
-// toFixed
+export const amountToNumber = (amount: Amount): number =>
+  Number(amount.amount) / 10 ** (amount.token.decimals ?? 0);
