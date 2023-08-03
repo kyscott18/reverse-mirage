@@ -11,6 +11,7 @@
   "devDependencies": {
     "@types/node": "^20.4.6",
     "abitype": "^0.9.6",
+    "reverse-mirage": "workspace:^",
     "typescript": "^5.1.6",
     "viem": "^1.5.3"
   }
