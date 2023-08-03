@@ -2,8 +2,7 @@ import type { ERC20 } from "@/lib/types";
 import { whatDecimalSeparator, whatSeparator } from "@/utils/format";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
-import type { ERC20Amount } from "reverse-mirage";
-import { formatEther } from "viem";
+import { type ERC20Amount, amountToNumber } from "reverse-mirage";
 
 const decimalSeparator = whatDecimalSeparator();
 const separator = whatSeparator();
@@ -11,7 +10,7 @@ const separator = whatSeparator();
 export default function TokenAmountDisplay({
   amount,
 }: { amount: ERC20Amount<ERC20> }) {
-  const num = Number(formatEther(amount.amount));
+  const num = amountToNumber(amount);
 
   // [newest, oldest]
   const [from, setFrom] = useState<[number, number]>([0, 0]);
