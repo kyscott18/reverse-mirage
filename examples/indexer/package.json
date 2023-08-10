@@ -6,13 +6,13 @@
     "codegen": "ponder codegen"
   },
   "dependencies": {
-    "@ponder/core": "^0.0.78"
+    "@ponder/core": "^0.0.82"
   },
   "devDependencies": {
-    "@types/node": "^20.4.6",
+    "@types/node": "^20.4.9",
     "abitype": "^0.9.6",
     "reverse-mirage": "workspace:^",
     "typescript": "^5.1.6",
-    "viem": "^1.5.3"
+    "viem": "^1.5.4"
   }
 }

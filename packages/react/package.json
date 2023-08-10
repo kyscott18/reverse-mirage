@@ -23,7 +23,12 @@
     "lint:fix": "pnpm lint --apply",
     "typecheck": "tsc --noEmit"
   },
-  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "web3"
+  ],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
@@ -59,8 +64,8 @@
     "rome": "^12.1.3",
     "tsup": "^7.2.0",
     "typescript": "^5.1.6",
-    "viem": "^1.5.2",
-    "wagmi": "^1.3.9"
+    "viem": "^1.5.4",
+    "wagmi": "^1.3.10"
   },
   "packageManager": "pnpm@8.6.10"
 }
