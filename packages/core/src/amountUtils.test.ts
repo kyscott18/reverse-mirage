@@ -1,3 +1,5 @@
+import { parseEther } from "viem/utils";
+import { describe, expect, test } from "vitest";
 import {
   amountAdd,
   amountDivide,
@@ -13,8 +15,6 @@ import {
 } from "./amountUtils.js";
 import { createFraction } from "./fractionUtils.js";
 import type { Token, TokenData } from "./types.js";
-import { parseEther } from "viem/utils";
-import { describe, expect, test } from "vitest";
 
 const mockToken = {
   type: "token",

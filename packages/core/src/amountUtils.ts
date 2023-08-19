@@ -1,6 +1,6 @@
-import type { BigIntIsh, Fraction, Token, TokenData } from "./types.js";
 import invariant from "tiny-invariant";
 import { parseUnits } from "viem/utils";
+import type { BigIntIsh, Fraction, Token, TokenData } from "./types.js";
 
 export type Amount<TToken extends Token = Token> = TokenData<
   TToken & { decimals?: number },
@@ -15,7 +15,7 @@ export const scaleDown = (token: Amount["token"], amount: bigint) =>
 
 export const isAmount = <TAmount extends Amount>(
   x: TAmount | BigIntIsh,
-): x is TAmount => typeof x === "object" && "amount" in x;
+): x is TAmount => typeof x === "object";
 
 export const createAmountFromString = <TToken extends Amount["token"]>(
   token: TToken,

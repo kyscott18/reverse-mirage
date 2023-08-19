@@ -1,3 +1,5 @@
+import { Fraction } from "@uniswap/sdk-core";
+import { bench, group, run } from "mitata";
 import {
   createFraction,
   fractionAdd,
@@ -11,13 +13,11 @@ import {
   fractionSubtract,
   fractionToNumber,
 } from "./fractionUtils.js";
-import { Fraction } from "@uniswap/sdk-core";
-import { bench, describe } from "vitest";
 
 const rmFraction = createFraction(5, 2);
 const uniFraction = new Fraction(5, 2);
 
-describe("create fraction", () => {
+group("create fraction", () => {
   bench("reverse mirage", () => {
     createFraction(52, 1);
   });
@@ -27,7 +27,7 @@ describe("create fraction", () => {
   });
 });
 
-describe("fraction quotient", () => {
+group("fraction quotient", () => {
   bench("reverse mirage", () => {
     fractionQuotient(rmFraction);
   });
@@ -37,7 +37,7 @@ describe("fraction quotient", () => {
   });
 });
 
-describe("fraction remainder", () => {
+group("fraction remainder", () => {
   bench("reverse mirage", () => {
     fractionRemainder(rmFraction);
   });
@@ -47,7 +47,7 @@ describe("fraction remainder", () => {
   });
 });
 
-describe("fraction add", () => {
+group("fraction add", () => {
   bench("reverse mirage", () => {
     fractionAdd(rmFraction, rmFraction);
   });
@@ -57,7 +57,7 @@ describe("fraction add", () => {
   });
 });
 
-describe("fraction subtract", () => {
+group("fraction subtract", () => {
   bench("reverse mirage", () => {
     fractionSubtract(rmFraction, rmFraction);
   });
@@ -67,7 +67,7 @@ describe("fraction subtract", () => {
   });
 });
 
-describe("fraction multiply", () => {
+group("fraction multiply", () => {
   bench("reverse mirage", () => {
     fractionMultiply(rmFraction, rmFraction);
   });
@@ -77,7 +77,7 @@ describe("fraction multiply", () => {
   });
 });
 
-describe("fraction divide", () => {
+group("fraction divide", () => {
   bench("reverse mirage", () => {
     fractionDivide(rmFraction, rmFraction);
   });
@@ -87,7 +87,7 @@ describe("fraction divide", () => {
   });
 });
 
-describe("fraction less than", () => {
+group("fraction less than", () => {
   bench("reverse mirage", () => {
     fractionLessThan(rmFraction, rmFraction);
   });
@@ -97,7 +97,7 @@ describe("fraction less than", () => {
   });
 });
 
-describe("fraction equal to", () => {
+group("fraction equal to", () => {
   bench("reverse mirage", () => {
     fractionEqualTo(rmFraction, rmFraction);
   });
@@ -107,7 +107,7 @@ describe("fraction equal to", () => {
   });
 });
 
-describe("fraction greater than", () => {
+group("fraction greater than", () => {
   bench("reverse mirage", () => {
     fractionGreaterThan(rmFraction, rmFraction);
   });
@@ -117,7 +117,7 @@ describe("fraction greater than", () => {
   });
 });
 
-describe("fraction to fixed", () => {
+group("fraction to fixed", () => {
   bench("reverse mirage", () => {
     fractionToNumber(rmFraction).toFixed(2);
   });
@@ -126,7 +126,7 @@ describe("fraction to fixed", () => {
   });
 });
 
-describe("fraction to signification", () => {
+group("fraction to significant", () => {
   bench("reverse mirage", () => {
     fractionToNumber(rmFraction).toPrecision(2);
   });
@@ -134,3 +134,5 @@ describe("fraction to signification", () => {
     uniFraction.toSignificant(2);
   });
 });
+
+await run();

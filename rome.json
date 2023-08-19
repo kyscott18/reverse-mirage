@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/rome/configuration_schema.json",
+  "$schema": "https://docs.rome.tools/schemas/12.1.3/schema.json",
   "files": {
     "ignore": [
       "**/node_modules",

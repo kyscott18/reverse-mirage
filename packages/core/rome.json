@@ -10,9 +10,6 @@
       "pnpm-lock.yaml"
     ]
   },
-  "organizeImports": {
-    "enabled": true
-  },
   "formatter": {
     "enabled": true,
     "formatWithErrors": true,
