@@ -1,5 +1,13 @@
 # reverse-mirage-react
 
+## 0.0.4
+
+### Patch Changes
+
+- 0413cc3: Performances fixes for core logic
+- Updated dependencies [0413cc3]
+  - reverse-mirage@0.1.8
+
 ## 0.0.3
 
 ### Patch Changes
