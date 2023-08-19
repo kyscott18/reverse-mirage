@@ -1,3 +1,5 @@
+import { Fraction } from "@uniswap/sdk-core";
+import { bench, group, run } from "mitata";
 import {
   createFraction,
   fractionAdd,
@@ -11,8 +13,6 @@ import {
   fractionSubtract,
   fractionToNumber,
 } from "./fractionUtils.js";
-import { Fraction } from "@uniswap/sdk-core";
-import { bench, group, run } from "mitata";
 
 const rmFraction = createFraction(5, 2);
 const uniFraction = new Fraction(5, 2);

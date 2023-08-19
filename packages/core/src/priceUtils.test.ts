@@ -1,3 +1,5 @@
+import { zeroAddress } from "viem";
+import { describe, expect, test } from "vitest";
 import {
   amountEqualTo,
   createAmountFromRaw,
@@ -21,8 +23,6 @@ import {
   rawPrice,
 } from "./priceUtils.js";
 import { mockERC20 } from "./test/constants.js";
-import { zeroAddress } from "viem";
-import { describe, expect, test } from "vitest";
 
 const one = {
   type: "price",

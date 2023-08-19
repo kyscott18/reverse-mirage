@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { type Amount, createAmountFromRaw, scaleUp } from "./amountUtils.js";
 import {
   fractionAdd,
@@ -11,7 +12,6 @@ import {
   fractionToNumber,
 } from "./fractionUtils.js";
 import type { BigIntIsh, Fraction, Price } from "./types.js";
-import invariant from "tiny-invariant";
 
 export const isPrice = <
   TQuoteCurrency extends Amount["token"],

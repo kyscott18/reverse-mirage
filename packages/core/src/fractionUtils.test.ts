@@ -1,3 +1,4 @@
+import { describe, expect, test } from "vitest";
 import {
   createFraction,
   fractionAdd,
@@ -12,7 +13,6 @@ import {
   fractionSubtract,
 } from "./fractionUtils.js";
 import type { Fraction } from "./types.js";
-import { describe, expect, test } from "vitest";
 
 const one: Fraction = { type: "fraction", numerator: 1n, denominator: 1n };
 const two: Fraction = { type: "fraction", numerator: 2n, denominator: 1n };

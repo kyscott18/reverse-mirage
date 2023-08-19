@@ -1,5 +1,5 @@
-import type { BigIntIsh, Fraction } from "./types.js";
 import invariant from "tiny-invariant";
+import type { BigIntIsh, Fraction } from "./types.js";
 
 /**
  * Determines if x is a fraction type

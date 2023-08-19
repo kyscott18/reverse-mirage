@@ -1,4 +1,9 @@
 import {
+  CurrencyAmount as UniswapCurrencyAmount,
+  Token as UniswapToken,
+} from "@uniswap/sdk-core";
+import { bench, group, run } from "mitata";
+import {
   amountAdd,
   amountDivide,
   amountEqualTo,
@@ -11,11 +16,6 @@ import {
   createAmountFromString,
 } from "./amountUtils.js";
 import { mockERC20 } from "./test/constants.js";
-import {
-  CurrencyAmount as UniswapCurrencyAmount,
-  Token as UniswapToken,
-} from "@uniswap/sdk-core";
-import { bench, group, run } from "mitata";
 
 const uniswapMockERC20 = new UniswapToken(
   mockERC20.chainID,
