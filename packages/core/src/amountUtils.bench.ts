@@ -1,4 +1,9 @@
 import {
+  CurrencyAmount as UniswapCurrencyAmount,
+  Token as UniswapToken,
+} from "@uniswap/sdk-core";
+import { bench, group, run } from "mitata";
+import {
   amountAdd,
   amountDivide,
   amountEqualTo,
@@ -11,11 +16,6 @@ import {
   createAmountFromString,
 } from "./amountUtils.js";
 import { mockERC20 } from "./test/constants.js";
-import {
-  CurrencyAmount as UniswapCurrencyAmount,
-  Token as UniswapToken,
-} from "@uniswap/sdk-core";
-import { bench, describe } from "vitest";
 
 const uniswapMockERC20 = new UniswapToken(
   mockERC20.chainID,
@@ -31,7 +31,7 @@ const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(
   1,
 );
 
-describe("create amount from string", () => {
+group("create amount from string", () => {
   bench("reverse mirage", () => {
     createAmountFromString(mockERC20, "52");
   });
@@ -41,7 +41,7 @@ describe("create amount from string", () => {
   });
 });
 
-describe("create amount from raw", () => {
+group("create amount from raw", () => {
   bench("reverse mirage", () => {
     createAmountFromRaw(mockERC20, 1000000000000000000n);
   });
@@ -54,7 +54,7 @@ describe("create amount from raw", () => {
   });
 });
 
-describe("amount add", () => {
+group("amount add", () => {
   bench("reverse mirage", () => {
     amountAdd(rmAmount, rmAmount);
   });
@@ -63,7 +63,7 @@ describe("amount add", () => {
   });
 });
 
-describe("amount subtract", () => {
+group("amount subtract", () => {
   bench("reverse mirage", () => {
     amountSubtract(rmAmount, rmAmount);
   });
@@ -72,7 +72,7 @@ describe("amount subtract", () => {
   });
 });
 
-describe("amount multiply", () => {
+group("amount multiply", () => {
   bench("reverse mirage", () => {
     amountMultiply(rmAmount, rmAmount);
   });
@@ -81,7 +81,7 @@ describe("amount multiply", () => {
   });
 });
 
-describe("amount divide", () => {
+group("amount divide", () => {
   bench("reverse mirage", () => {
     amountDivide(rmAmount, rmAmount);
   });
@@ -90,7 +90,7 @@ describe("amount divide", () => {
   });
 });
 
-describe("amount less than", () => {
+group("amount less than", () => {
   bench("reverse mirage", () => {
     amountLessThan(rmAmount, rmAmount);
   });
@@ -99,7 +99,7 @@ describe("amount less than", () => {
   });
 });
 
-describe("amount equalTo", () => {
+group("amount equalTo", () => {
   bench("reverse mirage", () => {
     amountEqualTo(rmAmount, rmAmount);
   });
@@ -108,7 +108,7 @@ describe("amount equalTo", () => {
   });
 });
 
-describe("amount greater than", () => {
+group("amount greater than", () => {
   bench("reverse mirage", () => {
     amountGreaterThan(rmAmount, rmAmount);
   });
@@ -117,7 +117,7 @@ describe("amount greater than", () => {
   });
 });
 
-describe("amount to number", () => {
+group("amount to number", () => {
   bench("reverse mirage", () => {
     amountToNumber(rmAmount);
   });
@@ -126,7 +126,7 @@ describe("amount to number", () => {
   });
 });
 
-describe("amount to fixed", () => {
+group("amount to fixed", () => {
   bench("reverse mirage", () => {
     amountToNumber(rmAmount).toFixed(2);
   });
@@ -135,11 +135,20 @@ describe("amount to fixed", () => {
   });
 });
 
-describe("amount to significant", () => {
+group("amount to significant", () => {
   bench("reverse mirage", () => {
     amountToNumber(rmAmount).toPrecision(2);
   });
   bench("uniswap", () => {
     uniAmount.toSignificant(2);
   });
+});
+
+await run({
+  avg: true, // enable/disable avg column (default: true)
+  json: false, // enable/disable json output (default: false)
+  colors: true, // enable/disable colors (default: true)
+  min_max: true, // enable/disable min/max column (default: true)
+  collect: false, // enable/disable collecting returned values into an array during the benchmark (default: false)
+  percentiles: false, // enable/disable percentiles column (default: true)
 });

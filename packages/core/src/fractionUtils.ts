@@ -1,11 +1,11 @@
-import type { BigIntIsh, Fraction } from "./types.js";
 import invariant from "tiny-invariant";
+import type { BigIntIsh, Fraction } from "./types.js";
 
 /**
  * Determines if x is a fraction type
  */
 export const isFraction = (x: Fraction | BigIntIsh): x is Fraction =>
-  typeof x === "object" && "type" in x && x.type === "fraction";
+  typeof x === "object";
 
 /**
  * Create a fraction

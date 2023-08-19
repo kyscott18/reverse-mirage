@@ -1,3 +1,4 @@
+import invariant from "tiny-invariant";
 import { type Amount, createAmountFromRaw, scaleUp } from "./amountUtils.js";
 import {
   fractionAdd,
@@ -11,15 +12,13 @@ import {
   fractionToNumber,
 } from "./fractionUtils.js";
 import type { BigIntIsh, Fraction, Price } from "./types.js";
-import invariant from "tiny-invariant";
 
 export const isPrice = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
 >(
   x: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
-): x is Price<TQuoteCurrency, TBaseCurrency> =>
-  typeof x === "object" && "type" in x && x.type === "price";
+): x is Price<TQuoteCurrency, TBaseCurrency> => typeof x === "object";
 
 export const createPriceFromFraction = <
   TQuoteCurrency extends Amount["token"],
