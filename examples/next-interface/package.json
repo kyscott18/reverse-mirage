@@ -6,15 +6,15 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "rome format . --write",
-    "lint": "rome check .",
+    "format": "biome format . --write",
+    "lint": "biome check .",
     "typecheck": "tsc"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "^1.0.1",
-    "@tanstack/react-query": "^4.32.6",
+    "@tanstack/react-query": "^4.33.0",
     "clsx": "^2.0.0",
-    "next": "13.4.16",
+    "next": "13.4.19",
     "react": "18.2.0",
     "react-countup": "^6.4.2",
     "react-dom": "18.2.0",
@@ -24,20 +24,20 @@
     "tiny-invariant": "^1.3.1",
     "ts-extras": "^0.11.0",
     "unstated-next": "^1.1.0",
-    "viem": "^1.6.0",
-    "wagmi": "^1.3.10"
+    "viem": "^1.10.3",
+    "wagmi": "^1.4.1"
   },
   "devDependencies": {
-    "@tanstack/react-query-devtools": "^4.32.6",
-    "@types/node": "^20.5.0",
-    "@types/react": "^18.2.20",
+    "@tanstack/react-query-devtools": "^4.33.0",
+    "@types/node": "^20.5.9",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "autoprefixer": "^10.4.15",
+    "biome": "^0.3.3",
     "csstype": "^3.1.2",
-    "postcss": "^8.4.28",
-    "rome": "^12.1.3",
+    "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "engines": {
     "node": ">=18",
