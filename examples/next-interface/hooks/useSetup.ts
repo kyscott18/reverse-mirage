@@ -1,5 +1,3 @@
-import MockERC20 from "../../../contracts/out/MockERC20.sol/MockERC20.json";
-import { mockErc20ABI } from "../generated";
 import { ALICE } from "@/constants";
 import { useEnvironment } from "@/contexts/environment";
 import { testClient, walletClient } from "@/pages/_app";
@@ -8,6 +6,8 @@ import { createErc20 } from "reverse-mirage";
 import invariant from "tiny-invariant";
 import { type Hex, parseEther } from "viem";
 import { useChainId, usePublicClient } from "wagmi";
+import MockERC20 from "../../../contracts/out/MockERC20.sol/MockERC20.json";
+import { mockErc20ABI } from "../generated";
 
 export const useSetup = () => {
   const publicClient = usePublicClient();

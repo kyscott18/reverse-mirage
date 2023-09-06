@@ -61,7 +61,7 @@
     "wagmi": ">=1"
   },
   "devDependencies": {
-    "biome": "^0.3.3",
+    "@biomejs/biome": "^1.0.0",
     "tsup": "^7.2.0",
     "typescript": "^5.1.6",
     "viem": "^1.6.3",

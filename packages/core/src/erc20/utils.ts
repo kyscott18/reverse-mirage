@@ -1,5 +1,5 @@
-import type { ERC20, ERC20Permit, ERC20PermitData } from "./types.js";
 import { type Address, getAddress, hashTypedData } from "viem";
+import type { ERC20, ERC20Permit, ERC20PermitData } from "./types.js";
 
 export const createErc20 = (
   address: Address,

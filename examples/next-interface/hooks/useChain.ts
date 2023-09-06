@@ -4,8 +4,8 @@ import { useChainId } from "wagmi";
 export type SupportedChainIDs = typeof chains[number]["id"];
 
 export const useChainID = (): SupportedChainIDs => {
-	console.log("chain");
+  console.log("chain");
 
-	const chainNumber = useChainId();
-	return chainNumber as SupportedChainIDs;
+  const chainNumber = useChainId();
+  return chainNumber as SupportedChainIDs;
 };
