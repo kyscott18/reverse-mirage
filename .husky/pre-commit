@@ -3,8 +3,8 @@
 
 pnpm codegen
 
-pnpm lint
+pnpm build
 
 pnpm typecheck
 
-pnpm build
+pnpm lint
