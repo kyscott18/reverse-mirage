@@ -1,8 +1,6 @@
 import AsyncButton from "./asyncButton";
 import { Beet } from "./beet";
 
-import TokenAmountDisplay from "./tokenAmountDisplay";
-import TokenInfo from "./tokenInfo";
 import { useTransfer } from "@/hooks/useTransfer";
 import { type UseQueryResult } from "@tanstack/react-query";
 import {
@@ -12,6 +10,8 @@ import {
   createAmountFromString,
 } from "reverse-mirage";
 import invariant from "tiny-invariant";
+import TokenAmountDisplay from "./tokenAmountDisplay";
+import TokenInfo from "./tokenInfo";
 
 export default function TokenAmountRow({
   erc20,

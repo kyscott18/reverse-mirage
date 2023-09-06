@@ -1,7 +1,7 @@
-import type { ERC20 } from "../erc20/types.js";
-import type { NativeCurrency } from "../native/types.js";
 import { foundry } from "viem/chains";
 import { getContractAddress } from "viem/utils";
+import type { ERC20 } from "../erc20/types.js";
+import type { NativeCurrency } from "../native/types.js";
 
 // Test accounts
 export const ACCOUNTS = [

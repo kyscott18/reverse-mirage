@@ -1,6 +1,6 @@
-import TokenIcon from "./tokenIcon";
 import type { ERC20 } from "@/lib/types";
 import { clsx } from "clsx";
+import TokenIcon from "./tokenIcon";
 
 export default function TokenInfo({
   erc20,

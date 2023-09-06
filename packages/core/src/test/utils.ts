@@ -1,12 +1,12 @@
-import { ALICE } from "./constants.js";
 import {
+  http,
   createPublicClient,
   createTestClient,
   createWalletClient,
-  http,
 } from "viem";
 import { foundry } from "viem/chains";
 import type { Chain } from "viem/chains";
+import { ALICE } from "./constants.js";
 
 export const pool = Number(process.env.VITEST_POOL_ID ?? 1);
 export const anvil = {

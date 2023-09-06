@@ -7,8 +7,12 @@
       "dist",
       "tsconfig.json",
       "tsconfig.*.json",
-      "pnpm-lock.yaml"
+      "pnpm-lock.yaml",
+      "src/generated.ts"
     ]
+  },
+  "organizeImports": {
+    "enabled": true
   },
   "formatter": {
     "enabled": true,

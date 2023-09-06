@@ -1,3 +1,4 @@
+import { type Address, type Hex, type PublicClient, getAddress } from "viem";
 import { createAmountFromRaw } from "../amountUtils.js";
 import { erc20ABI } from "../generated.js";
 import type { ReverseMirageRead } from "../types.js";
@@ -7,7 +8,6 @@ import type {
   ERC20Permit,
   ERC20PermitData,
 } from "./types.js";
-import { type Address, type Hex, type PublicClient, getAddress } from "viem";
 
 export const erc20BalanceOf = <TERC20 extends ERC20>(
   publicClient: PublicClient,

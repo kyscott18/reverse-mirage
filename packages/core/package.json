@@ -61,9 +61,9 @@
     "viem": ">=1"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.0.0",
     "@uniswap/sdk-core": "^4.0.6",
     "@viem/anvil": "^0.0.6",
-    "biome": "^0.3.3",
     "bun": "^0.7.3",
     "mitata": "^0.1.6",
     "tsup": "^7.2.0",

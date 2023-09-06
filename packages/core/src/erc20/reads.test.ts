@@ -1,3 +1,7 @@
+import invariant from "tiny-invariant";
+import type { Hex } from "viem";
+import { getAddress, isAddress, parseEther } from "viem/utils";
+import { beforeAll, describe, expect, test } from "vitest";
 import MockERC20 from "../../../../contracts/out/MockERC20.sol/MockERC20.json";
 import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { mockErc20ABI } from "../generated.js";
@@ -13,10 +17,6 @@ import {
   erc20TotalSupply,
   getErc20,
 } from "./reads.js";
-import invariant from "tiny-invariant";
-import type { Hex } from "viem";
-import { getAddress, isAddress, parseEther } from "viem/utils";
-import { beforeAll, describe, expect, test } from "vitest";
 
 let id: Hex | undefined = undefined;
 
