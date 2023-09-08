@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 0.1.9
+
+### Patch Changes
+
+- d1a909b: Update dependencies
+
 ## 0.1.8
 
 ### Patch Changes

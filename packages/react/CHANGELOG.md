@@ -1,5 +1,13 @@
 # reverse-mirage-react
 
+## 0.0.5
+
+### Patch Changes
+
+- d1a909b: Update dependencies
+- Updated dependencies [d1a909b]
+  - reverse-mirage@0.1.9
+
 ## 0.0.4
 
 ### Patch Changes
