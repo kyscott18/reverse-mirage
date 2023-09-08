@@ -2,7 +2,7 @@ import type { ReverseMirageRead } from "reverse-mirage";
 import { type PublicClient, useChainId, usePublicClient } from "wagmi";
 
 export const getQueryKey = <TArgs extends object>(
-  // rome-ignore lint/suspicious/noExplicitAny: dont need
+  // biome-ignore lint/suspicious/noExplicitAny: dont need
   get: (publicClient: any, args: TArgs) => any,
   args: Partial<TArgs>,
   chainID: number,
