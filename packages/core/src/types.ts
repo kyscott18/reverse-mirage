@@ -20,6 +20,11 @@ export type TokenData<TToken extends Token, TData extends object> = {
   token: TToken;
 } & TData;
 
+export type Amount<TToken extends Token = Token> = TokenData<
+  TToken & { decimals?: number },
+  { amount: bigint }
+>;
+
 export type Price<
   TQuoteCurrency extends Token,
   TBaseCurrency extends Token,

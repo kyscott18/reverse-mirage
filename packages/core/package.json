@@ -23,14 +23,10 @@
     "lint:fix": "pnpm lint --apply",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
-    "test:ci": "CI=true vitest"
+    "test:ci": "CI=true vitest --coverage",
+    "test:cov": "vitest --coverage"
   },
-  "keywords": [
-    "eth",
-    "ethereum",
-    "dapps",
-    "web3"
-  ],
+  "keywords": ["eth", "ethereum", "dapps", "web3"],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
@@ -64,6 +60,7 @@
     "@biomejs/biome": "^1.1.2",
     "@uniswap/sdk-core": "^4.0.7",
     "@viem/anvil": "^0.0.6",
+    "@vitest/coverage-v8": "^0.34.4",
     "bun": "^1.0.0",
     "mitata": "^0.1.6",
     "tsup": "^7.2.0",

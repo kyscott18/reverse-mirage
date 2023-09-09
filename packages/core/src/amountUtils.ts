@@ -1,11 +1,6 @@
 import invariant from "tiny-invariant";
 import { parseUnits } from "viem/utils";
-import type { BigIntIsh, Fraction, Token, TokenData } from "./types.js";
-
-export type Amount<TToken extends Token = Token> = TokenData<
-  TToken & { decimals?: number },
-  { amount: bigint }
->;
+import type { Amount, BigIntIsh, Fraction } from "./types.js";
 
 export const scaleUp = (token: Amount["token"], amount: bigint) =>
   token.decimals ? amount * 10n ** BigInt(token.decimals) : amount;
@@ -13,10 +8,16 @@ export const scaleUp = (token: Amount["token"], amount: bigint) =>
 export const scaleDown = (token: Amount["token"], amount: bigint) =>
   token.decimals ? amount / 10n ** BigInt(token.decimals) : amount;
 
+/**
+ * Returns true if {@link x} is of type {@link Amount}
+ */
 export const isAmount = <TAmount extends Amount>(
   x: TAmount | BigIntIsh,
 ): x is TAmount => typeof x === "object";
 
+/**
+ * Creates a {@link Amount} from a {@link token} and a string
+ */
 export const createAmountFromString = <TToken extends Amount["token"]>(
   token: TToken,
   amount: string,
@@ -26,6 +27,9 @@ export const createAmountFromString = <TToken extends Amount["token"]>(
   amount: token.decimals ? parseUnits(amount, token.decimals) : BigInt(amount),
 });
 
+/**
+ * Creates a {@link Amount} from a {@link token} and a {@link Fraction}
+ */
 export const createAmountFromFraction = <TToken extends Amount["token"]>(
   token: TToken,
   amount: Fraction,
@@ -35,6 +39,9 @@ export const createAmountFromFraction = <TToken extends Amount["token"]>(
   amount: scaleUp(token, amount.numerator) / amount.denominator,
 });
 
+/**
+ * Creates a {@link Amount} from a {@link token} and a {@link amount}
+ */
 export const createAmountFromRaw = <TToken extends Amount["token"]>(
   token: TToken,
   amount: bigint,
@@ -44,6 +51,9 @@ export const createAmountFromRaw = <TToken extends Amount["token"]>(
   amount,
 });
 
+/**
+ * Adds {@link a} with {@link b}
+ */
 export const amountAdd = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -57,6 +67,9 @@ export const amountAdd = <TToken extends Amount["token"]>(
     : createAmountFromRaw(a.token, a.amount + scaleUp(a.token, BigInt(b)));
 };
 
+/**
+ * Subtracts {@link a} by {@link b}
+ */
 export const amountSubtract = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -70,6 +83,9 @@ export const amountSubtract = <TToken extends Amount["token"]>(
     : createAmountFromRaw(a.token, a.amount - scaleUp(a.token, BigInt(b)));
 };
 
+/**
+ * Multiplies {@link a} with {@link b}
+ */
 export const amountMultiply = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -83,6 +99,9 @@ export const amountMultiply = <TToken extends Amount["token"]>(
     : createAmountFromRaw(a.token, a.amount * BigInt(b));
 };
 
+/**
+ * Divides {@link a} by {@link b}
+ */
 export const amountDivide = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -96,6 +115,9 @@ export const amountDivide = <TToken extends Amount["token"]>(
     : createAmountFromRaw(a.token, a.amount / BigInt(b));
 };
 
+/**
+ * Returns true if {@link a} is less than {@link b}
+ */
 export const amountLessThan = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -109,6 +131,9 @@ export const amountLessThan = <TToken extends Amount["token"]>(
     : a.amount < scaleUp(a.token, BigInt(b));
 };
 
+/**
+ * Returns true if {@link a} is equal to {@link b}
+ */
 export const amountEqualTo = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -122,6 +147,9 @@ export const amountEqualTo = <TToken extends Amount["token"]>(
     : a.amount === scaleUp(a.token, BigInt(b));
 };
 
+/**
+ * Returns true if {@link a} is greater than {@link b}
+ */
 export const amountGreaterThan = <TToken extends Amount["token"]>(
   a: Amount<TToken>,
   b: Amount<TToken> | BigIntIsh,
@@ -135,5 +163,8 @@ export const amountGreaterThan = <TToken extends Amount["token"]>(
     : a.amount > scaleUp(a.token, BigInt(b));
 };
 
+/**
+ * Returns the {@link amount} as a number with an adjustment for decimals
+ */
 export const amountToNumber = (amount: Amount): number =>
   Number(amount.amount) / 10 ** (amount.token.decimals ?? 0);

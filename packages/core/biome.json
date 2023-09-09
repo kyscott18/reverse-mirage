@@ -8,7 +8,8 @@
       "tsconfig.json",
       "tsconfig.*.json",
       "pnpm-lock.yaml",
-      "src/generated.ts"
+      "src/generated.ts",
+      "coverage"
     ]
   },
   "organizeImports": {

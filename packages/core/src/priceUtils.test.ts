@@ -1,5 +1,5 @@
-import { zeroAddress } from "viem";
 import { describe, expect, test } from "vitest";
+import { mockERC20, mockToken } from "./_test/constants.js";
 import {
   amountEqualTo,
   createAmountFromRaw,
@@ -20,21 +20,21 @@ import {
   priceMultiply,
   priceQuote,
   priceSubtract,
+  priceToNumber,
   rawPrice,
 } from "./priceUtils.js";
-import { mockERC20 } from "./test/constants.js";
 
 const one = {
   type: "price",
-  quote: mockERC20,
-  base: mockERC20,
+  quote: mockToken,
+  base: mockToken,
   numerator: 1n,
   denominator: 1n,
 } as const;
 const two = {
   type: "price",
-  quote: mockERC20,
-  base: mockERC20,
+  quote: mockToken,
+  base: mockToken,
   numerator: 2n,
   denominator: 1n,
 } as const;
@@ -43,7 +43,7 @@ describe.concurrent("price utils", () => {
   test("can create price from fraction", () => {
     expect(
       priceEqualTo(
-        createPriceFromFraction(mockERC20, mockERC20, createFraction(1)),
+        createPriceFromFraction(mockToken, mockToken, createFraction(1)),
         one,
       ),
     ).toBe(true);
@@ -53,8 +53,8 @@ describe.concurrent("price utils", () => {
     expect(
       priceEqualTo(
         createPriceFromAmounts(
-          createAmountFromRaw(mockERC20, 1n),
-          createAmountFromRaw(mockERC20, 1n),
+          createAmountFromRaw(mockToken, 1n),
+          createAmountFromRaw(mockToken, 1n),
         ),
         one,
       ),
@@ -62,8 +62,8 @@ describe.concurrent("price utils", () => {
   });
 
   test("can create price", () => {
-    expect(priceEqualTo(createPrice(mockERC20, mockERC20, 1n, 1n), one));
-    expect(priceEqualTo(createPrice(mockERC20, mockERC20, "1"), one));
+    expect(priceEqualTo(createPrice(mockToken, mockToken, 1n, 1n), one));
+    expect(priceEqualTo(createPrice(mockToken, mockToken, "1"), one));
   });
 
   test("can invert", () => {
@@ -150,14 +150,14 @@ describe.concurrent("price utils", () => {
     expect(() =>
       priceQuote(one, {
         type: "erc20Amount",
-        token: { ...mockERC20, address: zeroAddress },
+        token: { ...mockToken },
         amount: 2n,
       }),
     ).toThrowError();
     expect(
       amountEqualTo(
-        priceQuote(two, createAmountFromRaw(mockERC20, 1n)),
-        createAmountFromRaw(mockERC20, 2n),
+        priceQuote(two, createAmountFromRaw(mockToken, 1n)),
+        createAmountFromRaw(mockToken, 2n),
       ),
     ).toBe(true);
   });
@@ -182,9 +182,10 @@ describe.concurrent("price utils", () => {
     ).toBe(true);
   });
 
-  test.todo("can print fixed");
-
-  test.todo("can print significant");
+  test("can to number", () => {
+    expect(priceToNumber(one)).toBe(1);
+    expect(priceToNumber(two)).toBe(2);
+  });
 });
 
 const mockERC20Decimals = { ...mockERC20, decimals: 9 };
@@ -351,5 +352,10 @@ describe.concurrent("price utils with decimals", () => {
         denominator: 1n,
       }),
     ).toBe(true);
+  });
+
+  test("can to number", () => {
+    expect(priceToNumber(oneDecimals)).toBe(1);
+    expect(priceToNumber(twoDecimals)).toBe(2);
   });
 });

@@ -2,13 +2,13 @@ import invariant from "tiny-invariant";
 import type { BigIntIsh, Fraction } from "./types.js";
 
 /**
- * Determines if x is a fraction type
+ * Returns true if {@link x } is of type {@link Fraction}
  */
 export const isFraction = (x: Fraction | BigIntIsh): x is Fraction =>
   typeof x === "object";
 
 /**
- * Create a fraction
+ * Creates a {@link Fraction} from a {@link numerator} and {@link denominator}
  */
 export const createFraction = (
   numerator: BigIntIsh,
@@ -20,7 +20,7 @@ export const createFraction = (
 };
 
 /**
- * Calculate the quotient
+ * Calculates the quotient
  */
 export const fractionQuotient = (fraction: Fraction): bigint =>
   fraction.numerator / fraction.denominator;
@@ -45,7 +45,7 @@ export const fractionInvert = (fraction: Fraction): Fraction => {
 };
 
 /**
- * Add two fractions
+ * Adds {@link a} with {@link b}
  */
 export const fractionAdd = (a: Fraction, b: Fraction | BigIntIsh): Fraction =>
   isFraction(b)
@@ -61,7 +61,7 @@ export const fractionAdd = (a: Fraction, b: Fraction | BigIntIsh): Fraction =>
       };
 
 /**
- * Subtract the second fraction from the first
+ * Subtracts {@link a} by {@link b}
  */
 export const fractionSubtract = (
   a: Fraction,
@@ -80,7 +80,7 @@ export const fractionSubtract = (
       };
 
 /**
- * Multiply two fractions
+ * Multiplies {@link a} with {@link b}
  */
 export const fractionMultiply = (
   a: Fraction,
@@ -99,7 +99,7 @@ export const fractionMultiply = (
       };
 
 /**
- * Divide the first fraction by the second
+ * Divides {@link a} by {@link b}
  */
 export const fractionDivide = (
   a: Fraction,
@@ -118,7 +118,7 @@ export const fractionDivide = (
       };
 
 /**
- * Return true if the first fraction is less than the second
+ * Returns true if {@link a} is less than {@link b}
  */
 export const fractionLessThan = (
   a: Fraction,
@@ -129,7 +129,7 @@ export const fractionLessThan = (
     : a.numerator < a.denominator * BigInt(b);
 
 /**
- * Return true if the first fraction is greater than the second
+ * Returns true if {@link a} is greater than {@link b}
  */
 export const fractionGreaterThan = (
   a: Fraction,
@@ -140,7 +140,7 @@ export const fractionGreaterThan = (
     : a.numerator > a.denominator * BigInt(b);
 
 /**
- * Return true if the first fraction is equal to the second
+ * Returns true if {@link a} is equal to {@link b}
  */
 export const fractionEqualTo = (
   a: Fraction,

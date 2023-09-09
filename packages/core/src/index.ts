@@ -1,14 +1,4 @@
 export {
-  MaxUint256,
-  MaxUint128,
-  MaxUint64,
-  MaxUint32,
-  MaxUint16,
-  MaxUint8,
-} from "./constants.js";
-
-export {
-  type Amount,
   isAmount,
   createAmountFromString,
   createAmountFromFraction,
@@ -95,6 +85,7 @@ export type {
   Token,
   TokenData,
   Price,
+  Amount,
   ReverseMirageRead,
   ReverseMirageWrite,
 } from "./types.js";

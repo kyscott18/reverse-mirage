@@ -2,11 +2,11 @@ import invariant from "tiny-invariant";
 import { type Hex, parseEther } from "viem";
 import { beforeEach, describe, expect, test } from "vitest";
 import MockERC20 from "../../../../contracts/out/MockERC20.sol/MockERC20.json";
+import { ALICE, BOB, mockERC20 } from "../_test/constants.js";
+import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { mockErc20ABI } from "../generated.js";
 import { readAndParse } from "../readUtils.js";
-import { ALICE, BOB, mockERC20 } from "../test/constants.js";
-import { publicClient, testClient, walletClient } from "../test/utils.js";
 import { erc20BalanceOf } from "./reads.js";
 import { erc20Transfer } from "./writes.js";
 
