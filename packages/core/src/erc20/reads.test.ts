@@ -1,9 +1,10 @@
 import invariant from "tiny-invariant";
 import type { Hex } from "viem";
+import { foundry } from "viem/chains";
 import { getAddress, isAddress, parseEther } from "viem/utils";
 import { beforeAll, describe, expect, test } from "vitest";
-import ERC20Permit from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";
-import { ALICE, BOB, mockERC20 } from "../_test/constants.js";
+import ERC20PermitBytecode from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";
+import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { erc20PermitABI } from "../generated.js";
@@ -21,16 +22,19 @@ import {
   getErc20,
   getErc20Permit,
 } from "./reads.js";
-import { createErc20 } from "./utils.js";
+import type { ERC20Permit } from "./types.js";
+import { createErc20, createErc20Permit } from "./utils.js";
 
 let id: Hex | undefined = undefined;
 
+let mockERC20: ERC20Permit;
+
 beforeAll(async () => {
-  if (id === undefined) {
+  if (id === undefined || mockERC20 === undefined) {
     const deployHash = await walletClient.deployContract({
       account: ALICE,
       abi: erc20PermitABI,
-      bytecode: ERC20Permit.bytecode.object as Hex,
+      bytecode: ERC20PermitBytecode.bytecode.object as Hex,
       args: ["Mock ERC20", "MOCK", 18],
     });
 
@@ -38,6 +42,14 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
+    mockERC20 = createErc20Permit(
+      contractAddress,
+      "Mock ERC20",
+      "MOCK",
+      18,
+      "1",
+      foundry.id,
+    );
 
     const mintHash = await walletClient.writeContract({
       abi: erc20PermitABI,

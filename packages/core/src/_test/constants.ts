@@ -1,6 +1,4 @@
 import { foundry } from "viem/chains";
-import { getAddress, getContractAddress } from "viem/utils";
-import type { ERC20Permit } from "../erc20/types.js";
 import type { NativeCurrency } from "../native/types.js";
 import type { Token } from "../types.js";
 
@@ -13,26 +11,12 @@ export const ACCOUNTS = [
 // Named accounts
 export const [ALICE, BOB] = ACCOUNTS;
 
-const mockERC20Address = getAddress(
-  getContractAddress({ from: ALICE, nonce: 0n }),
-);
-
 export const mockToken = {
   type: "token",
   chainID: foundry.id,
   name: "Mock ERC20",
   symbol: "MOCK",
 } as const satisfies Token;
-
-export const mockERC20 = {
-  type: "erc20Permit",
-  chainID: foundry.id,
-  address: mockERC20Address,
-  decimals: 18,
-  name: "Mock ERC20",
-  symbol: "MOCK",
-  version: "1",
-} as const satisfies ERC20Permit;
 
 export const anvilEther = {
   type: "nativeCurrency",
