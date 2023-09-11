@@ -7,6 +7,7 @@ export type ERC721 = Token<"erc721"> & {
   symbol: string;
   id: bigint;
   tokenURI: string;
+  blockCreated: bigint;
 };
 
 export type ERC721IDData<TERC721 extends ERC721> = TokenData<

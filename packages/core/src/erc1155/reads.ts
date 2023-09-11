@@ -51,7 +51,8 @@ export const erc1155BalanceOf = <TERC1155 extends ERC1155>(args: {
   }) as const satisfies ReverseMirageRead<bigint>;
 
 export const getERC1155 = (args: {
-  erc1155: Pick<ERC1155, "address" | "id" | "chainID">;
+  erc1155: Pick<ERC1155, "address" | "id" | "chainID"> &
+    Partial<Pick<ERC1155, "blockCreated">>;
 }) =>
   ({
     read: (publicClient: PublicClient) =>
@@ -67,5 +68,6 @@ export const getERC1155 = (args: {
         args.erc1155.id,
         data,
         args.erc1155.chainID,
+        args.erc1155.blockCreated,
       ),
   }) as const satisfies ReverseMirageRead<string>;

@@ -12,6 +12,7 @@ export const createERC721 = (
   id: bigint,
   tokenURI: string,
   chainID: number,
+  blockCreated = 0n,
 ): ERC721 => ({
   type: "erc721",
   address: getAddress(address),
@@ -20,6 +21,7 @@ export const createERC721 = (
   id,
   tokenURI,
   chainID,
+  blockCreated,
 });
 
 /**

@@ -151,7 +151,8 @@ export const erc20PermitDomainSeparator = (args: {
   }) as const satisfies ReverseMirageRead<Hex>;
 
 export const getERC20 = (args: {
-  erc20: Pick<ERC20, "address" | "chainID">;
+  erc20: Pick<BaseERC20, "address" | "chainID"> &
+    Partial<Pick<BaseERC20, "blockCreated">>;
 }) =>
   ({
     read: (publicClient: PublicClient) =>
@@ -167,12 +168,13 @@ export const getERC20 = (args: {
         data[1],
         data[2],
         args.erc20.chainID,
+        args.erc20.blockCreated,
       ),
   }) as const satisfies ReverseMirageRead<[string, string, number]>;
 
 export const getERC20Permit = (args: {
   erc20: Pick<ERC20Permit, "address" | "chainID"> &
-    Partial<Pick<ERC20Permit, "version">>;
+    Partial<Pick<ERC20Permit, "version" | "blockCreated">>;
 }) =>
   ({
     read: (publicClient: PublicClient) =>
@@ -189,6 +191,7 @@ export const getERC20Permit = (args: {
         data[2],
         args.erc20.version ?? "1",
         args.erc20.chainID,
+        args.erc20.blockCreated,
       ),
   }) as const satisfies ReverseMirageRead<[string, string, number]>;
 
@@ -198,7 +201,8 @@ export const getERC20Permit = (args: {
  * Implementation is determined by checking if calling `DOMAIN_SEPARATOR()` reverts
  */
 export const erc20IsPermit = (args: {
-  erc20: Pick<ERC20, "address" | "chainID"> &
+  erc20: Pick<BaseERC20, "address" | "chainID"> &
+    Partial<Pick<BaseERC20, "blockCreated">> &
     Partial<Pick<ERC20Permit, "version">>;
 }) =>
   ({
@@ -220,6 +224,7 @@ export const erc20IsPermit = (args: {
             data[0][1],
             data[0][2],
             args.erc20.chainID,
+            args.erc20.blockCreated,
           )
         : createERC20Permit(
             args.erc20.address,
@@ -228,6 +233,7 @@ export const erc20IsPermit = (args: {
             data[0][2],
             args.erc20.version ?? "1",
             args.erc20.chainID,
+            args.erc20.blockCreated,
           ),
   }) as const satisfies ReverseMirageRead<
     [[string, string, number], Hex] | [[string, string, number]]
