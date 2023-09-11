@@ -64,7 +64,5 @@ jobs:
           version: nightly
       - name: Codegen
         run: pnpm codegen
-      - name: Build
-        run: pnpm build
       - name: Run tests
         run: pnpm test:cov
