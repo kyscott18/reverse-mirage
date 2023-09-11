@@ -1,5 +1,12 @@
 # reverse-mirage
 
+## 0.1.10
+
+### Patch Changes
+
+- d3be52c: 100% code coverage and api changes
+- fddd6a2: Support weth, erc1155, erc721
+
 ## 0.1.9
 
 ### Patch Changes

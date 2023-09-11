@@ -1,6 +1,6 @@
 {
   "name": "reverse-mirage",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Application level typescript utilities for Ethereum",
   "type": "module",
   "sideEffects": false,
@@ -26,7 +26,12 @@
     "test:ci": "CI=true vitest --coverage",
     "test:cov": "vitest --coverage"
   },
-  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "web3"
+  ],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
