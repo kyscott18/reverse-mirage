@@ -2,21 +2,26 @@ import invariant from "tiny-invariant";
 import type { Hex } from "viem";
 import { getAddress, isAddress, parseEther } from "viem/utils";
 import { beforeAll, describe, expect, test } from "vitest";
-import MockERC20 from "../../../../contracts/out/MockERC20.sol/MockERC20.json";
+import ERC20Permit from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";
 import { ALICE, BOB, mockERC20 } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
-import { mockErc20ABI } from "../generated.js";
+import { erc20PermitABI } from "../generated.js";
 import { readAndParse } from "../readUtils.js";
 import {
   erc20Allowance,
   erc20BalanceOf,
   erc20Decimals,
   erc20Name,
+  erc20PermitData,
+  erc20PermitDomainSeparator,
+  erc20PermitNonce,
   erc20Symbol,
   erc20TotalSupply,
   getErc20,
+  getErc20Permit,
 } from "./reads.js";
+import { createErc20 } from "./utils.js";
 
 let id: Hex | undefined = undefined;
 
@@ -24,8 +29,8 @@ beforeAll(async () => {
   if (id === undefined) {
     const deployHash = await walletClient.deployContract({
       account: ALICE,
-      abi: mockErc20ABI,
-      bytecode: MockERC20.bytecode.object as Hex,
+      abi: erc20PermitABI,
+      bytecode: ERC20Permit.bytecode.object as Hex,
       args: ["Mock ERC20", "MOCK", 18],
     });
 
@@ -35,7 +40,7 @@ beforeAll(async () => {
     invariant(contractAddress);
 
     const mintHash = await walletClient.writeContract({
-      abi: mockErc20ABI,
+      abi: erc20PermitABI,
       functionName: "mint",
       address: contractAddress,
       args: [ALICE, parseEther("1")],
@@ -43,7 +48,7 @@ beforeAll(async () => {
     await publicClient.waitForTransactionReceipt({ hash: mintHash });
 
     const transferHash = await walletClient.writeContract({
-      abi: mockErc20ABI,
+      abi: erc20PermitABI,
       functionName: "transfer",
       address: contractAddress,
       args: [BOB, parseEther("0.25")],
@@ -51,7 +56,7 @@ beforeAll(async () => {
     await publicClient.waitForTransactionReceipt({ hash: transferHash });
 
     const approveHash = await walletClient.writeContract({
-      abi: mockErc20ABI,
+      abi: erc20PermitABI,
       functionName: "approve",
       address: contractAddress,
       args: [BOB, parseEther("2")],
@@ -131,7 +136,30 @@ describe("erc20 reads", () => {
     ).toBe(true);
   });
 
-  test.todo("can read nonce");
+  test("can read nonce", async () => {
+    expect(
+      await readAndParse(
+        erc20PermitNonce(publicClient, { erc20: mockERC20, address: ALICE }),
+      ),
+    ).toBe(0n);
+  });
+
+  test("can read permit data", async () => {
+    const permitData = await readAndParse(
+      erc20PermitData(publicClient, { erc20: mockERC20, address: ALICE }),
+    );
+
+    expect(permitData.amount).toBe(75n * 10n ** 16n);
+    expect(permitData.nonce).toBe(0n);
+  });
+
+  test("can read domain seperator", async () => {
+    expect(
+      await readAndParse(
+        erc20PermitDomainSeparator(publicClient, { erc20: mockERC20 }),
+      ),
+    ).toBeTruthy();
+  });
 
   test("can get token", async () => {
     const token = await readAndParse(
@@ -147,7 +175,39 @@ describe("erc20 reads", () => {
     expect(token.decimals).toBe(18);
   });
 
-  test.todo("can get permit token");
+  test("can get permit token", async () => {
+    const token = await readAndParse(
+      getErc20Permit(publicClient, {
+        erc20: mockERC20,
+      }),
+    );
 
-  test.todo("can check if permit");
+    expect(token.address).toBe(getAddress(mockERC20.address));
+    expect(token.chainID).toBe(31337);
+    expect(token.name).toBe("Mock ERC20");
+    expect(token.symbol).toBe("MOCK");
+    expect(token.version).toBe("1");
+    expect(token.decimals).toBe(18);
+  });
+
+  test("can get permit token no version", async () => {
+    const token = await readAndParse(
+      getErc20Permit(publicClient, {
+        erc20: createErc20(
+          mockERC20.address,
+          mockERC20.name,
+          mockERC20.symbol,
+          mockERC20.decimals,
+          mockERC20.chainID,
+        ),
+      }),
+    );
+
+    expect(token.address).toBe(getAddress(mockERC20.address));
+    expect(token.chainID).toBe(31337);
+    expect(token.name).toBe("Mock ERC20");
+    expect(token.symbol).toBe("MOCK");
+    expect(token.version).toBe("1");
+    expect(token.decimals).toBe(18);
+  });
 });

@@ -6,8 +6,8 @@ import { createErc20 } from "reverse-mirage";
 import invariant from "tiny-invariant";
 import { type Hex, parseEther } from "viem";
 import { useChainId, usePublicClient } from "wagmi";
-import MockERC20 from "../../../contracts/out/MockERC20.sol/MockERC20.json";
-import { mockErc20ABI } from "../generated";
+import ERC20 from "../../../contracts/out/ERC20.sol/ERC20.json";
+import { erc20ABI } from "../generated";
 
 export const useSetup = () => {
   const publicClient = usePublicClient();
@@ -20,8 +20,8 @@ export const useSetup = () => {
       if (id === undefined) {
         const deployHash = await walletClient.deployContract({
           account: ALICE,
-          abi: mockErc20ABI,
-          bytecode: MockERC20.bytecode.object as Hex,
+          abi: erc20ABI,
+          bytecode: ERC20.bytecode.object as Hex,
           args: ["Marshall Rogan INU", "MRI", 18],
         });
 
@@ -38,7 +38,7 @@ export const useSetup = () => {
         });
 
         const mintHash = await walletClient.writeContract({
-          abi: mockErc20ABI,
+          abi: erc20ABI,
           functionName: "mint",
           address: contractAddress,
           args: [ALICE, parseEther("10")],

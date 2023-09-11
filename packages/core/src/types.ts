@@ -15,15 +15,14 @@ export type Token<TType extends string = string> = {
   chainID: number;
 };
 
-export type TokenData<TToken extends Token, TData extends object> = {
-  type: `${TToken["type"]}${string}`;
+export type TokenData<
+  TToken extends Token = Token,
+  TType extends `${TToken["type"]}${string}` = `${TToken["type"]}${string}`,
+  TData extends object = object,
+> = {
+  type: TType;
   token: TToken;
 } & TData;
-
-export type Amount<TToken extends Token = Token> = TokenData<
-  TToken & { decimals?: number },
-  { amount: bigint }
->;
 
 export type Price<
   TQuoteCurrency extends Token,

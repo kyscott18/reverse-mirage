@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import { createAmountFromRaw, scaleUp } from "./amountUtils.js";
+import { type Amount, createAmountFromRaw, scaleUp } from "./amountUtils.js";
 import {
   fractionAdd,
   fractionDivide,
@@ -11,7 +11,7 @@ import {
   fractionSubtract,
   fractionToNumber,
 } from "./fractionUtils.js";
-import type { Amount, BigIntIsh, Fraction, Price, Token } from "./types.js";
+import type { BigIntIsh, Fraction, Price, Token } from "./types.js";
 
 /**
  * Returns true if {@link x} is of type {@link Price}

@@ -39,7 +39,7 @@ const two = {
   denominator: 1n,
 } as const;
 
-describe.concurrent("price utils", () => {
+describe("price utils", () => {
   test("can create price from fraction", () => {
     expect(
       priceEqualTo(
@@ -149,7 +149,7 @@ describe.concurrent("price utils", () => {
   test("can quote", () => {
     expect(() =>
       priceQuote(one, {
-        type: "erc20Amount",
+        type: "tokenAmount",
         token: { ...mockToken },
         amount: 2n,
       }),
@@ -205,7 +205,7 @@ const twoDecimals = {
   denominator: 10n ** 9n,
 } as const;
 
-describe.concurrent("price utils with decimals", () => {
+describe("price utils with decimals", () => {
   test("can create price from fraction", () => {
     expect(
       priceEqualTo(

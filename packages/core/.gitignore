@@ -8,6 +8,7 @@ coverage
 
 # production
 dist
+src/generated.ts
 
 # misc
 .DS_Store

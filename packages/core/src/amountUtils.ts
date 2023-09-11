@@ -1,6 +1,12 @@
 import invariant from "tiny-invariant";
 import { parseUnits } from "viem/utils";
-import type { Amount, BigIntIsh, Fraction } from "./types.js";
+import type { BigIntIsh, Fraction, Token, TokenData } from "./types.js";
+
+export type Amount<
+  TToken extends Token & { decimals?: number } = Token & { decimals?: number },
+  TType extends `${TToken["type"]}${string}` = `${TToken["type"]}${string}`,
+  TData extends { amount: bigint } = { amount: bigint },
+> = TokenData<TToken, TType, TData>;
 
 export const scaleUp = (token: Amount["token"], amount: bigint) =>
   token.decimals ? amount * 10n ** BigInt(token.decimals) : amount;
@@ -21,7 +27,7 @@ export const isAmount = <TAmount extends Amount>(
 export const createAmountFromString = <TToken extends Amount["token"]>(
   token: TToken,
   amount: string,
-): Amount<TToken> => ({
+): Amount<TToken, `${TToken["type"]}Amount`> => ({
   type: `${token.type}Amount`,
   token,
   amount: token.decimals ? parseUnits(amount, token.decimals) : BigInt(amount),
@@ -33,7 +39,7 @@ export const createAmountFromString = <TToken extends Amount["token"]>(
 export const createAmountFromFraction = <TToken extends Amount["token"]>(
   token: TToken,
   amount: Fraction,
-): Amount<TToken> => ({
+): Amount<TToken, `${TToken["type"]}Amount`> => ({
   type: `${token.type}Amount`,
   token,
   amount: scaleUp(token, amount.numerator) / amount.denominator,
@@ -45,7 +51,7 @@ export const createAmountFromFraction = <TToken extends Amount["token"]>(
 export const createAmountFromRaw = <TToken extends Amount["token"]>(
   token: TToken,
   amount: bigint,
-): Amount<TToken> => ({
+): Amount<TToken, `${TToken["type"]}Amount`> => ({
   type: `${token.type}Amount`,
   token,
   amount,
@@ -54,73 +60,83 @@ export const createAmountFromRaw = <TToken extends Amount["token"]>(
 /**
  * Adds {@link a} with {@link b}
  */
-export const amountAdd = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
-): Amount<TToken> => {
+export const amountAdd = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
+): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
     invariant(a.token === b.token);
   }
 
   return isAmount(b)
-    ? createAmountFromRaw(a.token, a.amount + b.amount)
-    : createAmountFromRaw(a.token, a.amount + scaleUp(a.token, BigInt(b)));
+    ? { ...a, amount: a.amount + b.amount }
+    : { ...a, amount: a.amount + scaleUp(a.token, BigInt(b)) };
 };
 
 /**
  * Subtracts {@link a} by {@link b}
  */
-export const amountSubtract = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
-): Amount<TToken> => {
+export const amountSubtract = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
+): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
     invariant(a.token === b.token);
   }
 
   return isAmount(b)
-    ? createAmountFromRaw(a.token, a.amount - b.amount)
-    : createAmountFromRaw(a.token, a.amount - scaleUp(a.token, BigInt(b)));
+    ? { ...a, amount: a.amount - b.amount }
+    : { ...a, amount: a.amount - scaleUp(a.token, BigInt(b)) };
 };
 
 /**
  * Multiplies {@link a} with {@link b}
  */
-export const amountMultiply = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
-): Amount<TToken> => {
+export const amountMultiply = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
+): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
     invariant(a.token === b.token);
   }
 
   return isAmount(b)
-    ? createAmountFromRaw(a.token, scaleDown(a.token, a.amount * b.amount))
-    : createAmountFromRaw(a.token, a.amount * BigInt(b));
+    ? { ...a, amount: scaleDown(a.token, a.amount * b.amount) }
+    : { ...a, amount: a.amount * BigInt(b) };
 };
 
 /**
  * Divides {@link a} by {@link b}
  */
-export const amountDivide = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
-): Amount<TToken> => {
+export const amountDivide = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
+): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
     invariant(a.token === b.token);
   }
 
   return isAmount(b)
-    ? createAmountFromRaw(a.token, scaleUp(a.token, a.amount) / b.amount)
-    : createAmountFromRaw(a.token, a.amount / BigInt(b));
+    ? { ...a, amount: scaleUp(a.token, a.amount) / b.amount }
+    : { ...a, amount: a.amount / BigInt(b) };
 };
 
 /**
  * Returns true if {@link a} is less than {@link b}
  */
-export const amountLessThan = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
+export const amountLessThan = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
 ): boolean => {
   if (isAmount(b)) {
     invariant(a.token === b.token);
@@ -134,9 +150,11 @@ export const amountLessThan = <TToken extends Amount["token"]>(
 /**
  * Returns true if {@link a} is equal to {@link b}
  */
-export const amountEqualTo = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
+export const amountEqualTo = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
 ): boolean => {
   if (isAmount(b)) {
     invariant(a.token === b.token);
@@ -150,9 +168,11 @@ export const amountEqualTo = <TToken extends Amount["token"]>(
 /**
  * Returns true if {@link a} is greater than {@link b}
  */
-export const amountGreaterThan = <TToken extends Amount["token"]>(
-  a: Amount<TToken>,
-  b: Amount<TToken> | BigIntIsh,
+export const amountGreaterThan = <TAmount extends Amount>(
+  a: TAmount,
+  b: TAmount extends Amount<TAmount["token"], infer TType>
+    ? Amount<TAmount["token"], TType> | BigIntIsh
+    : never,
 ): boolean => {
   if (isAmount(b)) {
     invariant(a.token === b.token);

@@ -35,25 +35,42 @@ const one = {
   type: "tokenAmount",
   token: mockToken,
   amount: 1n,
-} as const satisfies TokenData<typeof mockToken, { amount: bigint }>;
+} as const satisfies TokenData<
+  typeof mockToken,
+  "tokenAmount",
+  { amount: bigint }
+>;
+
 const two = {
   type: "tokenAmount",
   token: mockToken,
   amount: 2n,
-} as const satisfies TokenData<typeof mockToken, { amount: bigint }>;
+} as const satisfies TokenData<
+  typeof mockToken,
+  "tokenAmount",
+  { amount: bigint }
+>;
 
 const oneDecimals = {
-  type: "tokenDecimalsAmount",
+  type: "tokenAmount",
   token: mockTokenDecimals,
   amount: parseEther("1"),
-} as const satisfies TokenData<typeof mockTokenDecimals, { amount: bigint }>;
+} as const satisfies TokenData<
+  typeof mockTokenDecimals,
+  "tokenAmount",
+  { amount: bigint }
+>;
 const twoDecimals = {
-  type: "tokenDecimalsAmount",
+  type: "tokenAmount",
   token: mockTokenDecimals,
   amount: parseEther("2"),
-} as const satisfies TokenData<typeof mockTokenDecimals, { amount: bigint }>;
+} as const satisfies TokenData<
+  typeof mockTokenDecimals,
+  "tokenAmount",
+  { amount: bigint }
+>;
 
-describe.concurrent("amount utils", () => {
+describe("amount utils", () => {
   test("can create  amount from string", () => {
     expect(amountEqualTo(createAmountFromString(mockToken, "1"), one)).toBe(
       true,
@@ -129,7 +146,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountAdd(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
     expect(amountEqualTo(amountAdd(one, one), two)).toBe(true);
@@ -146,7 +163,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountSubtract(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
     expect(amountEqualTo(amountSubtract(two, one), one)).toBe(true);
@@ -165,7 +182,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountMultiply(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
 
@@ -189,7 +206,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountDivide(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
 
@@ -211,7 +228,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountEqualTo(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
     expect(amountEqualTo(one, one)).toBe(true);
@@ -232,7 +249,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountLessThan(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
     expect(amountLessThan(one, two)).toBe(true);
@@ -253,7 +270,7 @@ describe.concurrent("amount utils", () => {
     expect(() =>
       amountGreaterThan(one, {
         ...one,
-        token: { ...one.token, chainID: 2 },
+        token: { ...one.token, chainID: 2 as 1 },
       }),
     ).toThrowError();
     expect(amountGreaterThan(two, one)).toBe(true);
