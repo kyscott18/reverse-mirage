@@ -6,6 +6,7 @@ export type ERC1155 = Token<"erc1155"> & {
   address: Address;
   id: bigint;
   uri: string;
+  blockCreated: bigint;
 };
 
 export type ERC1155Data<TERC1155 extends ERC1155> = Amount<

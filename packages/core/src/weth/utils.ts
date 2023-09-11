@@ -10,6 +10,7 @@ export const createWETH = (
   symbol: string,
   decimals: number,
   chainID: number,
+  blockCreated = 0n,
 ): WETH => ({
   type: "weth",
   address: getAddress(address),
@@ -17,4 +18,5 @@ export const createWETH = (
   symbol,
   decimals,
   chainID,
+  blockCreated,
 });

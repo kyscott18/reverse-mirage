@@ -7,6 +7,7 @@ export type BaseERC20<TType extends string = string> = Token<TType> & {
   name: string;
   symbol: string;
   decimals: number;
+  blockCreated: bigint;
 };
 
 export type ERC20 = BaseERC20<"erc20">;

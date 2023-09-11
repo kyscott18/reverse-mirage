@@ -119,7 +119,8 @@ export const erc721SupportsInterface = (args: {
   }) as const satisfies ReverseMirageRead<boolean>;
 
 export const getERC721 = (args: {
-  erc721: Pick<ERC721, "address" | "id" | "chainID">;
+  erc721: Pick<ERC721, "address" | "id" | "chainID"> &
+    Partial<Pick<ERC721, "blockCreated">>;
 }) =>
   ({
     read: (publicClient: PublicClient) =>
@@ -136,6 +137,7 @@ export const getERC721 = (args: {
         args.erc721.id,
         data[2],
         args.erc721.chainID,
+        args.erc721.blockCreated,
       ),
   }) as const satisfies ReverseMirageRead<[string, string, string]>;
 

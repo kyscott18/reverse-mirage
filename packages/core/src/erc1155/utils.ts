@@ -9,12 +9,14 @@ export const createERC1155 = (
   id: bigint,
   uri: string,
   chainID: number,
+  blockCreated = 0n,
 ): ERC1155 => ({
   type: "erc1155",
   address: getAddress(address),
   id,
   uri,
   chainID,
+  blockCreated,
 });
 
 /**

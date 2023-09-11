@@ -25,6 +25,7 @@ const erc20Permit = {
   decimals: 18,
   version: "1",
   chainID: foundry.id,
+  blockCreated: 0n,
 } as const;
 
 describe("utils", () => {
@@ -38,6 +39,7 @@ describe("utils", () => {
       symbol: "symbol",
       decimals: 18,
       chainID: foundry.id,
+      blockCreated: 0n,
     });
   });
 

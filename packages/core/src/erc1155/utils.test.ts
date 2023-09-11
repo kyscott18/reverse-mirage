@@ -9,6 +9,7 @@ const erc1155 = {
   id: 0n,
   uri: "https://mitch.com",
   chainID: foundry.id,
+  blockCreated: 0n,
 } as const;
 
 describe("utils", () => {

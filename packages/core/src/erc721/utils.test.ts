@@ -11,6 +11,7 @@ const erc721 = {
   id: 0n,
   tokenURI: "https://mitch.com",
   chainID: foundry.id,
+  blockCreated: 0n,
 } as const;
 
 describe("utils", () => {

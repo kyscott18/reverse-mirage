@@ -16,6 +16,7 @@ export const createERC20 = (
   symbol: string,
   decimals: number,
   chainID: number,
+  blockCreated = 0n,
 ): ERC20 => ({
   type: "erc20",
   address: getAddress(address),
@@ -23,6 +24,7 @@ export const createERC20 = (
   symbol,
   decimals,
   chainID,
+  blockCreated,
 });
 
 /**
@@ -35,6 +37,7 @@ export const createERC20Permit = (
   decimals: number,
   version: string,
   chainID: number,
+  blockCreated = 0n,
 ): ERC20Permit => ({
   type: "erc20Permit",
   address: getAddress(address),
@@ -43,6 +46,7 @@ export const createERC20Permit = (
   decimals,
   version,
   chainID,
+  blockCreated,
 });
 
 /**

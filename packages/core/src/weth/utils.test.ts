@@ -10,6 +10,7 @@ const weth = {
   decimals: 18,
   address: zeroAddress,
   chainID: foundry.id,
+  blockCreated: 0n,
 } as const;
 
 describe("utils", () => {
