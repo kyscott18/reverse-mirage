@@ -3,6 +3,7 @@ import { createAmountFromRaw } from "../amountUtils.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../generated.js";
 import type { ReverseMirageRead } from "../types.js";
 import type {
+  BaseERC20,
   ERC20,
   ERC20Amount,
   ERC20Permit,
@@ -14,7 +15,7 @@ import {
   createERC20PermitDataFromRaw,
 } from "./utils.js";
 
-export const erc20BalanceOf = <TERC20 extends ERC20 | ERC20Permit>(args: {
+export const erc20BalanceOf = <TERC20 extends BaseERC20>(args: {
   erc20: TERC20;
   address: Address;
 }) =>
@@ -29,7 +30,7 @@ export const erc20BalanceOf = <TERC20 extends ERC20 | ERC20Permit>(args: {
     parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
   }) as const satisfies ReverseMirageRead<bigint>;
 
-export const erc20Allowance = <TERC20 extends ERC20 | ERC20Permit>(args: {
+export const erc20Allowance = <TERC20 extends BaseERC20>(args: {
   erc20: TERC20;
   address: Address;
   spender: Address;
@@ -45,7 +46,7 @@ export const erc20Allowance = <TERC20 extends ERC20 | ERC20Permit>(args: {
     parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
   }) as const satisfies ReverseMirageRead<bigint>;
 
-export const erc20TotalSupply = <TERC20 extends ERC20 | ERC20Permit>(args: {
+export const erc20TotalSupply = <TERC20 extends BaseERC20>(args: {
   erc20: TERC20;
 }) =>
   ({
@@ -59,7 +60,7 @@ export const erc20TotalSupply = <TERC20 extends ERC20 | ERC20Permit>(args: {
   }) as const satisfies ReverseMirageRead<bigint>;
 
 export const erc20Name = (args: {
-  erc20: Pick<ERC20 | ERC20Permit, "address">;
+  erc20: Pick<BaseERC20, "address">;
 }) =>
   ({
     read: (publicClient: PublicClient) =>
@@ -72,7 +73,7 @@ export const erc20Name = (args: {
   }) as const satisfies ReverseMirageRead<string>;
 
 export const erc20Symbol = (args: {
-  erc20: Pick<ERC20 | ERC20Permit, "address">;
+  erc20: Pick<BaseERC20, "address">;
 }) =>
   ({
     read: (publicClient: PublicClient) =>
@@ -85,7 +86,7 @@ export const erc20Symbol = (args: {
   }) as const satisfies ReverseMirageRead<string>;
 
 export const erc20Decimals = (args: {
-  erc20: Pick<ERC20 | ERC20Permit, "address">;
+  erc20: Pick<BaseERC20, "address">;
 }) =>
   ({
     read: (publicClient: PublicClient) =>

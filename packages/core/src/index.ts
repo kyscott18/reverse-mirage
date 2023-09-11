@@ -1,55 +1,4 @@
-export {
-  type Amount,
-  isAmount,
-  createAmountFromString,
-  createAmountFromFraction,
-  createAmountFromRaw,
-  amountAdd,
-  amountSubtract,
-  amountMultiply,
-  amountDivide,
-  amountLessThan,
-  amountEqualTo,
-  amountGreaterThan,
-  amountToNumber,
-} from "./amountUtils.js";
-
-export {
-  isFraction,
-  createFraction,
-  fractionQuotient,
-  fractionRemainder,
-  fractionInvert,
-  fractionAdd,
-  fractionSubtract,
-  fractionMultiply,
-  fractionDivide,
-  fractionLessThan,
-  fractionEqualTo,
-  fractionGreaterThan,
-  fractionToNumber,
-} from "./fractionUtils.js";
-
-export {
-  isPrice,
-  createPriceFromFraction,
-  createPriceFromAmounts,
-  createPrice,
-  priceInvert,
-  priceAdd,
-  priceSubtract,
-  priceMultiply,
-  priceDivide,
-  priceLessThan,
-  priceEqualTo,
-  priceGreaterThan,
-  priceQuote,
-  rawPrice,
-  adjustedPrice,
-  priceToNumber,
-} from "./priceUtils.js";
-
-export { readAndParse } from "./readUtils.js";
+// ERC20
 
 export {
   erc20BalanceOf,
@@ -84,13 +33,7 @@ export {
   erc20SignPermit,
 } from "./erc20/writes.js";
 
-export type {
-  ERC20,
-  ERC20Permit,
-  ERC20Data,
-  ERC20Amount,
-  ERC20PermitData,
-} from "./erc20/types.js";
+// ERC721
 
 export {
   erc721Name,
@@ -112,11 +55,125 @@ export {
   createERC721IDData,
 } from "./erc721/utils.js";
 
-export type { ERC721, ERC721IDData, ERC721Data } from "./erc721/types.js";
+export {
+  erc721Transfer,
+  erc721Approve,
+  erc721SetApprovalForAll,
+} from "./erc721/writes.js";
+
+// ERC1155
+
+export {
+  erc1155IsApprovedForAll,
+  erc1155URI,
+  erc1155BalanceOf,
+  getERC1155,
+} from "./erc1155/reads.js";
+
+export { createERC1155, createERC1155Data } from "./erc1155/utils.js";
+
+export {
+  erc1155SetApprovalForAll,
+  erc1155Transfer,
+  erc1155TransferBatch,
+} from "./erc1155/writes.js";
+
+// NATIVE
 
 export { nativeBalance } from "./native/reads.js";
 
 export { createNativeCurrency } from "./native/utils.js";
+
+// WETH
+
+export { createWETH } from "./weth/utils.js";
+
+export { wethDeposit, wethWithdraw } from "./weth/writes.js";
+
+// UTILS
+
+export { readAndParse } from "./readUtils.js";
+
+// AMOUNT
+
+export {
+  type Amount,
+  isAmount,
+  createAmountFromString,
+  createAmountFromFraction,
+  createAmountFromRaw,
+  amountAdd,
+  amountSubtract,
+  amountMultiply,
+  amountDivide,
+  amountLessThan,
+  amountEqualTo,
+  amountGreaterThan,
+  amountToNumber,
+} from "./amountUtils.js";
+
+// FRACTION
+
+export {
+  isFraction,
+  createFraction,
+  fractionQuotient,
+  fractionRemainder,
+  fractionInvert,
+  fractionAdd,
+  fractionSubtract,
+  fractionMultiply,
+  fractionDivide,
+  fractionLessThan,
+  fractionEqualTo,
+  fractionGreaterThan,
+  fractionToNumber,
+} from "./fractionUtils.js";
+
+// PRICE
+
+export {
+  isPrice,
+  createPriceFromFraction,
+  createPriceFromAmounts,
+  createPrice,
+  priceInvert,
+  priceAdd,
+  priceSubtract,
+  priceMultiply,
+  priceDivide,
+  priceLessThan,
+  priceEqualTo,
+  priceGreaterThan,
+  priceQuote,
+  rawPrice,
+  adjustedPrice,
+  priceToNumber,
+} from "./priceUtils.js";
+
+// ABI
+
+export {
+  solmateErc20ABI as erc20ABI,
+  solmateErc721ABI as erc721ABI,
+  solmateErc1155ABI as erc1155ABI,
+  weth9ABI,
+} from "./generated.js";
+
+// TYPES
+
+export type {
+  BaseERC20,
+  ERC20,
+  ERC20Permit,
+  ERC20Data,
+  ERC20Amount,
+  ERC20PermitData,
+} from "./erc20/types.js";
+
+export type { ERC721, ERC721IDData, ERC721Data } from "./erc721/types.js";
+
+export type { ERC1155, ERC1155Data } from "./erc1155/types.js";
 
 export type {
   NativeCurrency,
@@ -124,11 +181,7 @@ export type {
   NativeCurrencyData,
 } from "./native/types.js";
 
-export {
-  solmateErc20ABI as erc20ABI,
-  solmateErc721ABI as erc721ABI,
-  solmateErc1155ABI as erc1155ABI,
-} from "./generated.js";
+export type { WETH } from "./weth/types.js";
 
 export type {
   BigIntIsh,
