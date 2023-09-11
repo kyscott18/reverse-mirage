@@ -11,8 +11,11 @@ import {
   fractionSubtract,
   fractionToNumber,
 } from "./fractionUtils.js";
-import type { BigIntIsh, Fraction, Price } from "./types.js";
+import type { BigIntIsh, Fraction, Price, Token } from "./types.js";
 
+/**
+ * Returns true if {@link x} is of type {@link Price}
+ */
 export const isPrice = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -20,6 +23,12 @@ export const isPrice = <
   x: Price<TQuoteCurrency, TBaseCurrency> | BigIntIsh,
 ): x is Price<TQuoteCurrency, TBaseCurrency> => typeof x === "object";
 
+/**
+ * Creates a {@link Price} from two {@link Token}s and a {@link Fraction}
+ * @param quote The quote asset in the price (i.e. USD in traditional equites markets)
+ * @param base The base asset in the price
+ * @param price The exchange rate in units of {@link base} per {@link quote} as a {@link Fraction}
+ */
 export const createPriceFromFraction = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -39,6 +48,11 @@ export const createPriceFromFraction = <
     : price.denominator,
 });
 
+/**
+ * Creates a {@link Price} from two {@link Amount}s
+ * @param quote The quote amount in the price (i.e. USD in traditional equites markets)
+ * @param base The base amount in the price
+ */
 export const createPriceFromAmounts = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -53,6 +67,13 @@ export const createPriceFromAmounts = <
   denominator: quote.amount,
 });
 
+/**
+ * Creates a {@link Price} from two {@link Token}s and a {@link numerator} and {@link denominator}
+ * @param quote The quote asset in the price (i.e. USD in traditional equites markets)
+ * @param base The base asset in the price
+ * @param numerator The numerator in the price
+ * @param denominator The denominator in the price
+ */
 export const createPrice = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -73,6 +94,9 @@ export const createPrice = <
     : BigInt(denominator),
 });
 
+/**
+ * Calculates the inverse
+ */
 export const priceInvert = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -85,6 +109,9 @@ export const priceInvert = <
   base: price.quote,
 });
 
+/**
+ * Adds {@link a} with {@link b}
+ */
 export const priceAdd = <
   TBaseCurrency extends Amount["token"],
   TQuoteCurrency extends Amount["token"],
@@ -108,6 +135,9 @@ export const priceAdd = <
       );
 };
 
+/**
+ * Subtracts {@link a} by {@link b}
+ */
 export const priceSubtract = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -131,6 +161,9 @@ export const priceSubtract = <
       );
 };
 
+/**
+ * Multiplies {@link a} with {@link b}
+ */
 export const priceMultiply = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -161,6 +194,9 @@ export const priceMultiply = <
       );
 };
 
+/**
+ * Divides {@link a} by {@link b}
+ */
 export const priceDivide = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -191,6 +227,9 @@ export const priceDivide = <
       );
 };
 
+/**
+ * Returns true if {@link a} is less than {@link b}
+ */
 export const priceLessThan = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -205,6 +244,9 @@ export const priceLessThan = <
     : fractionLessThan(adjustedPrice(a), b);
 };
 
+/**
+ * Returns true if {@link a} is equal to {@link b}
+ */
 export const priceEqualTo = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -219,6 +261,9 @@ export const priceEqualTo = <
     : fractionEqualTo(adjustedPrice(a), b);
 };
 
+/**
+ * Returns true if {@link a} is greater than {@link b}
+ */
 export const priceGreaterThan = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -233,6 +278,9 @@ export const priceGreaterThan = <
     : fractionGreaterThan(adjustedPrice(a), b);
 };
 
+/**
+ * Returns the amount of quote currency corresponding to the {@link amount} of base currency at a given {@link price}
+ */
 export const priceQuote = <
   TQuoteCurrency extends Amount["token"],
   TBaseCurrency extends Amount["token"],
@@ -248,6 +296,9 @@ export const priceQuote = <
   );
 };
 
+/**
+ * Returns the price as a {@link Fraction} without adjusting for decimals
+ */
 export const rawPrice = (
   price: Price<Amount["token"], Amount["token"]>,
 ): Fraction => ({
@@ -256,6 +307,9 @@ export const rawPrice = (
   denominator: price.denominator,
 });
 
+/**
+ * Returns the price as a {@link Fraction} with adjusting for decimals
+ */
 export const adjustedPrice = (
   price: Price<Amount["token"], Amount["token"]>,
 ): Fraction => ({
@@ -268,6 +322,9 @@ export const adjustedPrice = (
     : price.denominator,
 });
 
+/**
+ * Returns the {@link price} as a number with an adjustment for decimals
+ */
 export const priceToNumber = (
   price: Price<Amount["token"], Amount["token"]>,
 ): number => fractionToNumber(adjustedPrice(price));

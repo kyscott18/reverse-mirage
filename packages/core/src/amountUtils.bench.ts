@@ -3,6 +3,8 @@ import {
   Token as UniswapToken,
 } from "@uniswap/sdk-core";
 import { bench, group, run } from "mitata";
+import { zeroAddress } from "viem";
+import { mockToken } from "./_test/constants.js";
 import {
   amountAdd,
   amountDivide,
@@ -15,16 +17,15 @@ import {
   createAmountFromRaw,
   createAmountFromString,
 } from "./amountUtils.js";
-import { mockERC20 } from "./test/constants.js";
 
 const uniswapMockERC20 = new UniswapToken(
-  mockERC20.chainID,
-  mockERC20.address,
-  mockERC20.decimals,
-  mockERC20.name,
-  mockERC20.symbol,
+  mockToken.chainID,
+  zeroAddress,
+  18,
+  mockToken.name,
+  mockToken.symbol,
 );
-const rmAmount = createAmountFromString(mockERC20, "52");
+const rmAmount = createAmountFromString(mockToken, "52");
 const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(
   uniswapMockERC20,
   52,
@@ -33,7 +34,7 @@ const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(
 
 group("create amount from string", () => {
   bench("reverse mirage", () => {
-    createAmountFromString(mockERC20, "52");
+    createAmountFromString(mockToken, "52");
   });
 
   bench("uniswap", () => {
@@ -43,7 +44,7 @@ group("create amount from string", () => {
 
 group("create amount from raw", () => {
   bench("reverse mirage", () => {
-    createAmountFromRaw(mockERC20, 1000000000000000000n);
+    createAmountFromRaw(mockToken, 1000000000000000000n);
   });
 
   bench("uniswap", () => {

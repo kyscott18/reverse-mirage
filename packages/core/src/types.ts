@@ -1,4 +1,4 @@
-import type { Abi, Hash, SimulateContractReturnType } from "viem";
+import type { Abi, Hash, PublicClient, SimulateContractReturnType } from "viem";
 
 export type BigIntIsh = bigint | string | number;
 
@@ -15,8 +15,12 @@ export type Token<TType extends string = string> = {
   chainID: number;
 };
 
-export type TokenData<TToken extends Token, TData extends object> = {
-  type: `${TToken["type"]}${string}`;
+export type TokenData<
+  TToken extends Token = Token,
+  TType extends `${TToken["type"]}${string}` = `${TToken["type"]}${string}`,
+  TData extends object = object,
+> = {
+  type: TType;
   token: TToken;
 } & TData;
 
@@ -30,7 +34,7 @@ export type Price<
 };
 
 export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
-  read: () => TRet | Promise<TRet>;
+  read: (publicClient: PublicClient) => TRet | Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
 

@@ -1,13 +1,4 @@
 export {
-  MaxUint256,
-  MaxUint128,
-  MaxUint64,
-  MaxUint32,
-  MaxUint16,
-  MaxUint8,
-} from "./constants.js";
-
-export {
   type Amount,
   isAmount,
   createAmountFromString,
@@ -67,27 +58,51 @@ export {
   erc20Name,
   erc20Symbol,
   erc20Decimals,
+  erc20PermitNonce,
+  erc20PermitData,
+  erc20PermitDomainSeparator,
   getErc20,
   getErc20Permit,
+  erc20IsPermit,
 } from "./erc20/reads.js";
 
-export { createErc20 } from "./erc20/utils.js";
+export {
+  createErc20,
+  createErc20Permit,
+  createERC20PermitDataFromString,
+  createERC20PermitDataFromRaw,
+  createERC20PermitDataFromFraction,
+  PermitType,
+  erc20PermitTypedDataHash,
+} from "./erc20/utils.js";
 
 export {
   erc20Transfer,
   erc20Approve,
   erc20TransferFrom,
+  erc20Permit,
+  erc20SignPermit,
 } from "./erc20/writes.js";
 
-export type { ERC20, ERC20Amount } from "./erc20/types.js";
+export type {
+  ERC20,
+  ERC20Permit,
+  ERC20Data,
+  ERC20Amount,
+  ERC20PermitData,
+} from "./erc20/types.js";
 
 export { nativeBalance } from "./native/reads.js";
 
 export { createNativeCurrency } from "./native/utils.js";
 
-export type { NativeCurrency, NativeCurrencyAmount } from "./native/types.js";
+export type {
+  NativeCurrency,
+  NativeCurrencyAmount,
+  NativeCurrencyData,
+} from "./native/types.js";
 
-export { erc20ABI } from "./generated.js";
+export { solmateErc20ABI as erc20ABI } from "./generated.js";
 
 export type {
   BigIntIsh,

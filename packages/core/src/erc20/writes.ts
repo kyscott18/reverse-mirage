@@ -1,13 +1,18 @@
 import invariant from "tiny-invariant";
-import type { Account, Hex, PublicClient, WalletClient } from "viem";
+import {
+  type Account,
+  type Hex,
+  type PublicClient,
+  type WalletClient,
+  getAddress,
+} from "viem";
 import type { Address } from "viem/accounts";
-import { erc20ABI } from "../generated.js";
+import { solmateErc20ABI } from "../generated.js";
 import type { ReverseMirageWrite } from "../types.js";
 import type {
   ERC20,
   ERC20Amount,
   ERC20Permit,
-  ERC20PermitAmount,
   ERC20PermitData,
 } from "./types.js";
 import { PermitType } from "./utils.js";
@@ -18,12 +23,12 @@ export const erc20Transfer = async (
   account: Account | Address,
   args: {
     to: Address;
-    amount: ERC20Amount<ERC20>;
+    amount: ERC20Amount<ERC20 | ERC20Permit>;
   },
-): Promise<ReverseMirageWrite<typeof erc20ABI, "transfer">> => {
+): Promise<ReverseMirageWrite<typeof solmateErc20ABI, "transfer">> => {
   const { request, result } = await publicClient.simulateContract({
     address: args.amount.token.address,
-    abi: erc20ABI,
+    abi: solmateErc20ABI,
     functionName: "transfer",
     args: [args.to, args.amount.amount],
     account,
@@ -38,12 +43,12 @@ export const erc20Approve = async (
   account: Account | Address,
   args: {
     spender: Address;
-    amount: ERC20Amount<ERC20>;
+    amount: ERC20Amount<ERC20 | ERC20Permit>;
   },
-): Promise<ReverseMirageWrite<typeof erc20ABI, "approve">> => {
+): Promise<ReverseMirageWrite<typeof solmateErc20ABI, "approve">> => {
   const { request, result } = await publicClient.simulateContract({
     address: args.amount.token.address,
-    abi: erc20ABI,
+    abi: solmateErc20ABI,
     functionName: "approve",
     args: [args.spender, args.amount.amount],
     account,
@@ -59,14 +64,14 @@ export const erc20TransferFrom = async (
   args: {
     from: Address;
     to: Address;
-    amount: ERC20Amount<ERC20>;
+    amount: ERC20Amount<ERC20 | ERC20Permit>;
   },
-): Promise<ReverseMirageWrite<typeof erc20ABI, "transferFrom">> => {
+): Promise<ReverseMirageWrite<typeof solmateErc20ABI, "transferFrom">> => {
   const { request, result } = await publicClient.simulateContract({
     address: args.amount.token.address,
-    abi: erc20ABI,
+    abi: solmateErc20ABI,
     functionName: "transferFrom",
-    args: [args.to, args.from, args.amount.amount],
+    args: [args.from, args.to, args.amount.amount],
     account,
   });
   const hash = await walletClient.writeContract(request);
@@ -77,17 +82,17 @@ export const erc20SignPermit = async (
   walletClient: WalletClient,
   account: Account | Address,
   permit: {
-    amount: ERC20PermitData<ERC20Permit>;
+    permitData: ERC20PermitData<ERC20Permit>;
     owner: Address;
     spender: Address;
     deadline: bigint;
   },
 ) => {
   const domain = {
-    name: permit.amount.token.name,
-    version: permit.amount.token.version,
-    chainId: permit.amount.token.chainID,
-    verifyingContract: permit.amount.token.address,
+    name: permit.permitData.token.name,
+    version: permit.permitData.token.version,
+    chainId: permit.permitData.token.chainID,
+    verifyingContract: getAddress(permit.permitData.token.address),
   } as const;
 
   return walletClient.signTypedData({
@@ -98,9 +103,9 @@ export const erc20SignPermit = async (
     message: {
       owner: permit.owner,
       spender: permit.spender,
-      value: permit.amount.amount,
-      nonce: permit.amount.nonce,
+      value: permit.permitData.amount,
       deadline: permit.deadline,
+      nonce: permit.permitData.nonce,
     },
   });
 };
@@ -112,25 +117,25 @@ export const erc20Permit = async (
   args: {
     owner: Address;
     spender: Address;
-    erc20Permit: ERC20PermitAmount<ERC20Permit>;
+    permitData: ERC20PermitData<ERC20Permit>;
     deadline: bigint;
     signature: Hex;
   },
-): Promise<ReverseMirageWrite<typeof erc20ABI, "permit">> => {
-  invariant(args.signature.length === 67, "invalid signature length");
+): Promise<ReverseMirageWrite<typeof solmateErc20ABI, "permit">> => {
+  invariant(args.signature.length === 132, "Invalid signature length");
 
-  const r = `0x${args.signature.substring(2, 2 + 32)}` as const;
-  const s = `0x${args.signature.substring(34, 34 + 32)}` as const;
-  const v = Number(args.signature.substring(66));
+  const r = `0x${args.signature.substring(2, 2 + 64)}` as const;
+  const s = `0x${args.signature.substring(2 + 64, 2 + 64 + 64)}` as const;
+  const v = Number(`0x${args.signature.substring(2 + 64 + 64)}`);
 
   const { request, result } = await publicClient.simulateContract({
-    address: args.erc20Permit.token.address,
-    abi: erc20ABI,
+    address: args.permitData.token.address,
+    abi: solmateErc20ABI,
     functionName: "permit",
     args: [
       args.owner,
       args.spender,
-      args.erc20Permit.amount,
+      args.permitData.amount,
       args.deadline,
       v,
       r,

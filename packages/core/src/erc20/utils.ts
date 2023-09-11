@@ -1,6 +1,15 @@
 import { type Address, getAddress, hashTypedData } from "viem";
+import {
+  createAmountFromFraction,
+  createAmountFromRaw,
+  createAmountFromString,
+} from "../amountUtils.js";
+import type { Fraction } from "../types.js";
 import type { ERC20, ERC20Permit, ERC20PermitData } from "./types.js";
 
+/**
+ * Creates an {@link ERC20}
+ */
 export const createErc20 = (
   address: Address,
   name: string,
@@ -16,6 +25,9 @@ export const createErc20 = (
   chainID,
 });
 
+/**
+ * Creates an {@link ERC20Permit}
+ */
 export const createErc20Permit = (
   address: Address,
   name: string,
@@ -24,7 +36,7 @@ export const createErc20Permit = (
   version: string,
   chainID: number,
 ): ERC20Permit => ({
-  type: "erc20",
+  type: "erc20Permit",
   address: getAddress(address),
   name,
   symbol,
@@ -33,6 +45,49 @@ export const createErc20Permit = (
   chainID,
 });
 
+/**
+ * Creates a {@link ERC20PermitData} from a {@link erc20Permit}, a string, and a {@link nonce}
+ */
+export const createERC20PermitDataFromString = <TERC20 extends ERC20Permit>(
+  erc20Permit: TERC20,
+  amount: string,
+  nonce: bigint,
+): ERC20PermitData<TERC20> => ({
+  ...createAmountFromString(erc20Permit, amount),
+  type: `${erc20Permit.type as TERC20["type"]}Data`,
+  nonce,
+});
+
+/**
+ * Creates a {@link ERC20PermitData} from a {@link erc20Permit}, a {@link Fraction}, and a {@link nonce}
+ */
+export const createERC20PermitDataFromFraction = <TERC20 extends ERC20Permit>(
+  erc20Permit: TERC20,
+  amount: Fraction,
+  nonce: bigint,
+): ERC20PermitData<TERC20> => ({
+  ...createAmountFromFraction(erc20Permit, amount),
+  type: `${erc20Permit.type as TERC20["type"]}Data`,
+  nonce,
+});
+
+/**
+ * Creates a {@link ERC20PermitData} from a {@link erc20Permit}, a {@link Fraction}, and a {@link nonce}
+ */
+export const createERC20PermitDataFromRaw = <TERC20 extends ERC20Permit>(
+  erc20Permit: TERC20,
+  amount: bigint,
+  nonce: bigint,
+): ERC20PermitData<TERC20> => ({
+  ...createAmountFromRaw(erc20Permit, amount),
+  type: `${erc20Permit.type as TERC20["type"]}Data`,
+
+  nonce,
+});
+
+/**
+ * EIP 712 Type for Permit
+ */
 export const PermitType = {
   Permit: [
     {
@@ -46,6 +101,9 @@ export const PermitType = {
   ],
 } as const;
 
+/**
+ * Returns the EIP 712 typed data hash of type {@link PermitType}
+ */
 export const erc20PermitTypedDataHash = (permit: {
   amount: ERC20PermitData<ERC20Permit>;
   owner: Address;

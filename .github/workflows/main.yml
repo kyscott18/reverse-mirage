@@ -51,7 +51,6 @@ jobs:
         run: pnpm build
       
   test:
-    if: false
     name: Test
     runs-on: ubuntu-latest
     steps:
@@ -65,7 +64,5 @@ jobs:
           version: nightly
       - name: Codegen
         run: pnpm codegen
-      - name: Build
-        run: pnpm build
       - name: Run tests
-        run: pnpm test:ci
+        run: pnpm test:cov

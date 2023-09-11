@@ -17,7 +17,7 @@ import type { Fraction } from "./types.js";
 const one: Fraction = { type: "fraction", numerator: 1n, denominator: 1n };
 const two: Fraction = { type: "fraction", numerator: 2n, denominator: 1n };
 
-describe.concurrent("fraction utils", () => {
+describe("fraction utils", () => {
   test("can make fraction", async () => {
     expect(fractionEqualTo(createFraction(2n, 1n), two)).toBe(true);
     expect(fractionEqualTo(createFraction(2n), two)).toBe(true);

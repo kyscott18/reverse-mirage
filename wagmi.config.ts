@@ -8,7 +8,7 @@ export default defineConfig([
     plugins: [
       foundry({
         project: "contracts/",
-        include: ["MockERC20.sol/**"],
+        include: ["ERC20.sol/**"],
       }),
     ],
   },
@@ -18,11 +18,6 @@ export default defineConfig([
     plugins: [
       foundry({
         project: "contracts/",
-        include: ["MockERC20.sol/**"],
-      }),
-      foundry({
-        project: "contracts/lib/solmate/",
-        include: ["ERC20.sol/**"],
       }),
     ],
   },
