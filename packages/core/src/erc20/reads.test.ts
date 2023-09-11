@@ -19,11 +19,11 @@ import {
   erc20PermitNonce,
   erc20Symbol,
   erc20TotalSupply,
-  getErc20,
-  getErc20Permit,
+  getERC20,
+  getERC20Permit,
 } from "./reads.js";
 import type { ERC20Permit } from "./types.js";
-import { createErc20, createErc20Permit } from "./utils.js";
+import { createERC20, createERC20Permit } from "./utils.js";
 
 let id: Hex | undefined = undefined;
 
@@ -42,7 +42,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    mockERC20 = createErc20Permit(
+    mockERC20 = createERC20Permit(
       contractAddress,
       "Mock ERC20",
       "MOCK",
@@ -186,7 +186,7 @@ describe("erc20 reads", () => {
   test("can get token", async () => {
     const token = await readAndParse(
       publicClient,
-      getErc20({
+      getERC20({
         erc20: mockERC20,
       }),
     );
@@ -201,7 +201,7 @@ describe("erc20 reads", () => {
   test("can get permit token", async () => {
     const token = await readAndParse(
       publicClient,
-      getErc20Permit({
+      getERC20Permit({
         erc20: mockERC20,
       }),
     );
@@ -217,8 +217,8 @@ describe("erc20 reads", () => {
   test("can get permit token no version", async () => {
     const token = await readAndParse(
       publicClient,
-      getErc20Permit({
-        erc20: createErc20(
+      getERC20Permit({
+        erc20: createERC20(
           mockERC20.address,
           mockERC20.name,
           mockERC20.symbol,

@@ -10,7 +10,7 @@ import { erc20PermitABI } from "../generated.js";
 import { readAndParse } from "../readUtils.js";
 import { erc20Allowance, erc20BalanceOf } from "./reads.js";
 import type { ERC20Permit } from "./types.js";
-import { createERC20PermitDataFromString, createErc20Permit } from "./utils.js";
+import { createERC20Permit, createERC20PermitDataFromString } from "./utils.js";
 import {
   erc20Approve,
   erc20Permit,
@@ -35,7 +35,7 @@ beforeEach(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    mockERC20 = createErc20Permit(
+    mockERC20 = createERC20Permit(
       contractAddress,
       "Mock ERC20",
       "MOCK",

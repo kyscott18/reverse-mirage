@@ -9,11 +9,11 @@ import { amountEqualTo } from "../amountUtils.js";
 import { createFraction } from "../fractionUtils.js";
 import { erc20PermitHashTypedDataABI } from "../generated.js";
 import {
+  createERC20,
+  createERC20Permit,
   createERC20PermitDataFromFraction,
   createERC20PermitDataFromRaw,
   createERC20PermitDataFromString,
-  createErc20,
-  createErc20Permit,
   erc20PermitTypedDataHash,
 } from "./utils.js";
 
@@ -30,7 +30,7 @@ const erc20Permit = {
 describe("utils", () => {
   test("can create erc20", () => {
     expect(
-      createErc20(zeroAddress, "name", "symbol", 18, foundry.id),
+      createERC20(zeroAddress, "name", "symbol", 18, foundry.id),
     ).toStrictEqual({
       type: "erc20",
       address: zeroAddress,
@@ -43,7 +43,7 @@ describe("utils", () => {
 
   test("can create erc20permit", () => {
     expect(
-      createErc20Permit(zeroAddress, "name", "symbol", 18, "1", foundry.id),
+      createERC20Permit(zeroAddress, "name", "symbol", 18, "1", foundry.id),
     ).toStrictEqual(erc20Permit);
   });
 
@@ -94,7 +94,7 @@ describe("utils", () => {
     });
     invariant(contractAddress);
 
-    const erc20Permit = createErc20Permit(
+    const erc20Permit = createERC20Permit(
       contractAddress,
       "Mock ERC20",
       "MOCK",

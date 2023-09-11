@@ -1,6 +1,6 @@
 import { type Address, type Hex, type PublicClient } from "viem";
 import { createAmountFromRaw } from "../amountUtils.js";
-import { solmateErc20ABI } from "../generated.js";
+import { solmateErc20ABI as solmateERC20ABI } from "../generated.js";
 import type { ReverseMirageRead } from "../types.js";
 import type {
   ERC20,
@@ -9,9 +9,9 @@ import type {
   ERC20PermitData,
 } from "./types.js";
 import {
+  createERC20,
+  createERC20Permit,
   createERC20PermitDataFromRaw,
-  createErc20,
-  createErc20Permit,
 } from "./utils.js";
 
 export const erc20BalanceOf = <TERC20 extends ERC20 | ERC20Permit>(args: {
@@ -21,7 +21,7 @@ export const erc20BalanceOf = <TERC20 extends ERC20 | ERC20Permit>(args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "balanceOf",
         args: [args.address],
@@ -37,7 +37,7 @@ export const erc20Allowance = <TERC20 extends ERC20 | ERC20Permit>(args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "allowance",
         args: [args.address, args.spender],
@@ -51,7 +51,7 @@ export const erc20TotalSupply = <TERC20 extends ERC20 | ERC20Permit>(args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "totalSupply",
       }),
@@ -64,7 +64,7 @@ export const erc20Name = (args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "name",
       }),
@@ -77,7 +77,7 @@ export const erc20Symbol = (args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "symbol",
       }),
@@ -90,7 +90,7 @@ export const erc20Decimals = (args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "decimals",
       }),
@@ -104,7 +104,7 @@ export const erc20PermitNonce = (args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "nonces",
         args: [args.address],
@@ -120,13 +120,13 @@ export const erc20PermitData = <TERC20 extends ERC20Permit>(args: {
     read: (publicClient: PublicClient) =>
       Promise.all([
         publicClient.readContract({
-          abi: solmateErc20ABI,
+          abi: solmateERC20ABI,
           address: args.erc20.address,
           functionName: "balanceOf",
           args: [args.address],
         }),
         publicClient.readContract({
-          abi: solmateErc20ABI,
+          abi: solmateERC20ABI,
           address: args.erc20.address,
           functionName: "nonces",
           args: [args.address],
@@ -142,14 +142,14 @@ export const erc20PermitDomainSeparator = (args: {
   ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
-        abi: solmateErc20ABI,
+        abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "DOMAIN_SEPARATOR",
       }),
     parse: (data) => data,
   }) as const satisfies ReverseMirageRead<Hex>;
 
-export const getErc20 = (args: {
+export const getERC20 = (args: {
   erc20: Pick<ERC20, "address" | "chainID">;
 }) =>
   ({
@@ -160,7 +160,7 @@ export const getErc20 = (args: {
         erc20Decimals(args).read(publicClient),
       ]),
     parse: (data): ERC20 =>
-      createErc20(
+      createERC20(
         args.erc20.address,
         data[0],
         data[1],
@@ -169,7 +169,7 @@ export const getErc20 = (args: {
       ),
   }) as const satisfies ReverseMirageRead<[string, string, number]>;
 
-export const getErc20Permit = (args: {
+export const getERC20Permit = (args: {
   erc20: Pick<ERC20Permit, "address" | "chainID"> &
     Partial<Pick<ERC20Permit, "version">>;
 }) =>
@@ -181,7 +181,7 @@ export const getErc20Permit = (args: {
         erc20Decimals(args).read(publicClient),
       ]),
     parse: (data): ERC20Permit =>
-      createErc20Permit(
+      createERC20Permit(
         args.erc20.address,
         data[0],
         data[1],
@@ -204,23 +204,23 @@ export const erc20IsPermit = (args: {
     read: async (publicClient: PublicClient) => {
       try {
         return await Promise.all([
-          getErc20(args).read(publicClient),
+          getERC20(args).read(publicClient),
           erc20PermitDomainSeparator(args).read(publicClient),
         ]);
       } catch {
-        return await Promise.all([getErc20(args).read(publicClient)]);
+        return await Promise.all([getERC20(args).read(publicClient)]);
       }
     },
     parse: (data): ERC20 | ERC20Permit =>
       data.length === 1
-        ? createErc20(
+        ? createERC20(
             args.erc20.address,
             data[0][0],
             data[0][1],
             data[0][2],
             args.erc20.chainID,
           )
-        : createErc20Permit(
+        : createERC20Permit(
             args.erc20.address,
             data[0][0],
             data[0][1],

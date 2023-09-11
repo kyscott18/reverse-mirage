@@ -61,14 +61,14 @@ export {
   erc20PermitNonce,
   erc20PermitData,
   erc20PermitDomainSeparator,
-  getErc20,
-  getErc20Permit,
+  getERC20,
+  getERC20Permit,
   erc20IsPermit,
 } from "./erc20/reads.js";
 
 export {
-  createErc20,
-  createErc20Permit,
+  createERC20,
+  createERC20Permit,
   createERC20PermitDataFromString,
   createERC20PermitDataFromRaw,
   createERC20PermitDataFromFraction,
@@ -102,7 +102,10 @@ export type {
   NativeCurrencyData,
 } from "./native/types.js";
 
-export { solmateErc20ABI as erc20ABI } from "./generated.js";
+export {
+  solmateErc20ABI as erc20ABI,
+  solmateErc721ABI as erc721ABI,
+} from "./generated.js";
 
 export type {
   BigIntIsh,
