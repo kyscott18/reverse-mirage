@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 0.1.11
+
+### Patch Changes
+
+- a75ece2: Add block created to several types and define constants for popular chains
+
 ## 0.1.10
 
 ### Patch Changes
