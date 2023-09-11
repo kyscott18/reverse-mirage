@@ -4,9 +4,7 @@
   "description": "",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": ["packages/*"],
   "scripts": {
     "install:packages": "pnpm --filter './packages/**' install",
     "preinstall": "npx -y only-allow pnpm",
@@ -17,6 +15,7 @@
     "typecheck": "pnpm --parallel typecheck",
     "test": "pnpm --parallel test",
     "test:ci": "pnpm --parallel test:ci",
+    "test:cov": "pnpm --parallel test:cov",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
