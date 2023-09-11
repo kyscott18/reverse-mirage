@@ -8,7 +8,8 @@ import { nativeBalance } from "./reads.js";
 describe("native reads", () => {
   test("can read native balance", async () => {
     const nativeBalanceBob = await readAndParse(
-      nativeBalance(publicClient, { nativeCurrency: anvilEther, address: BOB }),
+      publicClient,
+      nativeBalance({ nativeCurrency: anvilEther, address: BOB }),
     );
 
     expect(

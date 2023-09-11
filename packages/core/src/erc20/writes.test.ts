@@ -56,14 +56,16 @@ describe("erc20 writes", () => {
     await publicClient.waitForTransactionReceipt({ hash });
 
     const balanceOfAlice = await readAndParse(
-      erc20BalanceOf(publicClient, { erc20: mockERC20, address: ALICE }),
+      publicClient,
+      erc20BalanceOf({ erc20: mockERC20, address: ALICE }),
     );
     expect(
       amountEqualTo(balanceOfAlice, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
 
     const balanceOfBob = await readAndParse(
-      erc20BalanceOf(publicClient, { erc20: mockERC20, address: BOB }),
+      publicClient,
+      erc20BalanceOf({ erc20: mockERC20, address: BOB }),
     );
     expect(
       amountEqualTo(balanceOfBob, createAmountFromString(mockERC20, ".5")),
@@ -79,7 +81,8 @@ describe("erc20 writes", () => {
     await publicClient.waitForTransactionReceipt({ hash });
 
     const allowance = await readAndParse(
-      erc20Allowance(publicClient, {
+      publicClient,
+      erc20Allowance({
         erc20: mockERC20,
         address: ALICE,
         spender: ALICE,
@@ -116,21 +119,24 @@ describe("erc20 writes", () => {
     await publicClient.waitForTransactionReceipt({ hash });
 
     const balanceOfAlice = await readAndParse(
-      erc20BalanceOf(publicClient, { erc20: mockERC20, address: ALICE }),
+      publicClient,
+      erc20BalanceOf({ erc20: mockERC20, address: ALICE }),
     );
     expect(
       amountEqualTo(balanceOfAlice, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
 
     const balanceOfBob = await readAndParse(
-      erc20BalanceOf(publicClient, { erc20: mockERC20, address: BOB }),
+      publicClient,
+      erc20BalanceOf({ erc20: mockERC20, address: BOB }),
     );
     expect(
       amountEqualTo(balanceOfBob, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
 
     const allowance = await readAndParse(
-      erc20Allowance(publicClient, {
+      publicClient,
+      erc20Allowance({
         erc20: mockERC20,
         address: ALICE,
         spender: ALICE,
@@ -159,7 +165,8 @@ describe("erc20 writes", () => {
     await publicClient.waitForTransactionReceipt({ hash });
 
     const allowance = await readAndParse(
-      erc20Allowance(publicClient, {
+      publicClient,
+      erc20Allowance({
         erc20: mockERC20,
         address: ALICE,
         spender: BOB,

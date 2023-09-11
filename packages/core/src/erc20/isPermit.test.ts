@@ -25,7 +25,8 @@ test("can check if permit true", async () => {
   invariant(contractAddress);
 
   const token = await readAndParse(
-    erc20IsPermit(publicClient, {
+    publicClient,
+    erc20IsPermit({
       erc20: { address: contractAddress, chainID: foundry.id },
     }),
   );
@@ -52,7 +53,8 @@ test("can check if permit false", async () => {
   invariant(contractAddress);
 
   const token = await readAndParse(
-    erc20IsPermit(publicClient, {
+    publicClient,
+    erc20IsPermit({
       erc20: { address: contractAddress, chainID: foundry.id },
     }),
   );

@@ -1,9 +1,9 @@
 import type { ReverseMirageRead } from "reverse-mirage";
-import { type PublicClient, useChainId, usePublicClient } from "wagmi";
+import { useChainId, usePublicClient } from "wagmi";
 
 export const getQueryKey = <TArgs extends object>(
   // biome-ignore lint/suspicious/noExplicitAny: dont need
-  get: (publicClient: any, args: TArgs) => any,
+  get: (args: TArgs) => any,
   args: Partial<TArgs>,
   chainID: number,
 ) => {
@@ -19,10 +19,7 @@ export const getQueryKey = <TArgs extends object>(
 };
 
 export const useQueryGenerator = <TArgs extends object, TRet, TParse>(
-  reverseMirage: (
-    publicClient: PublicClient,
-    args: TArgs,
-  ) => ReverseMirageRead<TRet, TParse>,
+  reverseMirage: (args: TArgs) => ReverseMirageRead<TRet, TParse>,
 ) => {
   const publicClient = usePublicClient();
   const chainID = useChainId();
@@ -30,9 +27,8 @@ export const useQueryGenerator = <TArgs extends object, TRet, TParse>(
   return (args: Partial<TArgs>) =>
     ({
       queryKey: getQueryKey(reverseMirage, args, chainID),
-      queryFn: () => reverseMirage(publicClient, args as TArgs).read(),
-      select: (data: TRet) =>
-        reverseMirage(publicClient, args as TArgs).parse(data),
+      queryFn: () => reverseMirage(args as TArgs).read(publicClient),
+      select: (data: TRet) => reverseMirage(args as TArgs).parse(data),
       enabled: !Object.keys(args).some(
         (key) => args[key as keyof Partial<TArgs>] === undefined,
       ),

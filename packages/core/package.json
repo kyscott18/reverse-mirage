@@ -26,7 +26,12 @@
     "test:ci": "CI=true vitest --coverage",
     "test:cov": "vitest --coverage"
   },
-  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "web3"
+  ],
   "author": "Kyle Scott",
   "license": "MIT",
   "repository": "kyscott18/reverse-mirage",
@@ -65,7 +70,7 @@
     "mitata": "^0.1.6",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
-    "viem": "^1.10.8",
+    "viem": "^1.10.9",
     "vitest": "^0.34.4"
   },
   "packageManager": "pnpm@8.6.10"

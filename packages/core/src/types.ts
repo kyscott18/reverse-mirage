@@ -1,4 +1,4 @@
-import type { Abi, Hash, SimulateContractReturnType } from "viem";
+import type { Abi, Hash, PublicClient, SimulateContractReturnType } from "viem";
 
 export type BigIntIsh = bigint | string | number;
 
@@ -34,7 +34,7 @@ export type Price<
 };
 
 export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
-  read: () => TRet | Promise<TRet>;
+  read: (publicClient: PublicClient) => TRet | Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
 
