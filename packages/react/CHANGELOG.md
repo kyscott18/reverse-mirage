@@ -1,5 +1,13 @@
 # reverse-mirage-react
 
+## 0.0.6
+
+### Patch Changes
+
+- d3be52c: 100% code coverage and api changes
+- Updated dependencies [d3be52c]
+  - reverse-mirage@0.1.10
+
 ## 0.0.5
 
 ### Patch Changes
