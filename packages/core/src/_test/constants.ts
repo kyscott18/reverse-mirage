@@ -14,8 +14,6 @@ export const [ALICE, BOB] = ACCOUNTS;
 export const mockToken = {
   type: "token",
   chainID: foundry.id,
-  name: "Mock ERC20",
-  symbol: "MOCK",
 } as const satisfies Token;
 
 export const anvilEther = {

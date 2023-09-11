@@ -18,15 +18,11 @@ import type { Token, TokenData } from "./types.js";
 
 const mockToken = {
   type: "token",
-  name: "mock token",
-  symbol: "mt",
   chainID: 1,
 } as const satisfies Token;
 
 const mockTokenDecimals = {
   type: "token",
-  name: "mock token decimals",
-  symbol: "mtd",
   decimals: 18,
   chainID: 1,
 } as const satisfies Token & { decimals: number };

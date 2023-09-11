@@ -3,7 +3,7 @@ import { type Hex, getAddress } from "viem";
 import { foundry } from "viem/chains";
 import { beforeEach, describe, expect, test } from "vitest";
 import ERC721Bytecode from "../../../../contracts/out/ERC721.sol/ERC721.json";
-import { ALICE, BOB, mockToken } from "../_test/constants.js";
+import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { erc721ABI } from "../generated.js";
 import { readAndParse } from "../readUtils.js";
@@ -29,7 +29,7 @@ beforeEach(async () => {
     const deployHash = await walletClient.deployContract({
       abi: erc721ABI,
       bytecode: ERC721Bytecode.bytecode.object as Hex,
-      args: [mockToken.name, mockToken.symbol, "https://mitch.com"],
+      args: ["name", "symbol", "https://mitch.com"],
     });
 
     const { contractAddress } = await publicClient.waitForTransactionReceipt({

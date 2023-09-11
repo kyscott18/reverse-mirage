@@ -4,11 +4,15 @@ import type { Token, TokenData } from "../types.js";
 
 export type ERC20 = Token<"erc20"> & {
   address: Address;
+  name: string;
+  symbol: string;
   decimals: number;
 };
 
 export type ERC20Permit = Token<"erc20Permit"> & {
   address: Address;
+  name: string;
+  symbol: string;
   decimals: number;
   version: string;
 };

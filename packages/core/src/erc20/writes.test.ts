@@ -3,7 +3,7 @@ import { type Hex, getAddress, parseEther } from "viem";
 import { foundry } from "viem/chains";
 import { beforeEach, describe, expect, test } from "vitest";
 import ERC20PermitBytecode from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";
-import { ALICE, BOB, mockToken } from "../_test/constants.js";
+import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { erc20PermitABI } from "../generated.js";
@@ -28,7 +28,7 @@ beforeEach(async () => {
     const deployHash = await walletClient.deployContract({
       abi: erc20PermitABI,
       bytecode: ERC20PermitBytecode.bytecode.object as Hex,
-      args: [mockToken.name, mockToken.symbol, 18],
+      args: ["name", "symbol", 18],
     });
 
     const { contractAddress } = await publicClient.waitForTransactionReceipt({
@@ -37,8 +37,8 @@ beforeEach(async () => {
     invariant(contractAddress);
     mockERC20 = createERC20Permit(
       contractAddress,
-      "Mock ERC20",
-      "MOCK",
+      "name",
+      "symbol",
       18,
       "1",
       foundry.id,

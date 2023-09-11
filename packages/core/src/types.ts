@@ -10,8 +10,6 @@ export type Fraction = {
 
 export type Token<TType extends string = string> = {
   type: TType;
-  name: string;
-  symbol: string;
   chainID: number;
 };
 

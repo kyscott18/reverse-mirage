@@ -3,6 +3,8 @@ import type { Token, TokenData, Tuple } from "../types.js";
 
 export type ERC721 = Token<"erc721"> & {
   address: Address;
+  name: string;
+  symbol: string;
   id: bigint;
   tokenURI: string;
 };

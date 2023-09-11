@@ -92,6 +92,28 @@ export type {
   ERC20PermitData,
 } from "./erc20/types.js";
 
+export {
+  erc721Name,
+  erc721Symbol,
+  erc721TokenURI,
+  erc721GetApproved,
+  erc721IsApprovedForAll,
+  erc721OwnerOf,
+  erc721BalanceOf,
+  erc721SupportsInterface,
+  getERC721,
+  erc721Data,
+  erc721IDData,
+} from "./erc721/reads.js";
+
+export {
+  createERC721,
+  createERC721Data,
+  createERC721IDData,
+} from "./erc721/utils.js";
+
+export type { ERC721, ERC721IDData, ERC721Data } from "./erc721/types.js";
+
 export { nativeBalance } from "./native/reads.js";
 
 export { createNativeCurrency } from "./native/utils.js";
@@ -105,6 +127,7 @@ export type {
 export {
   solmateErc20ABI as erc20ABI,
   solmateErc721ABI as erc721ABI,
+  solmateErc1155ABI as erc1155ABI,
 } from "./generated.js";
 
 export type {
@@ -115,4 +138,5 @@ export type {
   Price,
   ReverseMirageRead,
   ReverseMirageWrite,
+  Tuple,
 } from "./types.js";
