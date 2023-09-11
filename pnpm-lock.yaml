@@ -1900,7 +1900,7 @@ packages:
   /@types/connect@3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.6.0
 
   /@types/debug@4.1.8:
     resolution: {integrity: sha512-/vPO1EPOs306Cvhwv7KfVfYvOJqA/S/AXjaHQiJboCZzcNDb+TIJFN9/2C9DZ//ijSKWioNyUxD792QmDJ+HKQ==}
@@ -1971,7 +1971,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 12.20.55
+      '@types/node': 20.6.0
 
   /@types/ws@8.5.5:
     resolution: {integrity: sha512-lwhs8hktwxSjf9UaZ9tG5M03PGogvFaH8gUgLNbN9HKIg0dvv6q+gkSuJ8HN4/VbyxkuLzCjlN7GquQ0gUJfIg==}
@@ -5682,14 +5682,6 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rollup@3.29.0:
-    resolution: {integrity: sha512-nszM8DINnx1vSS+TpbWKMkxem0CDWk3cSit/WWCBVs9/JZ1I/XLwOsiUglYuYReaeWWSsW9kge5zE5NZtf/a4w==}
-    engines: {node: '>=14.18.0', npm: '>=8.0.0'}
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.3
-    dev: true
-
   /rollup@3.29.1:
     resolution: {integrity: sha512-c+ebvQz0VIH4KhhCpDsI+Bik0eT8ZFEVZEYw0cGMVqIP8zc+gnwl7iXCamTw7vzv2MeuZFZfdx5JJIq+ehzDlg==}
     engines: {node: '>=14.18.0', npm: '>=8.0.0'}
@@ -6612,7 +6604,7 @@ packages:
       '@types/node': 20.6.0
       esbuild: 0.18.20
       postcss: 8.4.29
-      rollup: 3.29.0
+      rollup: 3.29.1
     optionalDependencies:
       fsevents: 2.3.3
     dev: true
