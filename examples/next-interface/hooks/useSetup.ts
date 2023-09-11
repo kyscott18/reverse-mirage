@@ -2,7 +2,7 @@ import { ALICE } from "@/constants";
 import { useEnvironment } from "@/contexts/environment";
 import { testClient, walletClient } from "@/pages/_app";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createErc20 } from "reverse-mirage";
+import { createERC20 } from "reverse-mirage";
 import invariant from "tiny-invariant";
 import { type Hex, parseEther } from "viem";
 import { useChainId, usePublicClient } from "wagmi";
@@ -32,7 +32,7 @@ export const useSetup = () => {
         invariant(contractAddress);
 
         setToken({
-          ...createErc20(contractAddress, "Mock ERC", "MOCK", 18, chainID),
+          ...createERC20(contractAddress, "Mock ERC", "MOCK", 18, chainID),
           logoURI:
             "https://assets.coingecko.com/coins/images/23784/small/mri.png?1647693409",
         });

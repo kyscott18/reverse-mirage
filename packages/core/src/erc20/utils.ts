@@ -10,7 +10,7 @@ import type { ERC20, ERC20Permit, ERC20PermitData } from "./types.js";
 /**
  * Creates an {@link ERC20}
  */
-export const createErc20 = (
+export const createERC20 = (
   address: Address,
   name: string,
   symbol: string,
@@ -28,7 +28,7 @@ export const createErc20 = (
 /**
  * Creates an {@link ERC20Permit}
  */
-export const createErc20Permit = (
+export const createERC20Permit = (
   address: Address,
   name: string,
   symbol: string,

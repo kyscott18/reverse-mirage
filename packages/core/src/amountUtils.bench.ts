@@ -22,8 +22,8 @@ const uniswapMockERC20 = new UniswapToken(
   mockToken.chainID,
   zeroAddress,
   18,
-  mockToken.name,
-  mockToken.symbol,
+  "name",
+  "symbol",
 );
 const rmAmount = createAmountFromString(mockToken, "52");
 const uniAmount = UniswapCurrencyAmount.fromFractionalAmount(

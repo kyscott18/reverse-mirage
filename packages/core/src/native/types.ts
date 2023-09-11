@@ -1,6 +1,8 @@
 import type { Token, TokenData } from "../types.js";
 
 export type NativeCurrency = Token<"nativeCurrency"> & {
+  name: string;
+  symbol: string;
   decimals: number;
 };
 
