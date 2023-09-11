@@ -1,5 +1,12 @@
 # reverse-mirage-react
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies [a75ece2]
+  - reverse-mirage@0.1.11
+
 ## 0.0.6
 
 ### Patch Changes
