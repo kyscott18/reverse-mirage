@@ -19,6 +19,14 @@ export const mainnetTokens = {
 
 export const sepoliaTokens = {
   native: createNativeCurrency("Ether", "ETH", 18, 11155111),
+  weth: createWETH(
+    "0xfFf9976782d46CC05630D1f6eBAb18b2324d6B14",
+    "Wrapped Ether",
+    "WETH",
+    18,
+    11155111,
+    3518216n,
+  ),
 } as const satisfies ChainTokens;
 
 export const goerliTokens = {
@@ -46,6 +54,13 @@ export const optimismTokens = {
 
 export const optimismGoerliTokens = {
   native: createNativeCurrency("Ether", "ETH", 18, 420),
+  weth: createWETH(
+    "0x4200000000000000000000000000000000000006",
+    "Wrapped Ether",
+    "WETH",
+    18,
+    420,
+  ),
 } as const satisfies ChainTokens;
 
 export const arbitrumTokens = {
@@ -62,6 +77,14 @@ export const arbitrumTokens = {
 
 export const arbitrumGoerliTokens = {
   native: createNativeCurrency("Ether", "ETH", 18, 421_613),
+  weth: createWETH(
+    "0xe39Ab88f8A4777030A534146A9Ca3B52bd5D43A3",
+    "Wrapped Ether",
+    "WETH",
+    18,
+    421_613,
+    16n,
+  ),
 } as const satisfies ChainTokens;
 
 export const baseTokens = {
@@ -77,6 +100,13 @@ export const baseTokens = {
 
 export const baseGoerliTokens = {
   native: createNativeCurrency("Ether", "ETH", 18, 84531),
+  weth: createWETH(
+    "0x4200000000000000000000000000000000000006",
+    "Wrapped Ether",
+    "WETH",
+    18,
+    84531,
+  ),
 } as const satisfies ChainTokens;
 
 export const celoTokens = {

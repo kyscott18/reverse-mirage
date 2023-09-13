@@ -10,7 +10,7 @@ import type { Address } from "viem/accounts";
 import { solmateErc20ABI as solmateERC20ABI } from "../generated.js";
 import type { ReverseMirageWrite } from "../types.js";
 import type {
-  ERC20,
+  BaseERC20,
   ERC20Amount,
   ERC20Permit,
   ERC20PermitData,
@@ -23,7 +23,7 @@ export const erc20Transfer = async (
   account: Account | Address,
   args: {
     to: Address;
-    amount: ERC20Amount<ERC20 | ERC20Permit>;
+    amount: ERC20Amount<BaseERC20>;
   },
 ): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "transfer">> => {
   const { request, result } = await publicClient.simulateContract({
@@ -43,7 +43,7 @@ export const erc20Approve = async (
   account: Account | Address,
   args: {
     spender: Address;
-    amount: ERC20Amount<ERC20 | ERC20Permit>;
+    amount: ERC20Amount<BaseERC20>;
   },
 ): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "approve">> => {
   const { request, result } = await publicClient.simulateContract({
@@ -64,7 +64,7 @@ export const erc20TransferFrom = async (
   args: {
     from: Address;
     to: Address;
-    amount: ERC20Amount<ERC20 | ERC20Permit>;
+    amount: ERC20Amount<BaseERC20>;
   },
 ): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "transferFrom">> => {
   const { request, result } = await publicClient.simulateContract({
@@ -82,7 +82,7 @@ export const erc20TransferFrom = async (
 export const erc20SignPermit = async (
   walletClient: WalletClient,
   account: Account | Address,
-  permit: {
+  args: {
     permitData: ERC20PermitData<ERC20Permit>;
     owner: Address;
     spender: Address;
@@ -90,10 +90,10 @@ export const erc20SignPermit = async (
   },
 ) => {
   const domain = {
-    name: permit.permitData.token.name,
-    version: permit.permitData.token.version,
-    chainId: permit.permitData.token.chainID,
-    verifyingContract: getAddress(permit.permitData.token.address),
+    name: args.permitData.token.name,
+    version: args.permitData.token.version,
+    chainId: args.permitData.token.chainID,
+    verifyingContract: getAddress(args.permitData.token.address),
   } as const;
 
   return walletClient.signTypedData({
@@ -102,11 +102,11 @@ export const erc20SignPermit = async (
     types: PermitType,
     primaryType: "Permit",
     message: {
-      owner: permit.owner,
-      spender: permit.spender,
-      value: permit.permitData.amount,
-      deadline: permit.deadline,
-      nonce: permit.permitData.nonce,
+      owner: args.owner,
+      spender: args.spender,
+      value: args.permitData.amount,
+      deadline: args.deadline,
+      nonce: args.permitData.nonce,
     },
   });
 };
