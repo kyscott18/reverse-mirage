@@ -32,7 +32,7 @@ export type Price<
 };
 
 export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
-  read: (publicClient: PublicClient) => TRet | Promise<TRet>;
+  read: (publicClient: PublicClient) => Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
 
