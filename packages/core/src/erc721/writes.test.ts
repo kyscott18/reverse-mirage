@@ -60,45 +60,53 @@ beforeEach(async () => {
 
 describe("erc721 writes", async () => {
   test("can transfer", async () => {
-    const { hash } = await erc721Transfer(publicClient, walletClient, ALICE, {
-      from: ALICE,
+    const { request } = await erc721Transfer(publicClient, {
       to: BOB,
+      account: ALICE,
       erc721,
     });
+    const hash = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(await erc721OwnerOf({ args: { erc721 }, publicClient })).toBe(BOB);
   });
 
   test("can transfer safe", async () => {
-    const { hash } = await erc721Transfer(publicClient, walletClient, ALICE, {
-      from: ALICE,
+    const { request } = await erc721Transfer(publicClient, {
+      account: ALICE,
       to: BOB,
       erc721,
       data: "safe",
     });
+    const hash = await walletClient.writeContract(request);
+
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(await erc721OwnerOf({ publicClient, args: { erc721 } })).toBe(BOB);
   });
 
   test("can transfer data", async () => {
-    const { hash } = await erc721Transfer(publicClient, walletClient, ALICE, {
-      from: ALICE,
+    const { request } = await erc721Transfer(publicClient, {
+      account: ALICE,
       to: BOB,
       erc721,
       data: "0x",
     });
+    const hash = await walletClient.writeContract(request);
+
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(await erc721OwnerOf({ publicClient, args: { erc721 } })).toBe(BOB);
   });
 
   test("can approve", async () => {
-    const { hash } = await erc721Approve(publicClient, walletClient, ALICE, {
+    const { request } = await erc721Approve(publicClient, {
+      account: ALICE,
       erc721,
       spender: BOB,
     });
+    const hash = await walletClient.writeContract(request);
+
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(await erc721GetApproved({ publicClient, args: { erc721 } })).toBe(
@@ -107,16 +115,14 @@ describe("erc721 writes", async () => {
   });
 
   test("can approve for all", async () => {
-    const { hash } = await erc721SetApprovalForAll(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        erc721,
-        spender: BOB,
-        approved: true,
-      },
-    );
+    const { request } = await erc721SetApprovalForAll(publicClient, {
+      account: ALICE,
+      erc721,
+      spender: BOB,
+      approved: true,
+    });
+    const hash = await walletClient.writeContract(request);
+
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(

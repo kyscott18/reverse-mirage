@@ -1,82 +1,88 @@
 import {
   type Account,
   type Address,
+  type Client,
   type Hex,
-  type PublicClient,
-  type WalletClient,
   getAddress,
 } from "viem";
+import { simulateContract } from "viem/contract";
 import { solmateErc1155ABI } from "../generated.js";
-import type { ReverseMirageWrite } from "../types.js";
 import type { ERC1155, ERC1155Data } from "./types.js";
 
-export const erc1155SetApprovalForAll = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc1155SetApprovalForAll = (
+  client: Client,
+  {
+    erc1155,
+    spender,
+    approved,
+    ...request
+  }: {
     erc1155: Pick<ERC1155, "address">;
     spender: Address;
     approved: boolean;
+    account?: Account | Address;
   },
-): Promise<
-  ReverseMirageWrite<typeof solmateErc1155ABI, "setApprovalForAll">
-> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.erc1155.address,
+) =>
+  simulateContract(client, {
+    address: erc1155.address,
     abi: solmateErc1155ABI,
     functionName: "setApprovalForAll",
-    args: [args.spender, args.approved],
-    account,
+    args: [spender, approved],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};
 
-export const erc1155Transfer = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc1155Transfer = (
+  client: Client,
+
+  {
+    erc1155,
+    from,
+    to,
+    data,
+    ...request
+  }: {
     erc1155: ERC1155Data<ERC1155>;
-    from: Address;
+    from?: Address;
     to: Address;
     data?: Hex;
+    account?: Account | Address;
   },
-): Promise<
-  ReverseMirageWrite<typeof solmateErc1155ABI, "safeTransferFrom">
-> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.erc1155.token.address,
+) =>
+  simulateContract(client, {
+    address: erc1155.token.address,
     abi: solmateErc1155ABI,
     functionName: "safeTransferFrom",
     args: [
-      args.from,
-      args.to,
-      args.erc1155.token.id,
-      args.erc1155.amount,
-      args.data ?? "0x",
+      (from ??
+        client.account?.address ??
+        (typeof request.account === "object"
+          ? request.account.address
+          : request.account))!,
+      to,
+      erc1155.token.id,
+      erc1155.amount,
+      data ?? "0x",
     ],
-    account,
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};
 
-export const erc1155TransferBatch = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc1155TransferBatch = (
+  client: Client,
+  {
+    erc1155,
+    from,
+    to,
+    data,
+    ...request
+  }: {
     erc1155: ERC1155Data<ERC1155>[];
-    from: Address;
+    from?: Address;
     to: Address;
     data?: Hex;
+    account?: Account | Address;
   },
-): Promise<
-  ReverseMirageWrite<typeof solmateErc1155ABI, "safeBatchTransferFrom">
-> => {
-  const address = args.erc1155.reduce((addr: Address | undefined, cur) => {
+) => {
+  const address = erc1155.reduce((addr: Address | undefined, cur) => {
     if (addr === undefined) return getAddress(cur.token.address);
     else if (addr !== getAddress(cur.token.address))
       throw Error("Tokens refering to different addresses");
@@ -85,19 +91,21 @@ export const erc1155TransferBatch = async (
 
   if (address === undefined) throw Error("No tokens passed to transfer");
 
-  const { request, result } = await publicClient.simulateContract({
+  return simulateContract(client, {
     address,
     abi: solmateErc1155ABI,
     functionName: "safeBatchTransferFrom",
     args: [
-      args.from,
-      args.to,
-      args.erc1155.map((t) => t.token.id),
-      args.erc1155.map((t) => t.amount),
-      args.data ?? "0x",
+      (from ??
+        client.account?.address ??
+        (typeof request.account === "object"
+          ? request.account.address
+          : request.account))!,
+      to,
+      erc1155.map((t) => t.token.id),
+      erc1155.map((t) => t.amount),
+      data ?? "0x",
     ],
-    account,
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
 };

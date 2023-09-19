@@ -1,6 +1,6 @@
-import type { Account, Address, Hex, PublicClient, WalletClient } from "viem";
+import type { Account, Address, Client, Hex } from "viem";
+import { simulateContract } from "viem/contract";
 import { solmateErc721ABI } from "../generated.js";
-import type { ReverseMirageWrite } from "../types.js";
 import type { ERC721 } from "./types.js";
 
 /**
@@ -8,95 +8,109 @@ import type { ERC721 } from "./types.js";
  *
  * Depending on `data` passed in, use one of three transfer methods
  */
-// TODO: make from optional
-export const erc721Transfer = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
-    from: Address;
+export const erc721Transfer = (
+  client: Client,
+  {
+    from,
+    to,
+    erc721,
+    data,
+    ...request
+  }: {
+    from?: Address;
     to: Address;
     erc721: Pick<ERC721, "address" | "id">;
     data?: "safe" | Hex;
+    account?: Account | Address;
   },
-): Promise<
-  ReverseMirageWrite<
-    typeof solmateErc721ABI,
-    "transferFrom" | "safeTransferFrom"
-  >
-> => {
-  if (args.data === undefined) {
-    const { request, result } = await publicClient.simulateContract({
-      address: args.erc721.address,
-      abi: solmateErc721ABI,
-      functionName: "transferFrom",
-      args: [args.from, args.to, args.erc721.id],
-      account,
-    });
-    const hash = await walletClient.writeContract(request);
-    return { hash, result, request };
-  } else if (args.data === "safe") {
-    const { request, result } = await publicClient.simulateContract({
-      address: args.erc721.address,
-      abi: solmateErc721ABI,
-      functionName: "safeTransferFrom",
-      args: [args.from, args.to, args.erc721.id],
-      account,
-    });
-    const hash = await walletClient.writeContract(request);
-    return { hash, result, request };
-  } else {
-    const { request, result } = await publicClient.simulateContract({
-      address: args.erc721.address,
-      abi: solmateErc721ABI,
-      functionName: "safeTransferFrom",
-      args: [args.from, args.to, args.erc721.id, args.data],
-      account,
-    });
-    const hash = await walletClient.writeContract(request);
-    return { hash, result, request };
-  }
-};
+) =>
+  data === undefined
+    ? simulateContract(client, {
+        address: erc721.address,
+        abi: solmateErc721ABI,
+        functionName: "transferFrom",
+        args: [
+          (from ??
+            client.account?.address ??
+            (typeof request.account === "object"
+              ? request.account.address
+              : request.account))!,
+          to,
+          erc721.id,
+        ],
+        ...request,
+      })
+    : data === "safe"
+    ? simulateContract(client, {
+        address: erc721.address,
+        abi: solmateErc721ABI,
+        functionName: "safeTransferFrom",
+        args: [
+          (from ??
+            client.account?.address ??
+            (typeof request.account === "object"
+              ? request.account.address
+              : request.account))!,
+          to,
+          erc721.id,
+        ],
+        ...request,
+      })
+    : simulateContract(client, {
+        address: erc721.address,
+        abi: solmateErc721ABI,
+        functionName: "safeTransferFrom",
+        args: [
+          (from ??
+            client.account?.address ??
+            (typeof request.account === "object"
+              ? request.account.address
+              : request.account))!,
+          to,
+          erc721.id,
+          data,
+        ],
+        ...request,
+      });
 
-export const erc721Approve = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc721Approve = (
+  client: Client,
+  {
+    erc721,
+    spender,
+    ...request
+  }: {
     erc721: Pick<ERC721, "address" | "id">;
     spender: Address;
+    account?: Account | Address;
   },
-): Promise<ReverseMirageWrite<typeof solmateErc721ABI, "approve">> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.erc721.address,
+) =>
+  simulateContract(client, {
+    address: erc721.address,
     abi: solmateErc721ABI,
     functionName: "approve",
-    args: [args.spender, args.erc721.id],
-    account,
+    args: [spender, erc721.id],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};
 
-export const erc721SetApprovalForAll = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc721SetApprovalForAll = (
+  client: Client,
+  {
+    erc721,
+    spender,
+    approved,
+    ...request
+  }: {
     erc721: Pick<ERC721, "address">;
     spender: Address;
     approved: boolean;
+    account?: Account | Address;
   },
-): Promise<
-  ReverseMirageWrite<typeof solmateErc721ABI, "setApprovalForAll">
-> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.erc721.address,
+) =>
+  simulateContract(client, {
+    address: erc721.address,
     abi: solmateErc721ABI,
     functionName: "setApprovalForAll",
-    args: [args.spender, args.approved],
-    account,
+    args: [spender, approved],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};

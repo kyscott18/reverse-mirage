@@ -1,4 +1,4 @@
-import type { Abi, Hash, PublicClient, SimulateContractReturnType } from "viem";
+import type { PublicClient } from "viem";
 
 export type BigIntIsh = bigint | string | number;
 
@@ -43,15 +43,6 @@ export type ReverseMirageRead<TRet, TParse> = {
   read: (publicClient: PublicClient) => Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
-
-export type ReverseMirageWrite<
-  TAbi extends Abi | readonly unknown[] = Abi,
-  TFunctionName extends string = string,
-> = Promise<{
-  hash: Hash;
-  request: SimulateContractReturnType<TAbi, TFunctionName>["request"];
-  result: SimulateContractReturnType<TAbi, TFunctionName>["result"];
-}>;
 
 /**
  * A tuple of length `N` with elements of type `T`.
