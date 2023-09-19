@@ -1,14 +1,14 @@
 import invariant from "tiny-invariant";
 import {
   type Account,
+  type Client,
   type Hex,
-  type PublicClient,
   type WalletClient,
   getAddress,
 } from "viem";
 import type { Address } from "viem/accounts";
+import { simulateContract } from "viem/contract";
 import { solmateErc20ABI as solmateERC20ABI } from "../generated.js";
-import type { ReverseMirageWrite } from "../types.js";
 import type {
   BaseERC20,
   ERC20Amount,
@@ -17,133 +17,141 @@ import type {
 } from "./types.js";
 import { PermitType } from "./utils.js";
 
-export const erc20Transfer = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc20Transfer = (
+  client: Client,
+  {
+    to,
+    amount,
+    ...request
+  }: {
     to: Address;
     amount: ERC20Amount<BaseERC20>;
+    account?: Account | Address;
   },
-): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "transfer">> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.amount.token.address,
+) =>
+  simulateContract(client, {
+    address: amount.token.address,
     abi: solmateERC20ABI,
     functionName: "transfer",
-    args: [args.to, args.amount.amount],
-    account,
+    args: [to, amount.amount],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};
 
-export const erc20Approve = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc20Approve = (
+  client: Client,
+  {
+    spender,
+    amount,
+    ...request
+  }: {
     spender: Address;
     amount: ERC20Amount<BaseERC20>;
+    account?: Account | Address;
   },
-): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "approve">> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.amount.token.address,
+) =>
+  simulateContract(client, {
+    address: amount.token.address,
     abi: solmateERC20ABI,
     functionName: "approve",
-    args: [args.spender, args.amount.amount],
-    account,
+    args: [spender, amount.amount],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};
 
-export const erc20TransferFrom = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc20TransferFrom = (
+  client: Client,
+  {
+    from,
+    to,
+    amount,
+    ...request
+  }: {
     from: Address;
     to: Address;
     amount: ERC20Amount<BaseERC20>;
+    account?: Account | Address;
   },
-): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "transferFrom">> => {
-  const { request, result } = await publicClient.simulateContract({
-    address: args.amount.token.address,
+) =>
+  simulateContract(client, {
+    address: amount.token.address,
     abi: solmateERC20ABI,
     functionName: "transferFrom",
-    args: [args.from, args.to, args.amount.amount],
-    account,
+    args: [from, to, amount.amount],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
-};
 
-// TODO: owner is an unnecessary parameter
-export const erc20SignPermit = async (
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
+export const erc20SignPermit = (
+  client: WalletClient,
+  {
+    permitData,
+    account,
+    spender,
+    deadline,
+  }: {
     permitData: ERC20PermitData<ERC20Permit>;
-    owner: Address;
+    account: Account | Address;
     spender: Address;
     deadline: bigint;
   },
 ) => {
   const domain = {
-    name: args.permitData.token.name,
-    version: args.permitData.token.version,
-    chainId: args.permitData.token.chainID,
-    verifyingContract: getAddress(args.permitData.token.address),
+    name: permitData.token.name,
+    version: permitData.token.version,
+    chainId: permitData.token.chainID,
+    verifyingContract: getAddress(permitData.token.address),
   } as const;
 
-  return walletClient.signTypedData({
+  const owner = typeof account === "object" ? account.address : account;
+
+  return client.signTypedData({
     domain,
-    account,
     types: PermitType,
     primaryType: "Permit",
     message: {
-      owner: args.owner,
-      spender: args.spender,
-      value: args.permitData.amount,
-      deadline: args.deadline,
-      nonce: args.permitData.nonce,
+      owner: owner,
+      spender: spender,
+      value: permitData.amount,
+      deadline: deadline,
+      nonce: permitData.nonce,
     },
+    account,
   });
 };
 
-export const erc20Permit = async (
-  publicClient: PublicClient,
-  walletClient: WalletClient,
-  account: Account | Address,
-  args: {
-    owner: Address;
+export const erc20Permit = (
+  client: Client,
+  {
+    spender,
+    permitData,
+    deadline,
+    signature,
+    ...request
+  }: {
     spender: Address;
     permitData: ERC20PermitData<ERC20Permit>;
     deadline: bigint;
     signature: Hex;
+    account?: Account | Address;
   },
-): Promise<ReverseMirageWrite<typeof solmateERC20ABI, "permit">> => {
-  invariant(args.signature.length === 132, "Invalid signature length");
+) => {
+  invariant(signature.length === 132, "Invalid signature length");
 
-  const r = `0x${args.signature.substring(2, 2 + 64)}` as const;
-  const s = `0x${args.signature.substring(2 + 64, 2 + 64 + 64)}` as const;
-  const v = Number(`0x${args.signature.substring(2 + 64 + 64)}`);
+  const r = `0x${signature.substring(2, 2 + 64)}` as const;
+  const s = `0x${signature.substring(2 + 64, 2 + 64 + 64)}` as const;
+  const v = Number(`0x${signature.substring(2 + 64 + 64)}`);
 
-  const { request, result } = await publicClient.simulateContract({
-    address: args.permitData.token.address,
+  const address =
+    client.account?.address ??
+    (typeof request.account === "object"
+      ? request.account.address
+      : request.account);
+
+  invariant(address, "no address specified in permit");
+
+  return simulateContract(client, {
+    address: permitData.token.address,
     abi: solmateERC20ABI,
     functionName: "permit",
-    args: [
-      args.owner,
-      args.spender,
-      args.permitData.amount,
-      args.deadline,
-      v,
-      r,
-      s,
-    ],
-    account,
+    args: [address, spender, permitData.amount, deadline, v, r, s],
+    ...request,
   });
-  const hash = await walletClient.writeContract(request);
-  return { hash, result, request };
 };

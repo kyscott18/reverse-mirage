@@ -36,16 +36,11 @@ export const useTransfer = <TERC20 extends BaseERC20>(
     } & {
       toast: TxToast;
     }) => {
-      const transfer = await erc20Transfer(
-        client,
-        walletClient.data!,
-        walletClient.data!.account,
-        {
-          to,
-          amount,
-        },
-      );
-      const hash = transfer.hash;
+      const { request } = await erc20Transfer(client, {
+        to,
+        amount,
+      });
+      const hash = await walletClient.data!.writeContract(request);
 
       toaster.txPending({ ...toast, hash });
 

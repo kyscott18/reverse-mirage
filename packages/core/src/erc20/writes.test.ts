@@ -59,10 +59,12 @@ beforeEach(async () => {
 
 describe("erc20 writes", () => {
   test("can transfer", async () => {
-    const { hash } = await erc20Transfer(publicClient, walletClient, ALICE, {
+    const { request } = await erc20Transfer(publicClient, {
       to: BOB,
       amount: createAmountFromString(mockERC20, ".5"),
+      account: ALICE,
     });
+    const hash = await walletClient.writeContract(request);
 
     await publicClient.waitForTransactionReceipt({ hash });
 
@@ -84,10 +86,12 @@ describe("erc20 writes", () => {
   });
 
   test("can approve", async () => {
-    const { hash } = await erc20Approve(publicClient, walletClient, ALICE, {
+    const { request } = await erc20Approve(publicClient, {
       spender: ALICE,
       amount: createAmountFromString(mockERC20, ".5"),
+      account: ALICE,
     });
+    const hash = await walletClient.writeContract(request);
 
     await publicClient.waitForTransactionReceipt({ hash });
 
@@ -105,28 +109,27 @@ describe("erc20 writes", () => {
   });
 
   test("can transfer from", async () => {
-    const { hash: approveHash } = await erc20Approve(
+    const { request: approveRequest } = await erc20Approve(
       publicClient,
-      walletClient,
-      ALICE,
+
       {
+        account: ALICE,
         spender: ALICE,
         amount: createAmountFromString(mockERC20, ".5"),
       },
     );
 
+    const approveHash = await walletClient.writeContract(approveRequest);
+
     await publicClient.waitForTransactionReceipt({ hash: approveHash });
 
-    const { hash } = await erc20TransferFrom(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        from: ALICE,
-        to: BOB,
-        amount: createAmountFromString(mockERC20, ".5"),
-      },
-    );
+    const { request } = await erc20TransferFrom(publicClient, {
+      account: ALICE,
+      from: ALICE,
+      to: BOB,
+      amount: createAmountFromString(mockERC20, ".5"),
+    });
+    const hash = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash });
 
     const balanceOfAlice = await erc20BalanceOf({
@@ -159,20 +162,22 @@ describe("erc20 writes", () => {
   });
 
   test("can permit", async () => {
-    const signature = await erc20SignPermit(walletClient, ALICE, {
+    const signature = await erc20SignPermit(walletClient, {
       permitData: createERC20PermitDataFromString(mockERC20, ".5", 0n),
-      owner: ALICE,
       spender: BOB,
+      account: ALICE,
       deadline: 2n ** 256n - 1n,
     });
 
-    const { hash } = await erc20Permit(publicClient, walletClient, ALICE, {
-      owner: ALICE,
+    const { request } = await erc20Permit(publicClient, {
+      account: ALICE,
       spender: BOB,
       permitData: createERC20PermitDataFromString(mockERC20, ".5", 0n),
       deadline: 2n ** 256n - 1n,
       signature,
     });
+    const hash = await walletClient.writeContract(request);
+
     await publicClient.waitForTransactionReceipt({ hash });
 
     const allowance = await erc20Allowance({

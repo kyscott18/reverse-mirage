@@ -54,11 +54,12 @@ beforeEach(async () => {
 
 describe("erc1155 writes", async () => {
   test("can transfer", async () => {
-    const { hash } = await erc1155Transfer(publicClient, walletClient, ALICE, {
-      from: ALICE,
+    const { request } = await erc1155Transfer(publicClient, {
       to: BOB,
       erc1155: createERC1155Data(erc1155, 5n),
+      account: ALICE,
     });
+    const hash = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash });
 
     const balanceALICE = await erc1155BalanceOf({
@@ -75,38 +76,33 @@ describe("erc1155 writes", async () => {
   });
 
   test("can transfer batch", async () => {
-    await expect(() =>
-      erc1155TransferBatch(publicClient, walletClient, ALICE, {
-        from: ALICE,
-        to: BOB,
-        erc1155: [],
-      }),
+    await expect(
+      async () =>
+        await erc1155TransferBatch(publicClient, {
+          to: BOB,
+          erc1155: [],
+          account: ALICE,
+        }),
     ).rejects.toThrowError();
 
-    await expect(() =>
-      erc1155TransferBatch(publicClient, walletClient, ALICE, {
-        from: ALICE,
-        to: BOB,
-        erc1155: [
-          createERC1155Data(erc1155, 5n),
-          createERC1155Data({ ...erc1155, address: zeroAddress }, 5n),
-        ],
-      }),
+    await expect(
+      async () =>
+        await erc1155TransferBatch(publicClient, {
+          account: ALICE,
+          to: BOB,
+          erc1155: [
+            createERC1155Data(erc1155, 5n),
+            createERC1155Data({ ...erc1155, address: zeroAddress }, 5n),
+          ],
+        }),
     ).rejects.toThrowError();
 
-    const { hash } = await erc1155TransferBatch(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        from: ALICE,
-        to: BOB,
-        erc1155: [
-          createERC1155Data(erc1155, 5n),
-          createERC1155Data(erc1155, 5n),
-        ],
-      },
-    );
+    const { request } = await erc1155TransferBatch(publicClient, {
+      account: ALICE,
+      to: BOB,
+      erc1155: [createERC1155Data(erc1155, 5n), createERC1155Data(erc1155, 5n)],
+    });
+    const hash = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash });
 
     const balanceBOB = await erc1155BalanceOf({
@@ -117,16 +113,17 @@ describe("erc1155 writes", async () => {
   });
 
   test("can approve for all", async () => {
-    const { hash } = await erc1155SetApprovalForAll(
+    const { request } = await erc1155SetApprovalForAll(
       publicClient,
-      walletClient,
-      ALICE,
+
       {
+        account: ALICE,
         erc1155,
         spender: BOB,
         approved: true,
       },
     );
+    const hash = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(

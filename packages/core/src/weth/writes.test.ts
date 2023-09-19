@@ -37,25 +37,12 @@ beforeEach(async () => {
 
 describe("weth writes", async () => {
   test("deposit", async () => {
-    const { hash } = await wethDeposit(publicClient, walletClient, ALICE, {
+    const { request } = await wethDeposit(publicClient, {
       amount: createAmountFromString(weth, "1"),
+      account: ALICE,
     });
 
-    await publicClient.waitForTransactionReceipt({ hash });
-
-    const balance = await erc20BalanceOf({
-      publicClient,
-      args: { erc20: weth, address: ALICE },
-    });
-
-    expect(balance.amount).toBe(10n ** 18n);
-    expect(balance.token).toStrictEqual(weth);
-  });
-
-  test("deposit", async () => {
-    const { hash } = await wethDeposit(publicClient, walletClient, ALICE, {
-      amount: createAmountFromString(weth, "1"),
-    });
+    const hash = await walletClient.writeContract(request);
 
     await publicClient.waitForTransactionReceipt({ hash });
 
@@ -69,20 +56,20 @@ describe("weth writes", async () => {
   });
 
   test("withdraw", async () => {
-    const { hash } = await wethDeposit(publicClient, walletClient, ALICE, {
+    const { request: depositRequest } = await wethDeposit(publicClient, {
       amount: createAmountFromString(weth, "1"),
+      account: ALICE,
     });
+
+    const hash = await walletClient.writeContract(depositRequest);
 
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const { hash: withdrawHash } = await wethWithdraw(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        amount: createAmountFromString(weth, "1"),
-      },
-    );
+    const request = await wethWithdraw(publicClient, {
+      amount: createAmountFromString(weth, "1"),
+      account: ALICE,
+    });
+    const withdrawHash = await walletClient.writeContract(request.request);
 
     await publicClient.waitForTransactionReceipt({ hash: withdrawHash });
 

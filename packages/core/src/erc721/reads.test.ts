@@ -56,27 +56,24 @@ beforeEach(async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash: mintHash });
 
-    const { hash: approveHash } = await erc721Approve(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        erc721,
-        spender: BOB,
-      },
-    );
+    const { request: approveRequest } = await erc721Approve(publicClient, {
+      erc721,
+      spender: BOB,
+      account: ALICE,
+    });
+
+    const approveHash = await walletClient.writeContract(approveRequest);
     await publicClient.waitForTransactionReceipt({ hash: approveHash });
 
-    const { hash } = await erc721SetApprovalForAll(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        erc721,
-        spender: BOB,
-        approved: true,
-      },
-    );
+    const { request } = await erc721SetApprovalForAll(publicClient, {
+      account: ALICE,
+      erc721,
+      spender: BOB,
+      approved: true,
+    });
+
+    const hash = await walletClient.writeContract(request);
+
     await publicClient.waitForTransactionReceipt({ hash });
   } else {
     await testClient.revert({ id });

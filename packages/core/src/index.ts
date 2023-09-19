@@ -191,7 +191,6 @@ export type {
   Price,
   ReverseMirage,
   ReverseMirageRead,
-  ReverseMirageWrite,
   Tuple,
 } from "./types.js";
 

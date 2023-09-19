@@ -47,16 +47,13 @@ beforeEach(async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash: mintHash });
 
-    const { hash } = await erc1155SetApprovalForAll(
-      publicClient,
-      walletClient,
-      ALICE,
-      {
-        erc1155,
-        spender: BOB,
-        approved: true,
-      },
-    );
+    const { request } = await erc1155SetApprovalForAll(publicClient, {
+      erc1155,
+      spender: BOB,
+      approved: true,
+      account: ALICE,
+    });
+    const hash = await walletClient.writeContract(request);
     await publicClient.waitForTransactionReceipt({ hash });
   } else {
     await testClient.revert({ id });
