@@ -8,7 +8,6 @@ import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { createAmountFromString } from "../amountUtils.js";
 import { weth9ABI } from "../generated.js";
 import { erc20BalanceOf } from "../index.js";
-import { readAndParse } from "../readUtils.js";
 import type { WETH } from "./types.js";
 import { createWETH } from "./utils.js";
 import { wethDeposit, wethWithdraw } from "./writes.js";
@@ -44,10 +43,10 @@ describe("weth writes", async () => {
 
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const balance = await readAndParse(
+    const balance = await erc20BalanceOf({
       publicClient,
-      erc20BalanceOf({ erc20: weth, address: ALICE }),
-    );
+      args: { erc20: weth, address: ALICE },
+    });
 
     expect(balance.amount).toBe(10n ** 18n);
     expect(balance.token).toStrictEqual(weth);
@@ -60,10 +59,10 @@ describe("weth writes", async () => {
 
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const balance = await readAndParse(
+    const balance = await erc20BalanceOf({
       publicClient,
-      erc20BalanceOf({ erc20: weth, address: ALICE }),
-    );
+      args: { erc20: weth, address: ALICE },
+    });
 
     expect(balance.amount).toBe(10n ** 18n);
     expect(balance.token).toStrictEqual(weth);
@@ -87,10 +86,10 @@ describe("weth writes", async () => {
 
     await publicClient.waitForTransactionReceipt({ hash: withdrawHash });
 
-    const balance = await readAndParse(
+    const balance = await erc20BalanceOf({
       publicClient,
-      erc20BalanceOf({ erc20: weth, address: ALICE }),
-    );
+      args: { erc20: weth, address: ALICE },
+    });
 
     expect(balance.amount).toBe(0n);
     expect(balance.token).toStrictEqual(weth);

@@ -6,7 +6,6 @@ import ERC721Bytecode from "../../../../contracts/out/ERC721.sol/ERC721.json";
 import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { erc721ABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import {
   erc721GetApproved,
   erc721IsApprovedForAll,
@@ -68,9 +67,7 @@ describe("erc721 writes", async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash });
 
-    expect(await readAndParse(publicClient, erc721OwnerOf({ erc721 }))).toBe(
-      BOB,
-    );
+    expect(await erc721OwnerOf({ args: { erc721 }, publicClient })).toBe(BOB);
   });
 
   test("can transfer safe", async () => {
@@ -82,9 +79,7 @@ describe("erc721 writes", async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash });
 
-    expect(await readAndParse(publicClient, erc721OwnerOf({ erc721 }))).toBe(
-      BOB,
-    );
+    expect(await erc721OwnerOf({ publicClient, args: { erc721 } })).toBe(BOB);
   });
 
   test("can transfer data", async () => {
@@ -96,9 +91,7 @@ describe("erc721 writes", async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash });
 
-    expect(await readAndParse(publicClient, erc721OwnerOf({ erc721 }))).toBe(
-      BOB,
-    );
+    expect(await erc721OwnerOf({ publicClient, args: { erc721 } })).toBe(BOB);
   });
 
   test("can approve", async () => {
@@ -108,9 +101,9 @@ describe("erc721 writes", async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash });
 
-    expect(
-      await readAndParse(publicClient, erc721GetApproved({ erc721 })),
-    ).toBe(BOB);
+    expect(await erc721GetApproved({ publicClient, args: { erc721 } })).toBe(
+      BOB,
+    );
   });
 
   test("can approve for all", async () => {
@@ -127,10 +120,10 @@ describe("erc721 writes", async () => {
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(
-      await readAndParse(
+      await erc721IsApprovedForAll({
         publicClient,
-        erc721IsApprovedForAll({ erc721, owner: ALICE, spender: BOB }),
-      ),
+        args: { erc721, owner: ALICE, spender: BOB },
+      }),
     ).toBe(true);
   });
 });

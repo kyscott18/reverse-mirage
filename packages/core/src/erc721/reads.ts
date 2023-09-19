@@ -1,13 +1,20 @@
 import { type Address, type Hex, type PublicClient, getAddress } from "viem";
 import { solmateErc721ABI as solmateERC721ABI } from "../generated.js";
-import type { ReverseMirageRead } from "../types.js";
+import { createReverseMirage } from "../readUtils.js";
+import type { ReverseMirage, ReverseMirageRead } from "../types.js";
 import type { ERC721, ERC721Data, ERC721IDData } from "./types.js";
 import { createERC721, createERC721Data, createERC721IDData } from "./utils.js";
 
-export const erc721Name = (args: {
-  erc721: Pick<ERC721, "address">;
-}) =>
-  ({
+export const erc721Name: ReverseMirage<
+  string,
+  string,
+  {
+    erc721: Pick<ERC721, "address">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -15,12 +22,19 @@ export const erc721Name = (args: {
         functionName: "name",
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);
 
-export const erc721Symbol = (args: {
-  erc721: Pick<ERC721, "address">;
-}) =>
-  ({
+export const erc721Symbol: ReverseMirage<
+  string,
+  string,
+  {
+    erc721: Pick<ERC721, "address">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -28,12 +42,19 @@ export const erc721Symbol = (args: {
         functionName: "symbol",
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);
 
-export const erc721TokenURI = (args: {
-  erc721: Pick<ERC721, "address" | "id">;
-}) =>
-  ({
+export const erc721TokenURI: ReverseMirage<
+  string,
+  string,
+  {
+    erc721: Pick<ERC721, "address" | "id">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address" | "id">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -42,12 +63,19 @@ export const erc721TokenURI = (args: {
         args: [args.erc721.id],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);
 
-export const erc721OwnerOf = (args: {
-  erc721: Pick<ERC721, "address" | "id">;
-}) =>
-  ({
+export const erc721OwnerOf: ReverseMirage<
+  Address,
+  Address,
+  {
+    erc721: Pick<ERC721, "address" | "id">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address" | "id">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -56,13 +84,21 @@ export const erc721OwnerOf = (args: {
         args: [args.erc721.id],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<Address>;
+  }),
+);
 
-export const erc721BalanceOf = (args: {
-  erc721: Pick<ERC721, "address">;
-  owner: Address;
-}) =>
-  ({
+export const erc721BalanceOf: ReverseMirage<
+  bigint,
+  bigint,
+  {
+    erc721: Pick<ERC721, "address">;
+    owner: Address;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address">;
+    owner: Address;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -71,12 +107,19 @@ export const erc721BalanceOf = (args: {
         args: [args.owner],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<bigint>;
+  }),
+);
 
-export const erc721GetApproved = (args: {
-  erc721: Pick<ERC721, "address" | "id">;
-}) =>
-  ({
+export const erc721GetApproved: ReverseMirage<
+  Address,
+  Address,
+  {
+    erc721: Pick<ERC721, "address" | "id">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address" | "id">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -85,14 +128,23 @@ export const erc721GetApproved = (args: {
         args: [args.erc721.id],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<Address>;
+  }),
+);
 
-export const erc721IsApprovedForAll = (args: {
-  erc721: Pick<ERC721, "address">;
-  owner: Address;
-  spender: Address;
-}) =>
-  ({
+export const erc721IsApprovedForAll: ReverseMirage<
+  boolean,
+  boolean,
+  {
+    erc721: Pick<ERC721, "address">;
+    owner: Address;
+    spender: Address;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address">;
+    owner: Address;
+    spender: Address;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -101,13 +153,21 @@ export const erc721IsApprovedForAll = (args: {
         args: [args.owner, args.spender],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<boolean>;
+  }),
+);
 
-export const erc721SupportsInterface = (args: {
-  erc721: Pick<ERC721, "address">;
-  interfaceID: Hex;
-}) =>
-  ({
+export const erc721SupportsInterface: ReverseMirage<
+  boolean,
+  boolean,
+  {
+    erc721: Pick<ERC721, "address">;
+    interfaceID: Hex;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address">;
+    interfaceID: Hex;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC721ABI,
@@ -116,18 +176,26 @@ export const erc721SupportsInterface = (args: {
         args: [args.interfaceID],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<boolean>;
+  }),
+);
 
-export const getERC721 = (args: {
-  erc721: Pick<ERC721, "address" | "id" | "chainID"> &
-    Partial<Pick<ERC721, "blockCreated">>;
-}) =>
-  ({
+export const getERC721: ReverseMirage<
+  [string, string, string],
+  ERC721,
+  {
+    erc721: Pick<ERC721, "address" | "id" | "chainID"> &
+      Partial<Pick<ERC721, "blockCreated">>;
+  }
+> = createReverseMirage(
+  (args: {
+    erc721: Pick<ERC721, "address" | "id" | "chainID"> &
+      Partial<Pick<ERC721, "blockCreated">>;
+  }) => ({
     read: (publicClient: PublicClient) =>
       Promise.all([
-        erc721Name(args).read(publicClient),
-        erc721Symbol(args).read(publicClient),
-        erc721TokenURI(args).read(publicClient),
+        erc721Name({ args, type: "split" }).read(publicClient),
+        erc721Symbol({ args, type: "split" }).read(publicClient),
+        erc721TokenURI({ args, type: "split" }).read(publicClient),
       ]),
     parse: (data): ERC721 =>
       createERC721(
@@ -139,32 +207,92 @@ export const getERC721 = (args: {
         args.erc721.chainID,
         args.erc721.blockCreated,
       ),
-  }) as const satisfies ReverseMirageRead<[string, string, string]>;
+  }),
+);
 
-export const erc721IDData = <TERC721 extends ERC721>(args: {
-  erc721: TERC721;
-  owner: Address;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      erc721OwnerOf({ erc721: args.erc721 }).read(publicClient),
-    parse: (data): ERC721IDData<TERC721> =>
-      createERC721IDData(
-        args.erc721,
-        getAddress(data) === getAddress(args.owner),
-      ),
-  }) as const satisfies ReverseMirageRead<Address>;
+export const erc721IDData = <
+  TA extends {
+    args: {
+      erc721: ERC721;
+      owner: Address;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          erc721OwnerOf({
+            args: { erc721: a.args.erc721 },
+            type: "split",
+          }).read(publicClient),
+        parse: (data) =>
+          createERC721IDData(
+            a.args.erc721,
+            getAddress(data) === getAddress(a.args.owner),
+          ),
+      }
+    : erc721OwnerOf({
+        args: { erc721: a.args.erc721 },
+        type: "split",
+      })
+        .read(a.publicClient)
+        .then((data) =>
+          createERC721IDData(
+            a.args.erc721,
+            getAddress(data) === getAddress(a.args.owner),
+          ),
+        )) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<Address, ERC721IDData<TA["args"]["erc721"]>>
+    : Promise<ERC721IDData<TA["args"]["erc721"]>>;
 
-export const erc721Data = <TERC721 extends ERC721>(args: {
-  erc721: TERC721;
-  owner: Address;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      erc721BalanceOf(args).read(publicClient),
-    parse: (data): ERC721Data<TERC721> => {
-      if (data > Number.MAX_SAFE_INTEGER)
-        throw Error("balance exceeds maximum representable number");
-      return createERC721Data(args.erc721, Number(data));
-    },
-  }) as const satisfies ReverseMirageRead<bigint>;
+export const erc721Data = <
+  TA extends {
+    args: {
+      erc721: ERC721;
+      owner: Address;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          erc721BalanceOf({
+            args: { erc721: a.args.erc721, owner: a.args.owner },
+            type: "split",
+          }).read(publicClient),
+        parse: (data) => {
+          if (data > Number.MAX_SAFE_INTEGER)
+            throw Error("balance exceeds maximum representable number");
+          return createERC721Data(a.args.erc721, Number(data));
+        },
+      }
+    : erc721BalanceOf({
+        args: { erc721: a.args.erc721, owner: a.args.owner },
+        type: "split",
+      })
+        .read(a.publicClient)
+        .then((data) => {
+          if (data > Number.MAX_SAFE_INTEGER)
+            throw Error("balance exceeds maximum representable number");
+          return createERC721Data(a.args.erc721, Number(data));
+        })) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<bigint, ERC721Data<TA["args"]["erc721"]>>
+    : Promise<ERC721Data<TA["args"]["erc721"]>>;

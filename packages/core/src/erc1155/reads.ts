@@ -1,15 +1,24 @@
 import type { Address, PublicClient } from "viem";
 import { solmateErc1155ABI } from "../generated.js";
-import type { ReverseMirageRead } from "../types.js";
+import { createReverseMirage } from "../readUtils.js";
+import type { ReverseMirage, ReverseMirageRead } from "../types.js";
 import type { ERC1155, ERC1155Data } from "./types.js";
 import { createERC1155, createERC1155Data } from "./utils.js";
 
-export const erc1155IsApprovedForAll = (args: {
-  erc1155: Pick<ERC1155, "address">;
-  owner: Address;
-  spender: Address;
-}) =>
-  ({
+export const erc1155IsApprovedForAll: ReverseMirage<
+  boolean,
+  boolean,
+  {
+    erc1155: Pick<ERC1155, "address">;
+    owner: Address;
+    spender: Address;
+  }
+> = createReverseMirage(
+  (args: {
+    erc1155: Pick<ERC1155, "address">;
+    owner: Address;
+    spender: Address;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateErc1155ABI,
@@ -18,12 +27,19 @@ export const erc1155IsApprovedForAll = (args: {
         args: [args.owner, args.spender],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<boolean>;
+  }),
+);
 
-export const erc1155URI = (args: {
-  erc1155: Pick<ERC1155, "address" | "id">;
-}) =>
-  ({
+export const erc1155URI: ReverseMirage<
+  string,
+  string,
+  {
+    erc1155: Pick<ERC1155, "address" | "id">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc1155: Pick<ERC1155, "address" | "id">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateErc1155ABI,
@@ -32,29 +48,62 @@ export const erc1155URI = (args: {
         args: [args.erc1155.id],
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);
 
-export const erc1155BalanceOf = <TERC1155 extends ERC1155>(args: {
-  erc1155: TERC1155;
-  owner: Address;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      publicClient.readContract({
-        abi: solmateErc1155ABI,
-        address: args.erc1155.address,
-        functionName: "balanceOf",
-        args: [args.owner, args.erc1155.id],
-      }),
-    parse: (data): ERC1155Data<TERC1155> =>
-      createERC1155Data(args.erc1155, data),
-  }) as const satisfies ReverseMirageRead<bigint>;
+export const erc1155BalanceOf = <
+  TA extends {
+    args: {
+      erc1155: ERC1155;
+      address: Address;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          publicClient.readContract({
+            abi: solmateErc1155ABI,
+            address: a.args.erc1155.address,
+            functionName: "balanceOf",
+            args: [a.args.address, a.args.erc1155.id],
+          }),
+        parse: (data: bigint) => createERC1155Data(a.args.erc1155, data),
+      }
+    : a.publicClient
+        .readContract({
+          abi: solmateErc1155ABI,
+          address: a.args.erc1155.address,
+          functionName: "balanceOf",
+          args: [a.args.address, a.args.erc1155.id],
+        })
+        .then((data) =>
+          createERC1155Data(a.args.erc1155, data),
+        )) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<bigint, ERC1155Data<TA["args"]["erc1155"]>>
+    : Promise<ERC1155Data<TA["args"]["erc1155"]>>;
 
-export const getERC1155 = (args: {
-  erc1155: Pick<ERC1155, "address" | "id" | "chainID"> &
-    Partial<Pick<ERC1155, "blockCreated">>;
-}) =>
-  ({
+export const getERC1155: ReverseMirage<
+  string,
+  ERC1155,
+  {
+    erc1155: Pick<ERC1155, "address" | "id" | "chainID"> &
+      Partial<Pick<ERC1155, "blockCreated">>;
+  }
+> = createReverseMirage(
+  (args: {
+    erc1155: Pick<ERC1155, "address" | "id" | "chainID"> &
+      Partial<Pick<ERC1155, "blockCreated">>;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateErc1155ABI,
@@ -70,4 +119,5 @@ export const getERC1155 = (args: {
         args.erc1155.chainID,
         args.erc1155.blockCreated,
       ),
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);

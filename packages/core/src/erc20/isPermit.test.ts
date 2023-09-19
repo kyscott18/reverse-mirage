@@ -8,7 +8,6 @@ import ERC20Permit from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.j
 import { ALICE } from "../_test/constants.js";
 import { publicClient, walletClient } from "../_test/utils.js";
 import { erc20ABI, erc20PermitABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import { erc20IsPermit } from "./reads.js";
 
 test("can check if permit true", async () => {
@@ -24,12 +23,12 @@ test("can check if permit true", async () => {
   });
   invariant(contractAddress);
 
-  const token = await readAndParse(
+  const token = await erc20IsPermit({
     publicClient,
-    erc20IsPermit({
+    args: {
       erc20: { address: contractAddress, chainID: foundry.id },
-    }),
-  );
+    },
+  });
 
   expect(token.type).toBe("erc20Permit");
   expect(token.address).toBe(getAddress(contractAddress));
@@ -52,12 +51,12 @@ test("can check if permit false", async () => {
   });
   invariant(contractAddress);
 
-  const token = await readAndParse(
+  const token = await erc20IsPermit({
     publicClient,
-    erc20IsPermit({
+    args: {
       erc20: { address: contractAddress, chainID: foundry.id },
-    }),
-  );
+    },
+  });
 
   expect(token.type).toBe("erc20");
   expect(token.address).toBe(getAddress(contractAddress));

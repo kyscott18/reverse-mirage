@@ -6,7 +6,6 @@ import ERC1155Bytecode from "../../../../contracts/out/ERC1155.sol/ERC1155.json"
 import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { erc1155ABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import { erc1155BalanceOf, erc1155IsApprovedForAll } from "./reads.js";
 import type { ERC1155 } from "./types.js";
 import { createERC1155, createERC1155Data } from "./utils.js";
@@ -62,16 +61,16 @@ describe("erc1155 writes", async () => {
     });
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const balanceALICE = await readAndParse(
+    const balanceALICE = await erc1155BalanceOf({
       publicClient,
-      erc1155BalanceOf({ erc1155, owner: ALICE }),
-    );
+      args: { erc1155, address: ALICE },
+    });
     expect(balanceALICE.amount).toBe(5n);
 
-    const balanceBOB = await readAndParse(
+    const balanceBOB = await erc1155BalanceOf({
       publicClient,
-      erc1155BalanceOf({ erc1155, owner: BOB }),
-    );
+      args: { erc1155, address: BOB },
+    });
     expect(balanceBOB.amount).toBe(5n);
   });
 
@@ -110,10 +109,10 @@ describe("erc1155 writes", async () => {
     );
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const balanceBOB = await readAndParse(
+    const balanceBOB = await erc1155BalanceOf({
       publicClient,
-      erc1155BalanceOf({ erc1155, owner: BOB }),
-    );
+      args: { erc1155, address: BOB },
+    });
     expect(balanceBOB.amount).toBe(10n);
   });
 
@@ -131,10 +130,10 @@ describe("erc1155 writes", async () => {
     await publicClient.waitForTransactionReceipt({ hash });
 
     expect(
-      await readAndParse(
+      await erc1155IsApprovedForAll({
         publicClient,
-        erc1155IsApprovedForAll({ erc1155, owner: ALICE, spender: BOB }),
-      ),
+        args: { erc1155, owner: ALICE, spender: BOB },
+      }),
     ).toBe(true);
   });
 });

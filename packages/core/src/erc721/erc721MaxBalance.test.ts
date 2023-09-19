@@ -6,7 +6,6 @@ import ERC721Bytecode from "../../../../contracts/out/ERC721MaxBalance.sol/ERC72
 import { ALICE } from "../_test/constants.js";
 import { publicClient, walletClient } from "../_test/utils.js";
 import { erc721ABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import { erc721Data } from "./reads.js";
 import { createERC721 } from "./utils.js";
 
@@ -30,6 +29,6 @@ test("erc721 max balance", async () => {
     foundry.id,
   );
   await expect(() =>
-    readAndParse(publicClient, erc721Data({ erc721, owner: ALICE })),
+    erc721Data({ publicClient, args: { erc721, owner: ALICE } }),
   ).rejects.toThrowError();
 });

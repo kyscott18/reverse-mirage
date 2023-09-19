@@ -1,22 +1,13 @@
 import type { PublicClient } from "viem";
 import type { ReverseMirageRead } from "./types.js";
 
-/**
- * Read data using a json-rpc request and parse the returned data
- */
-export const readAndParse = async <TRet, TParse>(
-  publicClient: PublicClient,
-  reverseMirageRead: ReverseMirageRead<TRet, TParse>,
-) => {
-  return reverseMirageRead.parse(await reverseMirageRead.read(publicClient));
-};
-
 export const createReverseMirage: <TRet, TParse, TArgs>(
   rm: (args: TArgs) => ReverseMirageRead<TRet, TParse>,
 ) => <
-  TA extends
-    | { args: TArgs; type: "split" }
-    | { args: TArgs; publicClient: PublicClient },
+  TA extends { args: TArgs } & (
+    | { type: "split" }
+    | { publicClient: PublicClient }
+  ),
 >(a: TA) => TA extends {
   type: "split";
 }
@@ -31,4 +22,21 @@ export const createReverseMirage: <TRet, TParse, TArgs>(
   ) as typeof a extends { type: "split" }
     ? ReturnType<typeof rm>
     : Promise<ReturnType<ReturnType<typeof rm>["parse"]>>;
+};
+
+export const getQueryKey = <TArgs>(
+  // biome-ignore lint/suspicious/noExplicitAny: dont need
+  get: (a: { args: TArgs; type: "split" }) => ReverseMirageRead<any, any>,
+  args: TArgs,
+  chainID: number,
+) => {
+  return [
+    {
+      chainID,
+      read: {
+        name: get.name,
+        args,
+      },
+    },
+  ] as const;
 };

@@ -1,7 +1,8 @@
 import { type Address, type Hex, type PublicClient } from "viem";
 import { createAmountFromRaw } from "../amountUtils.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../generated.js";
-import type { ReverseMirageRead } from "../types.js";
+import { createReverseMirage } from "../readUtils.js";
+import type { ReverseMirage, ReverseMirageRead } from "../types.js";
 import type {
   BaseERC20,
   ERC20,
@@ -15,54 +16,137 @@ import {
   createERC20PermitDataFromRaw,
 } from "./utils.js";
 
-export const erc20BalanceOf = <TERC20 extends BaseERC20>(args: {
-  erc20: TERC20;
-  address: Address;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      publicClient.readContract({
-        abi: solmateERC20ABI,
-        address: args.erc20.address,
-        functionName: "balanceOf",
-        args: [args.address],
-      }),
-    parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
-  }) as const satisfies ReverseMirageRead<bigint>;
+export const erc20BalanceOf = <
+  TA extends {
+    args: {
+      erc20: BaseERC20;
+      address: Address;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          publicClient.readContract({
+            abi: solmateERC20ABI,
+            address: a.args.erc20.address,
+            functionName: "balanceOf",
+            args: [a.args.address],
+          }),
+        parse: (data: bigint) => createAmountFromRaw(a.args.erc20, data),
+      }
+    : a.publicClient
+        .readContract({
+          abi: solmateERC20ABI,
+          address: a.args.erc20.address,
+          functionName: "balanceOf",
+          args: [a.args.address],
+        })
+        .then((data) =>
+          createAmountFromRaw(a.args.erc20, data),
+        )) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<bigint, ERC20Amount<TA["args"]["erc20"]>>
+    : Promise<ERC20Amount<TA["args"]["erc20"]>>;
 
-export const erc20Allowance = <TERC20 extends BaseERC20>(args: {
-  erc20: TERC20;
-  address: Address;
-  spender: Address;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      publicClient.readContract({
-        abi: solmateERC20ABI,
-        address: args.erc20.address,
-        functionName: "allowance",
-        args: [args.address, args.spender],
-      }),
-    parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
-  }) as const satisfies ReverseMirageRead<bigint>;
+export const erc20Allowance = <
+  TA extends {
+    args: {
+      erc20: BaseERC20;
+      address: Address;
+      spender: Address;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          publicClient.readContract({
+            abi: solmateERC20ABI,
+            address: a.args.erc20.address,
+            functionName: "allowance",
+            args: [a.args.address, a.args.spender],
+          }),
+        parse: (data: bigint) => createAmountFromRaw(a.args.erc20, data),
+      }
+    : a.publicClient
+        .readContract({
+          abi: solmateERC20ABI,
+          address: a.args.erc20.address,
+          functionName: "allowance",
+          args: [a.args.address, a.args.spender],
+        })
+        .then((data) =>
+          createAmountFromRaw(a.args.erc20, data),
+        )) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<bigint, ERC20Amount<TA["args"]["erc20"]>>
+    : Promise<ERC20Amount<TA["args"]["erc20"]>>;
 
-export const erc20TotalSupply = <TERC20 extends BaseERC20>(args: {
-  erc20: TERC20;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      publicClient.readContract({
-        abi: solmateERC20ABI,
-        address: args.erc20.address,
-        functionName: "totalSupply",
-      }),
-    parse: (data): ERC20Amount<TERC20> => createAmountFromRaw(args.erc20, data),
-  }) as const satisfies ReverseMirageRead<bigint>;
+export const erc20TotalSupply = <
+  TA extends {
+    args: {
+      erc20: BaseERC20;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          publicClient.readContract({
+            abi: solmateERC20ABI,
+            address: a.args.erc20.address,
+            functionName: "totalSupply",
+          }),
+        parse: (data: bigint) => createAmountFromRaw(a.args.erc20, data),
+      }
+    : a.publicClient
+        .readContract({
+          abi: solmateERC20ABI,
+          address: a.args.erc20.address,
+          functionName: "totalSupply",
+        })
+        .then((data) =>
+          createAmountFromRaw(a.args.erc20, data),
+        )) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<bigint, ERC20Amount<TA["args"]["erc20"]>>
+    : Promise<ERC20Amount<TA["args"]["erc20"]>>;
 
-export const erc20Name = (args: {
-  erc20: Pick<BaseERC20, "address">;
-}) =>
-  ({
+export const erc20Name: ReverseMirage<
+  string,
+  string,
+  {
+    erc20: Pick<BaseERC20, "address">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<BaseERC20, "address">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC20ABI,
@@ -70,12 +154,19 @@ export const erc20Name = (args: {
         functionName: "name",
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);
 
-export const erc20Symbol = (args: {
-  erc20: Pick<BaseERC20, "address">;
-}) =>
-  ({
+export const erc20Symbol: ReverseMirage<
+  string,
+  string,
+  {
+    erc20: Pick<BaseERC20, "address">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<BaseERC20, "address">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC20ABI,
@@ -83,12 +174,19 @@ export const erc20Symbol = (args: {
         functionName: "symbol",
       }),
     parse: (data: string) => data,
-  }) as const satisfies ReverseMirageRead<string>;
+  }),
+);
 
-export const erc20Decimals = (args: {
-  erc20: Pick<BaseERC20, "address">;
-}) =>
-  ({
+export const erc20Decimals: ReverseMirage<
+  number,
+  number,
+  {
+    erc20: Pick<BaseERC20, "address">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<BaseERC20, "address">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC20ABI,
@@ -96,13 +194,21 @@ export const erc20Decimals = (args: {
         functionName: "decimals",
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<number>;
+  }),
+);
 
-export const erc20PermitNonce = (args: {
-  erc20: ERC20Permit;
-  address: Address;
-}) =>
-  ({
+export const erc20PermitNonce: ReverseMirage<
+  bigint,
+  bigint,
+  {
+    erc20: ERC20Permit;
+    address: Address;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: ERC20Permit;
+    address: Address;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC20ABI,
@@ -110,37 +216,76 @@ export const erc20PermitNonce = (args: {
         functionName: "nonces",
         args: [args.address],
       }),
-    parse: (data): bigint => data,
-  }) as const satisfies ReverseMirageRead<bigint>;
+    parse: (data) => data,
+  }),
+);
 
-export const erc20PermitData = <TERC20 extends ERC20Permit>(args: {
-  erc20: TERC20;
-  address: Address;
-}) =>
-  ({
-    read: (publicClient: PublicClient) =>
-      Promise.all([
-        publicClient.readContract({
+export const erc20PermitData = <
+  TA extends {
+    args: {
+      erc20: ERC20Permit;
+      address: Address;
+    };
+  } & (
+    | {
+        type: "split";
+      }
+    | {
+        publicClient: PublicClient;
+      }
+  ),
+>(
+  a: TA,
+) =>
+  ("type" in a
+    ? {
+        read: (publicClient: PublicClient) =>
+          Promise.all([
+            publicClient.readContract({
+              abi: solmateERC20ABI,
+              address: a.args.erc20.address,
+              functionName: "balanceOf",
+              args: [a.args.address],
+            }),
+            publicClient.readContract({
+              abi: solmateERC20ABI,
+              address: a.args.erc20.address,
+              functionName: "nonces",
+              args: [a.args.address],
+            }),
+          ]),
+        parse: (data) =>
+          createERC20PermitDataFromRaw(a.args.erc20, data[0], data[1]),
+      }
+    : Promise.all([
+        a.publicClient.readContract({
           abi: solmateERC20ABI,
-          address: args.erc20.address,
+          address: a.args.erc20.address,
           functionName: "balanceOf",
-          args: [args.address],
+          args: [a.args.address],
         }),
-        publicClient.readContract({
+        a.publicClient.readContract({
           abi: solmateERC20ABI,
-          address: args.erc20.address,
+          address: a.args.erc20.address,
           functionName: "nonces",
-          args: [args.address],
+          args: [a.args.address],
         }),
-      ]),
-    parse: (data): ERC20PermitData<TERC20> =>
-      createERC20PermitDataFromRaw(args.erc20, data[0], data[1]),
-  }) as const satisfies ReverseMirageRead<[bigint, bigint]>;
+      ]).then((data) =>
+        createERC20PermitDataFromRaw(a.args.erc20, data[0], data[1]),
+      )) as typeof a extends { type: "split" }
+    ? ReverseMirageRead<[bigint, bigint], ERC20PermitData<TA["args"]["erc20"]>>
+    : Promise<ERC20PermitData<TA["args"]["erc20"]>>;
 
-export const erc20PermitDomainSeparator = (args: {
-  erc20: Pick<ERC20Permit, "address">;
-}) =>
-  ({
+export const erc20PermitDomainSeparator: ReverseMirage<
+  Hex,
+  Hex,
+  {
+    erc20: Pick<ERC20Permit, "address">;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<ERC20Permit, "address">;
+  }) => ({
     read: (publicClient: PublicClient) =>
       publicClient.readContract({
         abi: solmateERC20ABI,
@@ -148,18 +293,26 @@ export const erc20PermitDomainSeparator = (args: {
         functionName: "DOMAIN_SEPARATOR",
       }),
     parse: (data) => data,
-  }) as const satisfies ReverseMirageRead<Hex>;
+  }),
+);
 
-export const getERC20 = (args: {
-  erc20: Pick<BaseERC20, "address" | "chainID"> &
-    Partial<Pick<BaseERC20, "blockCreated">>;
-}) =>
-  ({
+export const getERC20: ReverseMirage<
+  [string, string, number],
+  ERC20,
+  {
+    erc20: Pick<BaseERC20, "address" | "chainID"> &
+      Partial<Pick<BaseERC20, "blockCreated">>;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<BaseERC20, "address" | "chainID"> &
+      Partial<Pick<BaseERC20, "blockCreated">>;
+  }) => ({
     read: (publicClient: PublicClient) =>
       Promise.all([
-        erc20Name(args).read(publicClient),
-        erc20Symbol(args).read(publicClient),
-        erc20Decimals(args).read(publicClient),
+        erc20Name({ args, type: "split" }).read(publicClient),
+        erc20Symbol({ args, type: "split" }).read(publicClient),
+        erc20Decimals({ args, type: "split" }).read(publicClient),
       ]),
     parse: (data): ERC20 =>
       createERC20(
@@ -170,18 +323,26 @@ export const getERC20 = (args: {
         args.erc20.chainID,
         args.erc20.blockCreated,
       ),
-  }) as const satisfies ReverseMirageRead<[string, string, number]>;
+  }),
+);
 
-export const getERC20Permit = (args: {
-  erc20: Pick<ERC20Permit, "address" | "chainID"> &
-    Partial<Pick<ERC20Permit, "version" | "blockCreated">>;
-}) =>
-  ({
+export const getERC20Permit: ReverseMirage<
+  [string, string, number],
+  ERC20Permit,
+  {
+    erc20: Pick<ERC20Permit, "address" | "chainID"> &
+      Partial<Pick<ERC20Permit, "version" | "blockCreated">>;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<ERC20Permit, "address" | "chainID"> &
+      Partial<Pick<ERC20Permit, "version" | "blockCreated">>;
+  }) => ({
     read: (publicClient: PublicClient) =>
       Promise.all([
-        erc20Name(args).read(publicClient),
-        erc20Symbol(args).read(publicClient),
-        erc20Decimals(args).read(publicClient),
+        erc20Name({ args, type: "split" }).read(publicClient),
+        erc20Symbol({ args, type: "split" }).read(publicClient),
+        erc20Decimals({ args, type: "split" }).read(publicClient),
       ]),
     parse: (data): ERC20Permit =>
       createERC20Permit(
@@ -193,27 +354,40 @@ export const getERC20Permit = (args: {
         args.erc20.chainID,
         args.erc20.blockCreated,
       ),
-  }) as const satisfies ReverseMirageRead<[string, string, number]>;
+  }),
+);
 
 /**
  * Returns either a {@link ERC20} or {@link ERC20Permit} depending on whether the specified token implements EIP 2616\
  *
  * Implementation is determined by checking if calling `DOMAIN_SEPARATOR()` reverts
  */
-export const erc20IsPermit = (args: {
-  erc20: Pick<BaseERC20, "address" | "chainID"> &
-    Partial<Pick<BaseERC20, "blockCreated">> &
-    Partial<Pick<ERC20Permit, "version">>;
-}) =>
-  ({
+export const erc20IsPermit: ReverseMirage<
+  [[string, string, number], Hex] | [[string, string, number]],
+  ERC20 | ERC20Permit,
+  {
+    erc20: Pick<BaseERC20, "address" | "chainID"> &
+      Partial<Pick<BaseERC20, "blockCreated">> &
+      Partial<Pick<ERC20Permit, "version">>;
+  }
+> = createReverseMirage(
+  (args: {
+    erc20: Pick<BaseERC20, "address" | "chainID"> &
+      Partial<Pick<BaseERC20, "blockCreated">> &
+      Partial<Pick<ERC20Permit, "version">>;
+  }) => ({
     read: async (publicClient: PublicClient) => {
       try {
         return await Promise.all([
-          getERC20(args).read(publicClient),
-          erc20PermitDomainSeparator(args).read(publicClient),
+          getERC20({ args, type: "split" }).read(publicClient),
+          erc20PermitDomainSeparator({ args, type: "split" }).read(
+            publicClient,
+          ),
         ]);
       } catch {
-        return await Promise.all([getERC20(args).read(publicClient)]);
+        return await Promise.all([
+          getERC20({ args, type: "split" }).read(publicClient),
+        ]);
       }
     },
     parse: (data): ERC20 | ERC20Permit =>
@@ -235,6 +409,5 @@ export const erc20IsPermit = (args: {
             args.erc20.chainID,
             args.erc20.blockCreated,
           ),
-  }) as const satisfies ReverseMirageRead<
-    [[string, string, number], Hex] | [[string, string, number]]
-  >;
+  }),
+);

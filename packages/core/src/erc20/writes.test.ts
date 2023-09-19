@@ -7,7 +7,6 @@ import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
 import { erc20PermitABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import { erc20Allowance, erc20BalanceOf } from "./reads.js";
 import type { ERC20Permit } from "./types.js";
 import { createERC20Permit, createERC20PermitDataFromString } from "./utils.js";
@@ -67,18 +66,18 @@ describe("erc20 writes", () => {
 
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const balanceOfAlice = await readAndParse(
+    const balanceOfAlice = await erc20BalanceOf({
+      args: { erc20: mockERC20, address: ALICE },
       publicClient,
-      erc20BalanceOf({ erc20: mockERC20, address: ALICE }),
-    );
+    });
     expect(
       amountEqualTo(balanceOfAlice, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
 
-    const balanceOfBob = await readAndParse(
+    const balanceOfBob = await erc20BalanceOf({
       publicClient,
-      erc20BalanceOf({ erc20: mockERC20, address: BOB }),
-    );
+      args: { erc20: mockERC20, address: BOB },
+    });
     expect(
       amountEqualTo(balanceOfBob, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
@@ -92,14 +91,14 @@ describe("erc20 writes", () => {
 
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const allowance = await readAndParse(
+    const allowance = await erc20Allowance({
       publicClient,
-      erc20Allowance({
+      args: {
         erc20: mockERC20,
         address: ALICE,
         spender: ALICE,
-      }),
-    );
+      },
+    });
     expect(
       amountEqualTo(allowance, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
@@ -130,30 +129,30 @@ describe("erc20 writes", () => {
     );
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const balanceOfAlice = await readAndParse(
+    const balanceOfAlice = await erc20BalanceOf({
       publicClient,
-      erc20BalanceOf({ erc20: mockERC20, address: ALICE }),
-    );
+      args: { erc20: mockERC20, address: ALICE },
+    });
     expect(
       amountEqualTo(balanceOfAlice, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
 
-    const balanceOfBob = await readAndParse(
+    const balanceOfBob = await erc20BalanceOf({
       publicClient,
-      erc20BalanceOf({ erc20: mockERC20, address: BOB }),
-    );
+      args: { erc20: mockERC20, address: BOB },
+    });
     expect(
       amountEqualTo(balanceOfBob, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
 
-    const allowance = await readAndParse(
+    const allowance = await erc20Allowance({
       publicClient,
-      erc20Allowance({
+      args: {
         erc20: mockERC20,
         address: ALICE,
         spender: ALICE,
-      }),
-    );
+      },
+    });
     expect(
       amountEqualTo(allowance, createAmountFromString(mockERC20, "0")),
     ).toBe(true);
@@ -176,14 +175,14 @@ describe("erc20 writes", () => {
     });
     await publicClient.waitForTransactionReceipt({ hash });
 
-    const allowance = await readAndParse(
+    const allowance = await erc20Allowance({
       publicClient,
-      erc20Allowance({
+      args: {
         erc20: mockERC20,
         address: ALICE,
         spender: BOB,
-      }),
-    );
+      },
+    });
     expect(
       amountEqualTo(allowance, createAmountFromString(mockERC20, ".5")),
     ).toBe(true);
