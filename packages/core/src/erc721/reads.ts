@@ -193,9 +193,9 @@ export const getERC721: ReverseMirage<
   }) => ({
     read: (publicClient: PublicClient) =>
       Promise.all([
-        erc721Name({ args, type: "split" }).read(publicClient),
-        erc721Symbol({ args, type: "split" }).read(publicClient),
-        erc721TokenURI({ args, type: "split" }).read(publicClient),
+        erc721Name({ args }).read(publicClient),
+        erc721Symbol({ args }).read(publicClient),
+        erc721TokenURI({ args }).read(publicClient),
       ]),
     parse: (data): ERC721 =>
       createERC721(
@@ -216,33 +216,14 @@ export const erc721IDData = <
       erc721: ERC721;
       owner: Address;
     };
-  } & (
-    | {
-        type: "split";
-      }
-    | {
-        publicClient: PublicClient;
-      }
-  ),
+    publicClient?: PublicClient;
+  },
 >(
   a: TA,
 ) =>
-  ("type" in a
-    ? {
-        read: (publicClient: PublicClient) =>
-          erc721OwnerOf({
-            args: { erc721: a.args.erc721 },
-            type: "split",
-          }).read(publicClient),
-        parse: (data) =>
-          createERC721IDData(
-            a.args.erc721,
-            getAddress(data) === getAddress(a.args.owner),
-          ),
-      }
-    : erc721OwnerOf({
+  ("publicClient" in a
+    ? erc721OwnerOf({
         args: { erc721: a.args.erc721 },
-        type: "split",
       })
         .read(a.publicClient)
         .then((data) =>
@@ -250,9 +231,20 @@ export const erc721IDData = <
             a.args.erc721,
             getAddress(data) === getAddress(a.args.owner),
           ),
-        )) as typeof a extends { type: "split" }
-    ? ReverseMirageRead<Address, ERC721IDData<TA["args"]["erc721"]>>
-    : Promise<ERC721IDData<TA["args"]["erc721"]>>;
+        )
+    : {
+        read: (publicClient: PublicClient) =>
+          erc721OwnerOf({
+            args: { erc721: a.args.erc721 },
+          }).read(publicClient),
+        parse: (data) =>
+          createERC721IDData(
+            a.args.erc721,
+            getAddress(data) === getAddress(a.args.owner),
+          ),
+      }) as TA extends { publicClient: PublicClient }
+    ? Promise<ERC721IDData<TA["args"]["erc721"]>>
+    : ReverseMirageRead<Address, ERC721IDData<TA["args"]["erc721"]>>;
 
 export const erc721Data = <
   TA extends {
@@ -260,39 +252,31 @@ export const erc721Data = <
       erc721: ERC721;
       owner: Address;
     };
-  } & (
-    | {
-        type: "split";
-      }
-    | {
-        publicClient: PublicClient;
-      }
-  ),
+    publicClient?: PublicClient;
+  },
 >(
   a: TA,
 ) =>
-  ("type" in a
-    ? {
-        read: (publicClient: PublicClient) =>
-          erc721BalanceOf({
-            args: { erc721: a.args.erc721, owner: a.args.owner },
-            type: "split",
-          }).read(publicClient),
-        parse: (data) => {
-          if (data > Number.MAX_SAFE_INTEGER)
-            throw Error("balance exceeds maximum representable number");
-          return createERC721Data(a.args.erc721, Number(data));
-        },
-      }
-    : erc721BalanceOf({
+  ("publicClient" in a
+    ? erc721BalanceOf({
         args: { erc721: a.args.erc721, owner: a.args.owner },
-        type: "split",
       })
         .read(a.publicClient)
         .then((data) => {
           if (data > Number.MAX_SAFE_INTEGER)
             throw Error("balance exceeds maximum representable number");
           return createERC721Data(a.args.erc721, Number(data));
-        })) as typeof a extends { type: "split" }
-    ? ReverseMirageRead<bigint, ERC721Data<TA["args"]["erc721"]>>
-    : Promise<ERC721Data<TA["args"]["erc721"]>>;
+        })
+    : {
+        read: (publicClient: PublicClient) =>
+          erc721BalanceOf({
+            args: { erc721: a.args.erc721, owner: a.args.owner },
+          }).read(publicClient),
+        parse: (data) => {
+          if (data > Number.MAX_SAFE_INTEGER)
+            throw Error("balance exceeds maximum representable number");
+          return createERC721Data(a.args.erc721, Number(data));
+        },
+      }) as TA extends { publicClient: PublicClient }
+    ? Promise<ERC721Data<TA["args"]["erc721"]>>
+    : ReverseMirageRead<bigint, ERC721Data<TA["args"]["erc721"]>>;

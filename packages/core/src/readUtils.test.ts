@@ -8,7 +8,7 @@ const rm = createReverseMirage((_: number) => ({
 }));
 
 test("split reverse mirage", async () => {
-  const d = rm({ args: 7, type: "split" });
+  const d = rm({ args: 7 });
 
   expect(d.parse(await d.read(publicClient))).toBe(10);
 });

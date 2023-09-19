@@ -22,12 +22,10 @@ export const useBalance = <TERC20 extends ERC20>(
     queryFn: () =>
       erc20BalanceOf({
         args: { erc20: erc20!, address: address! },
-        type: "split",
       }).read(publicClient),
     select: (data) =>
       erc20BalanceOf({
         args: { erc20: erc20!, address: address! },
-        type: "split",
       }).parse(data),
     staleTime: Infinity,
     refetchInterval: userRefectchInterval,

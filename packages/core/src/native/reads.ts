@@ -9,31 +9,23 @@ export const nativeBalance = <
       nativeCurrency: NativeCurrency;
       address: Address;
     };
-  } & (
-    | {
-        type: "split";
-      }
-    | {
-        publicClient: PublicClient;
-      }
-  ),
+    publicClient?: PublicClient;
+  },
 >(
   a: TA,
 ) =>
-  ("type" in a
-    ? {
+  ("publicClient" in a
+    ? a.publicClient
+        .getBalance({ address: a.args.address })
+        .then((data) => createAmountFromRaw(a.args.nativeCurrency, data))
+    : {
         read: (publicClient: PublicClient) =>
           publicClient.getBalance({ address: a.args.address }),
         parse: (data: bigint) =>
           createAmountFromRaw(a.args.nativeCurrency, data),
-      }
-    : a.publicClient
-        .getBalance({ address: a.args.address })
-        .then((data) =>
-          createAmountFromRaw(a.args.nativeCurrency, data),
-        )) as typeof a extends { type: "split" }
-    ? ReverseMirageRead<
+      }) as typeof a extends { publicClient: PublicClient }
+    ? Promise<NativeCurrencyAmount<TA["args"]["nativeCurrency"]>>
+    : ReverseMirageRead<
         bigint,
         NativeCurrencyAmount<TA["args"]["nativeCurrency"]>
-      >
-    : Promise<NativeCurrencyAmount<TA["args"]["nativeCurrency"]>>;
+      >;

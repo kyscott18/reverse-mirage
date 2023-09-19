@@ -57,19 +57,21 @@ export const erc1155BalanceOf = <
       erc1155: ERC1155;
       address: Address;
     };
-  } & (
-    | {
-        type: "split";
-      }
-    | {
-        publicClient: PublicClient;
-      }
-  ),
+    publicClient?: PublicClient;
+  },
 >(
   a: TA,
 ) =>
-  ("type" in a
-    ? {
+  ("publicClient" in a
+    ? a.publicClient
+        .readContract({
+          abi: solmateErc1155ABI,
+          address: a.args.erc1155.address,
+          functionName: "balanceOf",
+          args: [a.args.address, a.args.erc1155.id],
+        })
+        .then((data) => createERC1155Data(a.args.erc1155, data))
+    : {
         read: (publicClient: PublicClient) =>
           publicClient.readContract({
             abi: solmateErc1155ABI,
@@ -77,20 +79,10 @@ export const erc1155BalanceOf = <
             functionName: "balanceOf",
             args: [a.args.address, a.args.erc1155.id],
           }),
-        parse: (data: bigint) => createERC1155Data(a.args.erc1155, data),
-      }
-    : a.publicClient
-        .readContract({
-          abi: solmateErc1155ABI,
-          address: a.args.erc1155.address,
-          functionName: "balanceOf",
-          args: [a.args.address, a.args.erc1155.id],
-        })
-        .then((data) =>
-          createERC1155Data(a.args.erc1155, data),
-        )) as typeof a extends { type: "split" }
-    ? ReverseMirageRead<bigint, ERC1155Data<TA["args"]["erc1155"]>>
-    : Promise<ERC1155Data<TA["args"]["erc1155"]>>;
+        parse: (data) => createERC1155Data(a.args.erc1155, data),
+      }) as TA extends { publicClient: PublicClient }
+    ? Promise<ERC1155Data<TA["args"]["erc1155"]>>
+    : ReverseMirageRead<bigint, ERC1155Data<TA["args"]["erc1155"]>>;
 
 export const getERC1155: ReverseMirage<
   string,

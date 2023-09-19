@@ -32,15 +32,12 @@ export type Price<
 };
 
 export type ReverseMirage<TRet, TParse, TArgs> = <
-  TA extends { args: TArgs } & (
-    | { type: "split" }
-    | { publicClient: PublicClient }
-  ),
+  TA extends { args: TArgs; publicClient?: PublicClient },
 >(a: TA) => TA extends {
-  type: "split";
+  publicClient: PublicClient;
 }
-  ? ReverseMirageRead<TRet, TParse>
-  : Promise<TParse>;
+  ? Promise<TParse>
+  : ReverseMirageRead<TRet, TParse>;
 
 export type ReverseMirageRead<TRet, TParse> = {
   read: (publicClient: PublicClient) => Promise<TRet>;
