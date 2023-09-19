@@ -9,11 +9,9 @@ import { useAccount } from "wagmi";
 
 export default function Home() {
   const setupMutation = useSetup();
-  console.log(3);
 
   useEffect(() => {
     setupMutation.mutate();
-    console.log(2);
   }, []);
 
   const { isConnected, address } = useAccount();

@@ -6,7 +6,6 @@ import ERC721Bytecode from "../../../../contracts/out/ERC721.sol/ERC721.json";
 import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { erc721ABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import {
   erc721BalanceOf,
   erc721Data,
@@ -88,79 +87,76 @@ beforeEach(async () => {
 
 describe("erc721 reads", async () => {
   test("name", async () => {
-    const name = await readAndParse(publicClient, erc721Name({ erc721 }));
+    const name = await erc721Name({ args: { erc721 }, publicClient });
 
     expect(name).toBe("name");
   });
 
   test("symbol", async () => {
-    const symbol = await readAndParse(publicClient, erc721Symbol({ erc721 }));
+    const symbol = await erc721Symbol({ args: { erc721 }, publicClient });
 
     expect(symbol).toBe("symbol");
   });
 
   test("tokenURI", async () => {
-    const tokenURI = await readAndParse(
-      publicClient,
-      erc721TokenURI({ erc721 }),
-    );
+    const tokenURI = await erc721TokenURI({ publicClient, args: { erc721 } });
 
     expect(tokenURI).toBe("https://mitch.com");
   });
 
   test("ownerOf", async () => {
-    const owner = await readAndParse(publicClient, erc721OwnerOf({ erc721 }));
+    const owner = await erc721OwnerOf({ publicClient, args: { erc721 } });
 
     expect(owner).toBe(ALICE);
   });
 
   test("balanceOf", async () => {
-    const balance = await readAndParse(
+    const balance = await erc721BalanceOf({
       publicClient,
-      erc721BalanceOf({ erc721, owner: ALICE }),
-    );
+      args: { erc721, owner: ALICE },
+    });
 
     expect(balance).toBe(1n);
   });
 
   test("getApproved", async () => {
-    const approved = await readAndParse(
+    const approved = await erc721GetApproved({
       publicClient,
-      erc721GetApproved({ erc721 }),
-    );
+      args: { erc721 },
+    });
 
     expect(approved).toBe(BOB);
   });
 
   test("isApprovedForAll", async () => {
-    const approved = await readAndParse(
+    const approved = await erc721IsApprovedForAll({
       publicClient,
-      erc721IsApprovedForAll({ erc721, owner: ALICE, spender: BOB }),
-    );
+      args: { erc721, owner: ALICE, spender: BOB },
+    });
 
     expect(approved).toBe(true);
   });
 
   test("supportsInterface", async () => {
-    const supportsInterface = await readAndParse(
+    const supportsInterface = await erc721SupportsInterface({
       publicClient,
-      erc721SupportsInterface({ erc721, interfaceID: "0x01ffc9a7" }),
-    );
+      args: { erc721, interfaceID: "0x01ffc9a7" },
+    });
 
     expect(supportsInterface).toBe(true);
   });
 
   test("getERC721", async () => {
-    expect(
-      await readAndParse(publicClient, getERC721({ erc721 })),
-    ).toStrictEqual(erc721);
+    expect(await getERC721({ publicClient, args: { erc721 } })).toStrictEqual(
+      erc721,
+    );
   });
 
   test("erc721IDData", async () => {
-    const idData = await readAndParse(
+    const idData = await erc721IDData({
       publicClient,
-      erc721IDData({ erc721, owner: ALICE }),
-    );
+      args: { erc721, owner: ALICE },
+    });
 
     expect(idData.owned).toBe(true);
     expect(idData.token).toStrictEqual(erc721);
@@ -168,10 +164,10 @@ describe("erc721 reads", async () => {
   });
 
   test("erc721Data", async () => {
-    const data = await readAndParse(
+    const data = await erc721Data({
       publicClient,
-      erc721Data({ erc721, owner: ALICE }),
-    );
+      args: { erc721, owner: ALICE },
+    });
 
     expect(data.balance).toBe(1);
     expect(data.token).toStrictEqual(erc721);

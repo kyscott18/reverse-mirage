@@ -92,7 +92,7 @@ export { wethDeposit, wethWithdraw } from "./weth/writes.js";
 
 // UTILS
 
-export { readAndParse } from "./readUtils.js";
+export { createReverseMirage, getQueryKey } from "./readUtils.js";
 
 // AMOUNT
 
@@ -189,6 +189,7 @@ export type {
   Token,
   TokenData,
   Price,
+  ReverseMirage,
   ReverseMirageRead,
   ReverseMirageWrite,
   Tuple,

@@ -31,8 +31,16 @@ export type Price<
   base: TBaseCurrency;
 };
 
-export type ReverseMirageRead<TRet = unknown, TParse = unknown> = {
-  read: (publicClient: PublicClient) => TRet | Promise<TRet>;
+export type ReverseMirage<TRet, TParse, TArgs> = <
+  TA extends { args: TArgs; publicClient?: PublicClient },
+>(a: TA) => TA extends {
+  publicClient: PublicClient;
+}
+  ? Promise<TParse>
+  : ReverseMirageRead<TRet, TParse>;
+
+export type ReverseMirageRead<TRet, TParse> = {
+  read: (publicClient: PublicClient) => Promise<TRet>;
   parse: (data: TRet) => TParse;
 };
 

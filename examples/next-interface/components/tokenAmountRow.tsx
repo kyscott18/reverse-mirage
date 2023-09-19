@@ -13,11 +13,11 @@ import invariant from "tiny-invariant";
 import TokenAmountDisplay from "./tokenAmountDisplay";
 import TokenInfo from "./tokenInfo";
 
-export default function TokenAmountRow({
+export default function TokenAmountRow<TERC20 extends ERC20>({
   erc20,
   erc20AmountQuery,
 }: {
-  erc20: ERC20;
+  erc20: TERC20;
   erc20AmountQuery: UseQueryResult<ERC20Amount<ERC20>>;
 }) {
   const transferMutation = useTransfer(

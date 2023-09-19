@@ -6,7 +6,6 @@ import ERC1155Bytecode from "../../../../contracts/out/ERC1155.sol/ERC1155.json"
 import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
 import { erc1155ABI } from "../generated.js";
-import { readAndParse } from "../readUtils.js";
 import {
   erc1155BalanceOf,
   erc1155IsApprovedForAll,
@@ -68,33 +67,37 @@ beforeEach(async () => {
 
 describe("erc1155 reads", async () => {
   test("isApprovedForAll", async () => {
-    const isApprovedForAll = await readAndParse(
+    const isApprovedForAll = await erc1155IsApprovedForAll({
       publicClient,
-      erc1155IsApprovedForAll({ erc1155, owner: ALICE, spender: BOB }),
-    );
+      args: {
+        erc1155,
+        owner: ALICE,
+        spender: BOB,
+      },
+    });
 
     expect(isApprovedForAll).toBe(true);
   });
 
   test("uri", async () => {
-    const uri = await readAndParse(publicClient, erc1155URI({ erc1155 }));
+    const uri = await erc1155URI({ publicClient, args: { erc1155 } });
 
     expect(uri).toBe("https://mitch.com");
   });
 
   test("balanceOf", async () => {
-    const balance = await readAndParse(
+    const balance = await erc1155BalanceOf({
       publicClient,
-      erc1155BalanceOf({ erc1155, owner: ALICE }),
-    );
+      args: { erc1155, address: ALICE },
+    });
 
     expect(balance.amount).toBe(10n);
     expect(balance.token).toBe(erc1155);
   });
 
   test("getERC1155", async () => {
-    expect(
-      await readAndParse(publicClient, getERC1155({ erc1155 })),
-    ).toStrictEqual(erc1155);
+    expect(await getERC1155({ publicClient, args: { erc1155 } })).toStrictEqual(
+      erc1155,
+    );
   });
 });
