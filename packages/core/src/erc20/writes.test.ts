@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, test } from "vitest";
 import ERC20PermitBytecode from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";
 import { ALICE, BOB } from "../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../_test/utils.js";
-import { amountEqualTo, createAmountFromString } from "../amountUtils.js";
+import { amountEqualTo, createAmountFromString } from "../amount/utils.js";
 import { erc20PermitABI } from "../generated.js";
 import { erc20Allowance, erc20BalanceOf } from "./reads.js";
 import type { ERC20Permit } from "./types.js";

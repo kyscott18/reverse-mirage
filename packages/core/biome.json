@@ -6,7 +6,6 @@
       "CHANGELOG.md",
       "dist",
       "tsconfig.json",
-      "tsconfig.*.json",
       "pnpm-lock.yaml",
       "src/generated.ts",
       "coverage"

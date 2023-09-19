@@ -1,4 +1,4 @@
-import type { Token, TokenData } from "../types.js";
+import type { Token, TokenData } from "../types/token.js";
 
 export type NativeCurrency = Token<"nativeCurrency"> & {
   name: string;

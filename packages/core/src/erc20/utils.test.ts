@@ -5,8 +5,8 @@ import { describe, expect, test } from "vitest";
 import ERC20PermitHashTypedData from "../../../../contracts/out/ERC20PermitHashTypedData.sol/ERC20PermitHashTypedData.json";
 import { ALICE } from "../_test/constants.js";
 import { publicClient, walletClient } from "../_test/utils.js";
-import { amountEqualTo } from "../amountUtils.js";
-import { createFraction } from "../fractionUtils.js";
+import { amountEqualTo } from "../amount/utils.js";
+import { createFraction } from "../fraction/utils.js";
 import { erc20PermitHashTypedDataABI } from "../generated.js";
 import {
   createERC20,

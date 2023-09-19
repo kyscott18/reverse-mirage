@@ -3,8 +3,8 @@ import {
   createAmountFromFraction,
   createAmountFromRaw,
   createAmountFromString,
-} from "../amountUtils.js";
-import type { Fraction } from "../types.js";
+} from "../amount/utils.js";
+import type { Fraction } from "../fraction/types.js";
 import type { ERC20, ERC20Permit, ERC20PermitData } from "./types.js";
 
 /**

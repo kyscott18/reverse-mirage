@@ -1,6 +1,6 @@
 import type { Address } from "viem/accounts";
-import type { Amount } from "../amountUtils.js";
-import type { Token, TokenData } from "../types.js";
+import type { Amount } from "../amount/types.js";
+import type { Token, TokenData } from "../types/token.js";
 
 export type BaseERC20<TType extends string = string> = Token<TType> & {
   address: Address;
