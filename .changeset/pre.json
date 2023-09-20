@@ -1,0 +1,10 @@
+{
+  "mode": "pre",
+  "tag": "next",
+  "initialVersions": {
+    "reverse-mirage": "0.1.11"
+  },
+  "changesets": [
+    "long-pillows-sip"
+  ]
+}
