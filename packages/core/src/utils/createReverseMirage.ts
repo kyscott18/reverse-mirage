@@ -10,19 +10,20 @@ export const createReverseMirage: <
   TArgs,
   TChain extends Chain | undefined,
 >(
-  rm: (args: TArgs) => ReverseMirageRead<TRet, TParse, TChain>,
-) => <TA extends { args: TArgs; client?: Client<Transport, TChain> }>(
-  a: TA,
-) => TA extends { client: Client }
-  ? Promise<ReturnType<ReturnType<typeof rm>["parse"]>>
-  : ReturnType<typeof rm> = (rm) => (a) => {
-  return (
-    "client" in a
-      ? rm(a.args)
-          .read(a.client)
-          .then((x) => rm(a.args).parse(x))
-      : rm(a.args)
-  ) as typeof a extends { client: Client }
-    ? Promise<ReturnType<ReturnType<typeof rm>["parse"]>>
-    : ReturnType<typeof rm>;
-};
+  rm: (
+    client: Client<Transport, TChain>,
+    args: TArgs,
+  ) => ReverseMirageRead<TRet, TParse>,
+) => <T extends "select" | "full">(
+  client: Client<Transport, TChain>,
+  args: TArgs,
+  type: T,
+) => T extends "full" ? Promise<TParse> : ReverseMirageRead<TRet, TParse> =
+  (rm) => (client, args, type = "full") =>
+    (type === "full"
+      ? rm(client, args)
+          .read()
+          .then((x) => rm(client, args).parse(x))
+      : rm(client, args)) as typeof type extends "full"
+      ? Promise<ReturnType<ReturnType<typeof rm>["parse"]>>
+      : ReturnType<typeof rm>;

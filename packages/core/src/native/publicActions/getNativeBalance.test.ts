@@ -5,9 +5,9 @@ import { amountEqualTo, createAmountFromString } from "../../amount/utils.js";
 import { getNativeBalance } from "./getNativeBalance.js";
 
 test("get native balance", async () => {
-  const nativeBalanceBob = await getNativeBalance({
-    args: { nativeCurrency: anvilEther, address: BOB },
-    client: publicClient,
+  const nativeBalanceBob = await getNativeBalance(publicClient, {
+    nativeCurrency: anvilEther,
+    address: BOB,
   });
 
   expect(

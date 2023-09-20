@@ -6,6 +6,7 @@ import WETH9Bytecode from "../../../../../contracts/out/WETH9.sol/WETH9.json";
 import { ALICE } from "../../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../../_test/utils.js";
 import { createAmountFromString } from "../../amount/utils.js";
+import { getERC20BalanceOf } from "../../erc20/publicActions/getERC20BalanceOf.js";
 import { weth9ABI } from "../../generated.js";
 import type { WETH } from "../types.js";
 import { createWETH } from "../utils.js";
@@ -57,11 +58,11 @@ test("simulate withdraw", async () => {
 
   await publicClient.waitForTransactionReceipt({ hash: requestHash });
 
-  // const balance = await erc20BalanceOf({
-  //   publicClient,
-  //   args: { erc20: weth, address: ALICE },
-  // });
+  const balance = await getERC20BalanceOf(publicClient, {
+    erc20: weth,
+    address: ALICE,
+  });
 
-  // expect(balance.amount).toBe(10n ** 18n);
-  // expect(balance.token).toStrictEqual(weth);
+  expect(balance.amount).toBe(0n);
+  expect(balance.token).toStrictEqual(weth);
 });

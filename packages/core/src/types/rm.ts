@@ -1,22 +1,10 @@
-import type { Chain, Client, Transport } from "viem";
-
 export type ReverseMirage<
   TRet,
   TParse,
-  TArgs,
-  TChain extends Chain | undefined,
-  T extends { args: TArgs; client?: Client<Transport, TChain> },
-> = T extends {
-  client: Client<Transport, TChain>;
-}
-  ? Promise<TParse>
-  : ReverseMirageRead<TRet, TParse, TChain>;
+  T extends "select" | undefined,
+> = undefined extends T ? Promise<TParse> : ReverseMirageRead<TRet, TParse>;
 
-export type ReverseMirageRead<
-  TRet,
-  TParse,
-  TChain extends Chain | undefined,
-> = {
-  read: (client: Client<Transport, TChain>) => Promise<TRet>;
+export type ReverseMirageRead<TRet, TParse> = {
+  read: () => Promise<TRet>;
   parse: (data: TRet) => TParse;
 };

@@ -13,40 +13,24 @@ export type GetERC20SymbolReturnType = string;
 
 export const getERC20Symbol = <
   TChain extends Chain | undefined,
-  T extends {
-    args: GetERC20SymbolParameters;
-    client?: Client<Transport, TChain>;
-  },
->({
-  args,
-  client,
-}: T): ReverseMirage<
-  string,
-  GetERC20SymbolReturnType,
-  GetERC20SymbolParameters,
-  TChain,
-  T
-> =>
-  (client
+  T extends "select" | undefined,
+>(
+  client: Client<Transport, TChain>,
+  args: GetERC20SymbolParameters,
+  type?: T,
+): ReverseMirage<string, GetERC20SymbolReturnType, T> =>
+  (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "symbol",
       })
     : {
-        read: <TChain extends Chain | undefined>(
-          client: Client<Transport, TChain>,
-        ) =>
+        read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
             address: args.erc20.address,
             functionName: "symbol",
           }),
         parse: (data: string) => data,
-      }) as ReverseMirage<
-    string,
-    GetERC20SymbolReturnType,
-    GetERC20SymbolParameters,
-    TChain,
-    T
-  >;
+      }) as ReverseMirage<string, GetERC20SymbolReturnType, T>;

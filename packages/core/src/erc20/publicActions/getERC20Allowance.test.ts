@@ -22,7 +22,7 @@ beforeAll(async () => {
       account: ALICE,
       abi: erc20PermitABI,
       bytecode: ERC20PermitBytecode.bytecode.object as Hex,
-      args: ["Mock ERC20", "MOCK", 18],
+      args: ["name", "symbol", 18],
     });
 
     const { contractAddress } = await publicClient.waitForTransactionReceipt({
@@ -38,29 +38,45 @@ beforeAll(async () => {
       foundry.id,
     );
 
-    const mintHash = await walletClient.writeContract({
+    const approveHash = await walletClient.writeContract({
       abi: erc20PermitABI,
-      functionName: "mint",
+      functionName: "approve",
       address: contractAddress,
-      args: [ALICE, parseEther("1")],
+      args: [BOB, parseEther("2")],
     });
-    await publicClient.waitForTransactionReceipt({ hash: mintHash });
+    await publicClient.waitForTransactionReceipt({ hash: approveHash });
   } else {
     await testClient.revert({ id });
   }
   id = await testClient.snapshot();
 });
 
-test("can read allowance", async () => {
-  const allowance = await getERC20Allowance({
-    args: {
-      erc20,
-      owner: ALICE,
-      spender: BOB,
-    },
-    client: publicClient,
+test("read allowance", async () => {
+  const allowance = await getERC20Allowance(publicClient, {
+    erc20,
+    owner: ALICE,
+    spender: BOB,
   });
   expect(amountEqualTo(allowance, createAmountFromString(erc20, "2"))).toBe(
     true,
   );
+});
+
+test("read allowance select", async () => {
+  const rm = getERC20Allowance(
+    publicClient,
+    {
+      erc20,
+      owner: ALICE,
+      spender: BOB,
+    },
+    "select",
+  );
+
+  expect(
+    amountEqualTo(
+      await rm.read().then((data) => rm.parse(data)),
+      createAmountFromString(erc20, "2"),
+    ),
+  ).toBe(true);
 });

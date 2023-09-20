@@ -11,6 +11,7 @@ import type { BaseERC20, ERC20, ERC20Permit } from "../types.js";
 import { createERC20, createERC20Permit } from "../utils.js";
 import { getERC20 } from "./getERC20.js";
 import { getERC20DomainSeparator } from "./getERC20DomainSeparator.js";
+import { getERC20Permit } from "./getERC20Permit.js";
 
 export type GetIsERC20PermitParameters = Omit<
   ReadContractParameters<typeof solmateERC20ABI, "name">,
@@ -30,65 +31,32 @@ export type GetIsERC20PermitReturnType = ERC20 | ERC20Permit;
  */
 export const getIsERC20Permit = <
   TChain extends Chain | undefined,
-  T extends {
-    args: GetIsERC20PermitParameters;
-    client?: Client<Transport, TChain>;
-  },
->({
-  args,
-  client,
-}: T): ReverseMirage<
-  [[string, string, number]] | [[string, string, number], Hex],
+  T extends "select" | undefined,
+>(
+  client: Client<Transport, TChain>,
+  args: GetIsERC20PermitParameters,
+  type?: T,
+): ReverseMirage<
+  [[string, string, number], Hex] | [[string, string, number]],
   GetIsERC20PermitReturnType,
-  GetIsERC20PermitParameters,
-  TChain,
   T
 > =>
-  (client
+  (type === undefined
     ? Promise.all([
-        getERC20({ args }).read(client),
-        getERC20DomainSeparator({
-          args: { erc20Permit: args.erc20 },
-        }).read(client),
+        getERC20Permit(client, args),
+        getERC20DomainSeparator(client, args),
       ])
-        .then(([[name, symbol, decimals]]) =>
-          createERC20Permit(
-            args.erc20.address,
-            name,
-            symbol,
-            decimals,
-            args.erc20.version ?? "1",
-            args.erc20.chainID,
-            args.erc20.blockCreated,
-          ),
-        )
-        .catch(() =>
-          getERC20({ args })
-            .read(client)
-            .then(([name, symbol, decimals]) =>
-              createERC20(
-                args.erc20.address,
-                name,
-                symbol,
-                decimals,
-                args.erc20.chainID,
-                args.erc20.blockCreated,
-              ),
-            ),
-        )
+        .then(([erc20]) => erc20)
+        .catch(() => getERC20(client, args))
     : {
-        read: async <TChain extends Chain | undefined>(
-          client: Client<Transport, TChain>,
-        ) => {
+        read: async () => {
           try {
             return await Promise.all([
-              getERC20({ args }).read(client),
-              getERC20DomainSeparator({
-                args: { erc20Permit: args.erc20 },
-              }).read(client),
+              getERC20Permit(client, args, "select").read(),
+              getERC20DomainSeparator(client, args, "select").read(),
             ]);
           } catch {
-            return await Promise.all([getERC20({ args }).read(client)]);
+            return await Promise.all([getERC20(client, args, "select").read()]);
           }
         },
         parse: (data) =>
@@ -111,9 +79,7 @@ export const getIsERC20Permit = <
                 args.erc20.blockCreated,
               ),
       }) as ReverseMirage<
-    [[string, string, number]] | [[string, string, number], Hex],
+    [[string, string, number], Hex] | [[string, string, number]],
     GetIsERC20PermitReturnType,
-    GetIsERC20PermitParameters,
-    TChain,
     T
   >;

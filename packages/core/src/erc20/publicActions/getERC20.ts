@@ -3,15 +3,9 @@ import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
 import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC20, ERC20 } from "../types.js";
 import { createERC20 } from "../utils.js";
-import {
-  type GetERC20DecimalsReturnType,
-  getERC20Decimals,
-} from "./getERC20Decimals.js";
+import { getERC20Decimals } from "./getERC20Decimals.js";
 import { type GetERC20NameReturnType, getERC20Name } from "./getERC20Name.js";
-import {
-  type GetERC20SymbolReturnType,
-  getERC20Symbol,
-} from "./getERC20Symbol.js";
+import { getERC20Symbol } from "./getERC20Symbol.js";
 
 export type GetERC20Parameters = Omit<
   ReadContractParameters<typeof solmateERC20ABI, "name">,
@@ -25,28 +19,17 @@ export type GetERC20ReturnType = ERC20;
 
 export const getERC20 = <
   TChain extends Chain | undefined,
-  T extends {
-    args: GetERC20Parameters;
-    client?: Client<Transport, TChain>;
-  },
->({
-  args,
-  client,
-}: T): ReverseMirage<
-  [string, string, number],
-  GetERC20ReturnType,
-  GetERC20Parameters,
-  TChain,
-  T
-> =>
-  (client
+  T extends "select" | undefined,
+>(
+  client: Client<Transport, TChain>,
+  args: GetERC20Parameters,
+  type?: T,
+): ReverseMirage<[string, string, number], GetERC20NameReturnType, T> =>
+  (type === undefined
     ? Promise.all([
-        getERC20Name({ args, client }) as Promise<GetERC20NameReturnType>,
-        getERC20Symbol({ args, client }) as Promise<GetERC20SymbolReturnType>,
-        getERC20Decimals({
-          args,
-          client,
-        }) as Promise<GetERC20DecimalsReturnType>,
+        getERC20Name(client, args),
+        getERC20Symbol(client, args),
+        getERC20Decimals(client, args),
       ]).then(([name, symbol, decimals]) =>
         createERC20(
           args.erc20.address,
@@ -58,13 +41,11 @@ export const getERC20 = <
         ),
       )
     : {
-        read: <TChain extends Chain | undefined>(
-          client: Client<Transport, TChain>,
-        ) =>
+        read: () =>
           Promise.all([
-            getERC20Name({ args, client }),
-            getERC20Symbol({ args, client }),
-            getERC20Decimals({ args, client }),
+            getERC20Name(client, args, "select").read(),
+            getERC20Symbol(client, args, "select").read(),
+            getERC20Decimals(client, args, "select").read(),
           ]),
         parse: ([name, symbol, decimals]) =>
           createERC20(
@@ -75,10 +56,4 @@ export const getERC20 = <
             args.erc20.chainID,
             args.erc20.blockCreated,
           ),
-      }) as ReverseMirage<
-    [string, string, number],
-    GetERC20ReturnType,
-    GetERC20Parameters,
-    TChain,
-    T
-  >;
+      }) as ReverseMirage<[string, string, number], GetERC20NameReturnType, T>;

@@ -13,40 +13,24 @@ export type GetERC20NameReturnType = string;
 
 export const getERC20Name = <
   TChain extends Chain | undefined,
-  T extends {
-    args: GetERC20NameParameters;
-    client?: Client<Transport, TChain>;
-  },
->({
-  args,
-  client,
-}: T): ReverseMirage<
-  string,
-  GetERC20NameReturnType,
-  GetERC20NameParameters,
-  TChain,
-  T
-> =>
-  (client
+  T extends "select" | undefined,
+>(
+  client: Client<Transport, TChain>,
+  args: GetERC20NameParameters,
+  type?: T,
+): ReverseMirage<string, GetERC20NameReturnType, T> =>
+  (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
         address: args.erc20.address,
         functionName: "name",
       })
     : {
-        read: <TChain extends Chain | undefined>(
-          client: Client<Transport, TChain>,
-        ) =>
+        read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
             address: args.erc20.address,
             functionName: "name",
           }),
         parse: (data) => data,
-      }) as ReverseMirage<
-    string,
-    GetERC20NameReturnType,
-    GetERC20NameParameters,
-    TChain,
-    T
-  >;
+      }) as ReverseMirage<string, GetERC20NameReturnType, T>;
