@@ -6,7 +6,7 @@ export type {
 
 export { createERC721, createERC721Data, createERC721IDData } from "./utils.js";
 
-export { solmateErc721ABI as solmateERC721 } from "../generated.js";
+export { solmateErc721ABI as solmateERC721ABI } from "../generated.js";
 
 export { getERC721 } from "./publicActions/getERC721.js";
 export { getERC721Approved } from "./publicActions/getERC721Approved.js";

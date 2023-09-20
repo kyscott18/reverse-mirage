@@ -1,6 +1,6 @@
 import invariant from "tiny-invariant";
-import type {  Fraction } from "./types.js";
 import type { BigIntIsh } from "../types/bigintish.js";
+import type { Fraction } from "./types.js";
 
 /**
  * Returns true if {@link x } is of type {@link Fraction}

@@ -6,8 +6,13 @@ import type { ReverseMirageRead } from "../types/rm.js";
  * @see https://tanstack.com/query/v4/docs/react/guides/query-keys
  */
 export const getQueryKey = <TArgs>(
-  // biome-ignore lint/suspicious/noExplicitAny: dont need
-  get: (a: { args: TArgs }) => ReverseMirageRead<any, any, any>,
+  get: (
+    // biome-ignore lint/suspicious/noExplicitAny: dont need
+    client: any,
+    args: TArgs,
+    type?: "select" | undefined,
+    // biome-ignore lint/suspicious/noExplicitAny: dont need
+  ) => ReverseMirageRead<any, any>,
   args: TArgs,
   chainID: number,
 ) => {

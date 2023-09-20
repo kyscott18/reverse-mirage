@@ -182,12 +182,150 @@ export default defineConfig({
       {
         text: "ERC721",
         collapsed: true,
-        items: [{ text: "Introduction", link: "" }],
+        items: [
+          { text: "Introduction", link: "" },
+          {
+            text: "Utilities",
+            items: [
+              {
+                text: "createERC721",
+                link: "",
+              },
+              {
+                text: "createERC721Data",
+                link: "",
+              },
+              {
+                text: "createERC721DataID",
+                link: "",
+              },
+            ],
+          },
+          {
+            text: "Public Actions",
+            items: [
+              {
+                text: "getERC721",
+                link: "",
+              },
+              {
+                text: "getERC721Approved",
+                link: "",
+              },
+              {
+                text: "getERC721IsApprovedForAll",
+                link: "",
+              },
+              {
+                text: "getERC721BalanceOf",
+                link: "",
+              },
+              {
+                text: "getERC721Name",
+                link: "",
+              },
+              {
+                text: "getERC721Symbol",
+                link: "",
+              },
+              {
+                text: "getERC721OwnerOf",
+                link: "",
+              },
+              {
+                text: "getERC721SupportsInterface",
+                link: "",
+              },
+              {
+                text: "getERC721TokenURI",
+                link: "",
+              },
+              {
+                text: "getERC721Data",
+                link: "",
+              },
+              {
+                text: "getERC721DataID",
+                link: "",
+              },
+            ],
+          },
+          {
+            text: "Wallet Actions",
+            items: [
+              {
+                text: "simulateERC721Transfer",
+                link: "",
+              },
+              {
+                text: "simulateERC721Approve",
+                link: "",
+              },
+              {
+                text: "simulateERC721SetApprovalForAll",
+                link: "",
+              },
+            ],
+          },
+        ],
       },
       {
         text: "ERC1155",
         collapsed: true,
-        items: [{ text: "Introduction", link: "" }],
+        items: [
+          { text: "Introduction", link: "" },
+          {
+            text: "Utilities",
+            items: [
+              {
+                text: "createERC1155",
+                link: "",
+              },
+              {
+                text: "createERC1155Data",
+                link: "",
+              },
+            ],
+          },
+          {
+            text: "Public Actions",
+            items: [
+              {
+                text: "getERC1155",
+                link: "",
+              },
+              {
+                text: "getERC1155IsApprovedForAll",
+                link: "",
+              },
+              {
+                text: "getERC1155BalanceOf",
+                link: "",
+              },
+              {
+                text: "getERC1155URI",
+                link: "",
+              },
+            ],
+          },
+          {
+            text: "Wallet Actions",
+            items: [
+              {
+                text: "simulateERC1155Transfer",
+                link: "",
+              },
+              {
+                text: "simulateERC1155TransferBatch",
+                link: "",
+              },
+              {
+                text: "simulateERC1155SetApprovalForAll",
+                link: "",
+              },
+            ],
+          },
+        ],
       },
       {
         text: "Amount",

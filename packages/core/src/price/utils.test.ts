@@ -1,6 +1,12 @@
 import { describe, expect, test } from "vitest";
 import { mockToken } from "../_test/constants.js";
 import {
+  amountEqualTo,
+  createAmountFromRaw,
+  createAmountFromString,
+} from "../amount/utils.js";
+import { createFraction, fractionEqualTo } from "../fraction/utils.js";
+import {
   adjustedPrice,
   createPrice,
   createPriceFromAmounts,
@@ -17,8 +23,6 @@ import {
   priceToNumber,
   rawPrice,
 } from "./utils.js";
-import { amountEqualTo, createAmountFromRaw, createAmountFromString } from "../amount/utils.js";
-import { createFraction, fractionEqualTo } from "../fraction/utils.js";
 
 const one = {
   type: "price",

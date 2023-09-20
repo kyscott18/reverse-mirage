@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { type ERC20, erc20BalanceOf, getQueryKey } from "reverse-mirage";
+import { type ERC20, getERC20BalanceOf, getQueryKey } from "reverse-mirage";
 import { type Address, usePublicClient } from "wagmi";
 import type { HookArg } from "./internal/types";
 import { userRefectchInterval } from "./internal/utils";
@@ -14,19 +14,23 @@ export const useBalance = <TERC20 extends ERC20>(
 
   return useQuery({
     queryKey: getQueryKey(
-      erc20BalanceOf,
+      getERC20BalanceOf,
       { erc20: erc20!, address: address! },
       chainID,
     ),
     enabled: [erc20, address].some((a) => a === undefined) ? false : true,
     queryFn: () =>
-      erc20BalanceOf({
-        args: { erc20: erc20!, address: address! },
-      }).read(publicClient),
+      getERC20BalanceOf(
+        publicClient,
+        { erc20: erc20!, address: address! },
+        "select",
+      ).read(),
     select: (data) =>
-      erc20BalanceOf({
-        args: { erc20: erc20!, address: address! },
-      }).parse(data),
+      getERC20BalanceOf(
+        publicClient,
+        { erc20: erc20!, address: address! },
+        "select",
+      ).parse(data),
     staleTime: Infinity,
     refetchInterval: userRefectchInterval,
   });
