@@ -13,6 +13,7 @@
     "codegen": "pnpm wagmi generate",
     "changeset:publish": "pnpm codegen && pnpm build && pnpm changeset publish",
     "build": "pnpm --filter 'reverse-mirage' build && pnpm --filter !'reverse-mirage' build",
+    "build:docs": "pnpm --filter 'reverse-mirage-docs' build",
     "lint": "pnpm --parallel lint",
     "format": "pnpm --parallel format",
     "typecheck": "pnpm --parallel typecheck",
@@ -32,6 +33,7 @@
     "@changesets/cli": "^2.26.2",
     "@wagmi/cli": "^1.5.0",
     "husky": "^8.0.3",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "vitepress": "1.0.0-rc.14"
   }
 }
