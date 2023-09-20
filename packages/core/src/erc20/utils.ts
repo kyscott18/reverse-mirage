@@ -1,4 +1,4 @@
-import { type Address, getAddress, hashTypedData } from "viem";
+import { type Address, getAddress } from "viem";
 import {
   createAmountFromFraction,
   createAmountFromRaw,
@@ -104,33 +104,3 @@ export const PermitType = {
     { name: "deadline", type: "uint256" },
   ],
 } as const;
-
-/**
- * Returns the EIP 712 typed data hash of type {@link PermitType}
- */
-export const erc20PermitTypedDataHash = (permit: {
-  amount: ERC20PermitData<ERC20Permit>;
-  owner: Address;
-  spender: Address;
-  deadline: bigint;
-}) => {
-  const domain = {
-    name: permit.amount.token.name,
-    version: permit.amount.token.version,
-    chainId: permit.amount.token.chainID,
-    verifyingContract: permit.amount.token.address,
-  } as const;
-
-  return hashTypedData({
-    domain,
-    types: PermitType,
-    primaryType: "Permit",
-    message: {
-      owner: permit.owner,
-      spender: permit.spender,
-      value: permit.amount.amount,
-      nonce: permit.amount.nonce,
-      deadline: permit.deadline,
-    },
-  });
-};
