@@ -1,6 +1,6 @@
 import { foundry } from "viem/chains";
 import type { NativeCurrency } from "../native/types.js";
-import type { Token } from "../types.js";
+import type { Token } from "../types/token.js";
 
 // Test accounts
 export const ACCOUNTS = [

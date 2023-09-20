@@ -1,101 +1,3 @@
-// ERC20
-
-export {
-  erc20BalanceOf,
-  erc20Allowance,
-  erc20TotalSupply,
-  erc20Name,
-  erc20Symbol,
-  erc20Decimals,
-  erc20PermitNonce,
-  erc20PermitData,
-  erc20PermitDomainSeparator,
-  getERC20,
-  getERC20Permit,
-  erc20IsPermit,
-} from "./erc20/reads.js";
-
-export {
-  createERC20,
-  createERC20Permit,
-  createERC20PermitDataFromString,
-  createERC20PermitDataFromRaw,
-  createERC20PermitDataFromFraction,
-  PermitType,
-  erc20PermitTypedDataHash,
-} from "./erc20/utils.js";
-
-export {
-  erc20Transfer,
-  erc20Approve,
-  erc20TransferFrom,
-  erc20Permit,
-  erc20SignPermit,
-} from "./erc20/writes.js";
-
-// ERC721
-
-export {
-  erc721Name,
-  erc721Symbol,
-  erc721TokenURI,
-  erc721GetApproved,
-  erc721IsApprovedForAll,
-  erc721OwnerOf,
-  erc721BalanceOf,
-  erc721SupportsInterface,
-  getERC721,
-  erc721Data,
-  erc721IDData,
-} from "./erc721/reads.js";
-
-export {
-  createERC721,
-  createERC721Data,
-  createERC721IDData,
-} from "./erc721/utils.js";
-
-export {
-  erc721Transfer,
-  erc721Approve,
-  erc721SetApprovalForAll,
-} from "./erc721/writes.js";
-
-// ERC1155
-
-export {
-  erc1155IsApprovedForAll,
-  erc1155URI,
-  erc1155BalanceOf,
-  getERC1155,
-} from "./erc1155/reads.js";
-
-export { createERC1155, createERC1155Data } from "./erc1155/utils.js";
-
-export {
-  erc1155SetApprovalForAll,
-  erc1155Transfer,
-  erc1155TransferBatch,
-} from "./erc1155/writes.js";
-
-// NATIVE
-
-export { nativeBalance } from "./native/reads.js";
-
-export { createNativeCurrency } from "./native/utils.js";
-
-// WETH
-
-export { createWETH } from "./weth/utils.js";
-
-export { wethDeposit, wethWithdraw } from "./weth/writes.js";
-
-// UTILS
-
-export { readAndParse } from "./readUtils.js";
-
-// AMOUNT
-
 export {
   type Amount,
   isAmount,
@@ -110,11 +12,98 @@ export {
   amountEqualTo,
   amountGreaterThan,
   amountToNumber,
-} from "./amountUtils.js";
-
-// FRACTION
+} from "./amount/index.js";
 
 export {
+  type ChainTokens,
+  arbitrumTokens,
+  arbitrumGoerliTokens,
+  baseTokens,
+  baseGoerliTokens,
+  celoTokens,
+  celoAlfajoresTokens,
+  foundryTokens,
+  goerliTokens,
+  mainnetTokens,
+  optimismTokens,
+  optimismGoerliTokens,
+  sepoliaTokens,
+} from "./chains/index.js";
+
+export {
+  type BaseERC20,
+  type ERC20,
+  type ERC20Permit,
+  type ERC20Data,
+  type ERC20Amount,
+  type ERC20PermitData,
+  createERC20,
+  createERC20Permit,
+  createERC20PermitDataFromFraction,
+  createERC20PermitDataFromRaw,
+  createERC20PermitDataFromString,
+  PermitType,
+  solmateERC20ABI,
+  getERC20,
+  getERC20Allowance,
+  getERC20BalanceOf,
+  getERC20Decimals,
+  getERC20DomainSeparator,
+  getERC20Name,
+  getERC20Permit,
+  getERC20PermitData,
+  getERC20PermitNonce,
+  getERC20Symbol,
+  getERC20TotalSupply,
+  getIsERC20Permit,
+  signERC20Permit,
+  simulateERC20Approve,
+  simulateERC20Permit,
+  simulateERC20Transfer,
+  simulateERC20TransferFrom,
+} from "./erc20/index.js";
+
+export {
+  type ERC721,
+  type ERC721IDData,
+  type ERC721Data,
+  createERC721,
+  createERC721Data,
+  createERC721IDData,
+  solmateERC721ABI,
+  getERC721,
+  getERC721Approved,
+  getERC721BalanceOf,
+  getERC721Data,
+  getERC721IDData,
+  getERC721IsApprovedForAll,
+  getERC721Name,
+  getERC721Symbol,
+  getERC721OwnerOf,
+  getERC721SupportsInterface,
+  getERC721TokenURI,
+  simulateERC721Transfer,
+  simulateERC721Approve,
+  simulateERC721SetApprovalForAll,
+} from "./erc721/index.js";
+
+export {
+  type ERC1155,
+  type ERC1155Data,
+  createERC1155,
+  createERC1155Data,
+  solmateERC1155ABI,
+  getERC1155,
+  getERC1155BalanceOf,
+  getERC1155IsApprovedForAll,
+  getERC1155URI,
+  simulateERC1155Transfer,
+  simulateERC1155TransferBatch,
+  simulateERC1155SetApprovalForAll,
+} from "./erc1155/index.js";
+
+export {
+  type Fraction,
   isFraction,
   createFraction,
   fractionQuotient,
@@ -128,11 +117,20 @@ export {
   fractionEqualTo,
   fractionGreaterThan,
   fractionToNumber,
-} from "./fractionUtils.js";
-
-// PRICE
+} from "./fraction/index.js";
 
 export {
+  type NativeCurrency,
+  type NativeCurrencyAmount,
+  type NativeCurrencyData,
+  createNativeCurrency,
+  getNativeBalance,
+  type GetNativeBalanceParameters,
+  type GetNativeBalanceReturnType,
+} from "./native/index.js";
+
+export {
+  type Price,
   isPrice,
   createPriceFromFraction,
   createPriceFromAmounts,
@@ -149,65 +147,23 @@ export {
   rawPrice,
   adjustedPrice,
   priceToNumber,
-} from "./priceUtils.js";
-
-// ABI
-
-export {
-  solmateErc20ABI as erc20ABI,
-  solmateErc721ABI as erc721ABI,
-  solmateErc1155ABI as erc1155ABI,
-  weth9ABI,
-} from "./generated.js";
-
-// TYPES
-
-export type {
-  BaseERC20,
-  ERC20,
-  ERC20Permit,
-  ERC20Data,
-  ERC20Amount,
-  ERC20PermitData,
-} from "./erc20/types.js";
-
-export type { ERC721, ERC721IDData, ERC721Data } from "./erc721/types.js";
-
-export type { ERC1155, ERC1155Data } from "./erc1155/types.js";
-
-export type {
-  NativeCurrency,
-  NativeCurrencyAmount,
-  NativeCurrencyData,
-} from "./native/types.js";
-
-export type { WETH } from "./weth/types.js";
+} from "./price/index.js";
 
 export type {
   BigIntIsh,
-  Fraction,
+  ReverseMirage,
+  ReverseMirageRead,
   Token,
   TokenData,
-  Price,
-  ReverseMirageRead,
-  ReverseMirageWrite,
   Tuple,
-} from "./types.js";
+} from "./types/index.js";
 
-// CONSTANTS
+export { getQueryKey } from "./utils/index.js";
 
 export {
-  type ChainTokens,
-  mainnetTokens,
-  sepoliaTokens,
-  goerliTokens,
-  optimismTokens,
-  optimismGoerliTokens,
-  arbitrumTokens,
-  arbitrumGoerliTokens,
-  baseTokens,
-  baseGoerliTokens,
-  celoTokens,
-  celoAlfajoresTokens,
-  foundryTokens,
-} from "./constants.js";
+  type WETH,
+  createWETH,
+  weth9ABI,
+  simulateWETHDeposit,
+  simulateWETHWithdraw,
+} from "./weth/index.js";

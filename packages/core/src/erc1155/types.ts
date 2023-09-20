@@ -1,6 +1,6 @@
 import type { Address } from "viem";
-import type { Amount } from "../amountUtils.js";
-import type { Token } from "../types.js";
+import type { Amount } from "../amount/types.js";
+import type { Token } from "../types/token.js";
 
 export type ERC1155 = Token<"erc1155"> & {
   address: Address;

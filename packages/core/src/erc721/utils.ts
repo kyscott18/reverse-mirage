@@ -1,5 +1,5 @@
 import { type Address, getAddress } from "viem";
-import type { Tuple } from "../types.js";
+import type { Tuple } from "../types/tuple.js";
 import type { ERC721, ERC721Data, ERC721IDData } from "./types.js";
 
 /**

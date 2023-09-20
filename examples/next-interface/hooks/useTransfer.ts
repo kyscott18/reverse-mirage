@@ -1,26 +1,27 @@
 import { type BeetStage, type TxToast, toaster } from "@/components/beet";
-import type { ERC20 } from "@/lib/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import {
+  type BaseERC20,
   type ERC20Amount,
-  erc20BalanceOf,
-  erc20Transfer,
+  getERC20BalanceOf,
+  getQueryKey,
+  simulateERC20Transfer,
 } from "reverse-mirage";
-import { useQueryGenerator } from "reverse-mirage-react";
 import { getAddress } from "viem";
 import { type Address, useWalletClient } from "wagmi";
 import type { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";
+import { useChainID } from "./useChain";
 
-export const useTransfer = (
-  amount: HookArg<ERC20Amount<ERC20>>,
+export const useTransfer = <TERC20 extends BaseERC20>(
+  amount: HookArg<ERC20Amount<TERC20>>,
   to: HookArg<Address>,
 ) => {
   const queryClient = useQueryClient();
-  const balanceOfQuery = useQueryGenerator(erc20BalanceOf);
   const client = useFastClient();
   const walletClient = useWalletClient();
+  const chainID = useChainID();
 
   const title = "Transfer";
 
@@ -30,21 +31,15 @@ export const useTransfer = (
       to,
       toast,
     }: {
-      amount: ERC20Amount<ERC20>;
+      amount: ERC20Amount<TERC20>;
       to: Address;
     } & {
       toast: TxToast;
     }) => {
-      const transfer = await erc20Transfer(
-        client,
-        walletClient.data!,
-        walletClient.data!.account,
-        {
-          to,
-          amount,
-        },
-      );
-      const hash = transfer.hash;
+      const { request } = await simulateERC20Transfer(client, {
+        args: { to, amount },
+      });
+      const hash = await walletClient.data!.writeContract(request);
 
       toaster.txPending({ ...toast, hash });
 
@@ -62,10 +57,14 @@ export const useTransfer = (
 
       await Promise.all([
         queryClient.invalidateQueries({
-          queryKey: balanceOfQuery({
-            erc20: input.amount.token,
-            address: getAddress(data.from),
-          }).queryKey,
+          queryKey: getQueryKey(
+            getERC20BalanceOf,
+            {
+              erc20: input.amount.token,
+              address: getAddress(data.from),
+            },
+            chainID,
+          ),
         }),
       ]);
     },

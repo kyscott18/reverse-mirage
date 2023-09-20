@@ -10,16 +10,13 @@
     "preinstall": "npx -y only-allow pnpm",
     "codegen": "pnpm wagmi generate",
     "changeset:publish": "pnpm codegen && pnpm build && pnpm changeset publish",
-    "build": "pnpm --filter 'reverse-mirage' build &&  pnpm --filter 'reverse-mirage-react' build && pnpm --filter !'reverse-mirage' --filter !'reverse-mirage-react' build",
+    "build": "pnpm --filter 'reverse-mirage' build && pnpm --filter !'reverse-mirage' build",
     "lint": "pnpm --parallel lint",
     "format": "pnpm --parallel format",
     "typecheck": "pnpm --parallel typecheck",
     "test": "pnpm --parallel test",
     "test:ci": "pnpm --parallel test:ci",
-    "test:cov": "pnpm --parallel test:cov",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "test:cov": "pnpm --parallel test:cov"
   },
   "keywords": [],
   "author": "",
@@ -29,11 +26,11 @@
     "pnpm": ">=8"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.1.2",
+    "@biomejs/biome": "^1.2.2",
     "@changesets/cli": "^2.26.2",
     "@wagmi/cli": "^1.5.0",
     "husky": "^8.0.3",
     "typescript": "^5.2.2",
-    "vitepress": "1.0.0-rc.10"
+    "vitepress": "1.0.0-rc.14"
   }
 }
