@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.0-next.0
+
+### Major Changes
+
+- 51e3d32: Restructure directory layout and extends viem client"
+
 ## 0.1.11
 
 ### Patch Changes
