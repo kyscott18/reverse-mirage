@@ -4,9 +4,9 @@ import { useMemo } from "react";
 import {
   type BaseERC20,
   type ERC20Amount,
-  erc20BalanceOf,
-  erc20Transfer,
+  getERC20BalanceOf,
   getQueryKey,
+  simulateERC20Transfer,
 } from "reverse-mirage";
 import { getAddress } from "viem";
 import { type Address, useWalletClient } from "wagmi";
@@ -36,9 +36,8 @@ export const useTransfer = <TERC20 extends BaseERC20>(
     } & {
       toast: TxToast;
     }) => {
-      const { request } = await erc20Transfer(client, {
-        to,
-        amount,
+      const { request } = await simulateERC20Transfer(client, {
+        args: { to, amount },
       });
       const hash = await walletClient.data!.writeContract(request);
 
@@ -59,7 +58,7 @@ export const useTransfer = <TERC20 extends BaseERC20>(
       await Promise.all([
         queryClient.invalidateQueries({
           queryKey: getQueryKey(
-            erc20BalanceOf,
+            getERC20BalanceOf,
             {
               erc20: input.amount.token,
               address: getAddress(data.from),

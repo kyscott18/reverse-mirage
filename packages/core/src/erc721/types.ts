@@ -1,5 +1,6 @@
 import type { Address } from "viem";
-import type { Token, TokenData, Tuple } from "../types.js";
+import type { Token, TokenData } from "../types/token.js";
+import type { Tuple } from "../types/tuple.js";
 
 export type ERC721 = Token<"erc721"> & {
   address: Address;
