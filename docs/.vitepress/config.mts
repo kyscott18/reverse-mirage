@@ -21,6 +21,8 @@ export default defineConfig({
         text: "ERC20",
         collapsed: true,
         items: [
+          { text: "Introduction", link: "" },
+
           {
             text: "Utilities",
             items: [
@@ -125,36 +127,266 @@ export default defineConfig({
       {
         text: "Native",
         collapsed: true,
+        items: [
+          { text: "Introduction", link: "" },
+          {
+            text: "Utilities",
+            items: [
+              {
+                text: "createNativeCurrency",
+                link: "",
+              },
+            ],
+          },
+          {
+            text: "Public Actions",
+            items: [
+              {
+                text: "getNativeBalance",
+                link: "",
+              },
+            ],
+          },
+        ],
       },
       {
         text: "WETH",
         collapsed: true,
+        items: [
+          { text: "Introduction", link: "" },
+
+          {
+            text: "Utilities",
+            items: [
+              {
+                text: "createWETH",
+                link: "",
+              },
+            ],
+          },
+          {
+            text: "Wallet Actions",
+            items: [
+              {
+                text: "simulateWETHDeposit",
+                link: "",
+              },
+              {
+                text: "simulateWETHWithdraw",
+                link: "",
+              },
+            ],
+          },
+        ],
       },
       {
         text: "ERC721",
         collapsed: true,
+        items: [{ text: "Introduction", link: "" }],
       },
       {
         text: "ERC1155",
         collapsed: true,
+        items: [{ text: "Introduction", link: "" }],
       },
       {
         text: "Amount",
         collapsed: true,
+        items: [
+          { text: "Introduction", link: "" },
+          {
+            text: "createAmountFromString",
+            link: "",
+          },
+          {
+            text: "createAmountFromFraction",
+            link: "",
+          },
+          {
+            text: "createAmountFromRaw",
+            link: "",
+          },
+          {
+            text: "amountAdd",
+            link: "",
+          },
+          {
+            text: "amountSubtract",
+            link: "",
+          },
+          {
+            text: "amountMultiply",
+            link: "",
+          },
+          {
+            text: "amountDivide",
+            link: "",
+          },
+          {
+            text: "isAmount",
+            link: "",
+          },
+          {
+            text: "amountLessThan",
+            link: "",
+          },
+          {
+            text: "amountGreaterThan",
+            link: "",
+          },
+          {
+            text: "amountEqualTo",
+            link: "",
+          },
+          {
+            text: "amountToNumber",
+            link: "",
+          },
+        ],
       },
       {
         text: "Price",
         collapsed: true,
+        items: [
+          { text: "Introduction", link: "" },
+          {
+            text: "createPrice",
+            link: "",
+          },
+          {
+            text: "createPriceFromAmounts",
+            link: "",
+          },
+          {
+            text: "createPriceFromFraction",
+            link: "",
+          },
+          {
+            text: "priceInvert",
+            link: "",
+          },
+          {
+            text: "priceAdd",
+            link: "",
+          },
+          {
+            text: "priceSubtract",
+            link: "",
+          },
+          {
+            text: "priceMultiply",
+            link: "",
+          },
+          {
+            text: "priceDivide",
+            link: "",
+          },
+          {
+            text: "isPrice",
+            link: "",
+          },
+          {
+            text: "priceLessThan",
+            link: "",
+          },
+          {
+            text: "priceGreaterThan",
+            link: "",
+          },
+          {
+            text: "priceEqualTo",
+            link: "",
+          },
+          {
+            text: "priceToNumber",
+            link: "",
+          },
+          {
+            text: "priceQuote",
+            link: "",
+          },
+          {
+            text: "rawPrice",
+            link: "",
+          },
+          {
+            text: "adjustedPrice",
+            link: "",
+          },
+        ],
       },
       {
         text: "Fraction",
         collapsed: true,
+        items: [
+          { text: "Introduction", link: "" },
+          {
+            text: "createFraction",
+            link: "",
+          },
+          {
+            text: "fractionRemainder",
+            link: "",
+          },
+          {
+            text: "fractionQuotient",
+            link: "",
+          },
+          {
+            text: "fractionInvert",
+            link: "",
+          },
+          {
+            text: "fractionAdd",
+            link: "",
+          },
+          {
+            text: "fractionSubtract",
+            link: "",
+          },
+          {
+            text: "fractionMultiply",
+            link: "",
+          },
+          {
+            text: "fractionDivide",
+            link: "",
+          },
+          {
+            text: "isFraction",
+            link: "",
+          },
+          {
+            text: "fractionLessThan",
+            link: "",
+          },
+          {
+            text: "fractionGreaterThan",
+            link: "",
+          },
+          {
+            text: "fractionEqualTo",
+            link: "",
+          },
+          {
+            text: "fractionToNumber",
+            link: "",
+          },
+        ],
       },
       {
         text: "Chains",
-        collapsed: true,
+        link: "",
       },
-      { text: "Utilities" },
+      {
+        text: "Utilities",
+        items: [
+          {
+            text: "getQueryKey",
+            link: "",
+          },
+        ],
+      },
     ],
 
     socialLinks: [
