@@ -4,6 +4,7 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Reverse Mirage",
   description: "Application level typescript utilities for Ethereum",
+  head: [["script", { src: "/_vercel/insights/script.js" }]],
   themeConfig: {
     search: {
       provider: "local",
