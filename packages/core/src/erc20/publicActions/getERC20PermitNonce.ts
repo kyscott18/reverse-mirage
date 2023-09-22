@@ -22,23 +22,25 @@ export const getERC20PermitNonce = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20PermitNonceParameters,
+  { erc20, address, ...request }: GetERC20PermitNonceParameters,
   type?: T,
 ): ReverseMirage<bigint, GetERC20PermitNonceReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
-        address: args.erc20.address,
+        address: erc20.address,
         functionName: "nonces",
-        args: [args.address],
+        args: [address],
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
-            address: args.erc20.address,
+            address: erc20.address,
             functionName: "nonces",
-            args: [args.address],
+            args: [address],
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<bigint, GetERC20PermitNonceReturnType, T>;

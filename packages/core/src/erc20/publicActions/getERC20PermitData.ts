@@ -25,44 +25,48 @@ export const getERC20PermitData = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20PermitDataParameters<TERC20>,
+  { erc20, address, ...request }: GetERC20PermitDataParameters<TERC20>,
   type?: T,
 ): ReverseMirage<[bigint, bigint], GetERC20PermitDataReturnType<TERC20>, T> =>
   (type === undefined
     ? Promise.all([
         readContract(client, {
           abi: solmateERC20ABI,
-          address: args.erc20.address,
+          address: erc20.address,
           functionName: "balanceOf",
-          args: [args.address],
+          args: [address],
+          ...request,
         }),
         readContract(client, {
           abi: solmateERC20ABI,
-          address: args.erc20.address,
+          address: erc20.address,
           functionName: "nonces",
-          args: [args.address],
+          args: [address],
+          ...request,
         }),
       ]).then(([balance, nonce]) =>
-        createERC20PermitDataFromRaw(args.erc20, balance, nonce),
+        createERC20PermitDataFromRaw(erc20, balance, nonce),
       )
     : {
         read: () =>
           Promise.all([
             readContract(client, {
               abi: solmateERC20ABI,
-              address: args.erc20.address,
+              address: erc20.address,
               functionName: "balanceOf",
-              args: [args.address],
+              args: [address],
+              ...request,
             }),
             readContract(client, {
               abi: solmateERC20ABI,
-              address: args.erc20.address,
+              address: erc20.address,
               functionName: "nonces",
-              args: [args.address],
+              args: [address],
+              ...request,
             }),
           ]),
         parse: ([balance, nonce]) =>
-          createERC20PermitDataFromRaw(args.erc20, balance, nonce),
+          createERC20PermitDataFromRaw(erc20, balance, nonce),
       }) as ReverseMirage<
     [bigint, bigint],
     GetERC20PermitDataReturnType<TERC20>,

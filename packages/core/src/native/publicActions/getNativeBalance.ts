@@ -18,16 +18,20 @@ export const getNativeBalance = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetNativeBalanceParameters<TNativeCurrency>,
+  {
+    address,
+    nativeCurrency,
+    ...request
+  }: GetNativeBalanceParameters<TNativeCurrency>,
   type?: T,
 ): ReverseMirage<bigint, GetNativeBalanceReturnType<TNativeCurrency>, T> =>
   (type === undefined
-    ? getBalance(client, { address: args.address }).then((data) =>
-        createAmountFromRaw(args.nativeCurrency, data),
+    ? getBalance(client, { address: address, ...request }).then((data) =>
+        createAmountFromRaw(nativeCurrency, data),
       )
     : {
-        read: () => getBalance(client, { address: args.address }),
-        parse: (data: bigint) => createAmountFromRaw(args.nativeCurrency, data),
+        read: () => getBalance(client, { address: address, ...request }),
+        parse: (data: bigint) => createAmountFromRaw(nativeCurrency, data),
       }) as ReverseMirage<
     bigint,
     GetNativeBalanceReturnType<TNativeCurrency>,

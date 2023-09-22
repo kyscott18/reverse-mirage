@@ -22,23 +22,25 @@ export const getERC721OwnerOf = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721OwnerOfParameters,
+  { erc721, id, ...request }: GetERC721OwnerOfParameters,
   type?: T,
 ): ReverseMirage<Address, GetERC721OwnerOfReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC721ABI,
-        address: args.erc721.address,
+        address: erc721.address,
         functionName: "ownerOf",
-        args: [args.id],
+        args: [id],
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC721ABI,
-            address: args.erc721.address,
+            address: erc721.address,
             functionName: "ownerOf",
-            args: [args.id],
+            args: [id],
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<Address, GetERC721OwnerOfReturnType, T>;

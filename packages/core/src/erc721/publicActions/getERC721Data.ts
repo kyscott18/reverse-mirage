@@ -25,20 +25,27 @@ export const getERC721Data = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721DataParameters<TERC721>,
+  { erc721, address, ...request }: GetERC721DataParameters<TERC721>,
   type?: T,
 ): ReverseMirage<bigint, GetERC721DataReturnType<TERC721>, T> =>
   (type === undefined
-    ? getERC721BalanceOf(client, args).then((data) => {
-        if (data > Number.MAX_SAFE_INTEGER)
-          throw Error("balance exceeds maximum representable number");
-        return createERC721Data(args.erc721, Number(data));
-      })
+    ? getERC721BalanceOf(client, { erc721, address, ...request }).then(
+        (data) => {
+          if (data > Number.MAX_SAFE_INTEGER)
+            throw Error("balance exceeds maximum representable number");
+          return createERC721Data(erc721, Number(data));
+        },
+      )
     : {
-        read: () => getERC721BalanceOf(client, args, "select").read(),
+        read: () =>
+          getERC721BalanceOf(
+            client,
+            { erc721, address, ...request },
+            "select",
+          ).read(),
         parse: (data) => {
           if (data > Number.MAX_SAFE_INTEGER)
             throw Error("balance exceeds maximum representable number");
-          return createERC721Data(args.erc721, Number(data));
+          return createERC721Data(erc721, Number(data));
         },
       }) as ReverseMirage<bigint, GetERC721DataReturnType<TERC721>, T>;

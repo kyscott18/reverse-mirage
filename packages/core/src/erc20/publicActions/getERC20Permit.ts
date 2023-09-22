@@ -22,41 +22,41 @@ export const getERC20Permit = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20PermitParameters,
+  { erc20, ...request }: GetERC20PermitParameters,
   type?: T,
 ): ReverseMirage<[string, string, number], GetERC20PermitReturnType, T> =>
   (type === undefined
     ? Promise.all([
-        getERC20Name(client, args),
-        getERC20Symbol(client, args),
-        getERC20Decimals(client, args),
+        getERC20Name(client, { erc20, ...request }),
+        getERC20Symbol(client, { erc20, ...request }),
+        getERC20Decimals(client, { erc20, ...request }),
       ]).then(([name, symbol, decimals]) =>
         createERC20Permit(
-          args.erc20.address,
+          erc20.address,
           name,
           symbol,
           decimals,
-          args.erc20.version ?? "1",
-          args.erc20.chainID,
-          args.erc20.blockCreated,
+          erc20.version ?? "1",
+          erc20.chainID,
+          erc20.blockCreated,
         ),
       )
     : {
         read: () =>
           Promise.all([
-            getERC20Name(client, args, "select").read(),
-            getERC20Symbol(client, args, "select").read(),
-            getERC20Decimals(client, args, "select").read(),
+            getERC20Name(client, { erc20, ...request }, "select").read(),
+            getERC20Symbol(client, { erc20, ...request }, "select").read(),
+            getERC20Decimals(client, { erc20, ...request }, "select").read(),
           ]),
         parse: ([name, symbol, decimals]) =>
           createERC20Permit(
-            args.erc20.address,
+            erc20.address,
             name,
             symbol,
             decimals,
-            args.erc20.version ?? "1",
-            args.erc20.chainID,
-            args.erc20.blockCreated,
+            erc20.version ?? "1",
+            erc20.chainID,
+            erc20.blockCreated,
           ),
       }) as ReverseMirage<
     [string, string, number],

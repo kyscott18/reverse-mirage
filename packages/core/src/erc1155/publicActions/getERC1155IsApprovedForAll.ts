@@ -22,23 +22,25 @@ export const getERC1155IsApprovedForAll = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC1155IsApprovedForAllParameters,
+  { erc1155, owner, spender, ...request }: GetERC1155IsApprovedForAllParameters,
   type?: T,
 ): ReverseMirage<boolean, GetERC1155IsApprovedForAllReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC1155ABI,
-        address: args.erc1155.address,
+        address: erc1155.address,
         functionName: "isApprovedForAll",
-        args: [args.owner, args.spender],
+        args: [owner, spender],
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC1155ABI,
-            address: args.erc1155.address,
+            address: erc1155.address,
             functionName: "isApprovedForAll",
-            args: [args.owner, args.spender],
+            args: [owner, spender],
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<boolean, GetERC1155IsApprovedForAllReturnType, T>;

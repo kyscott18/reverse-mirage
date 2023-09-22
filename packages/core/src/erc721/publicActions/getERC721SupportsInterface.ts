@@ -22,23 +22,25 @@ export const getERC721SupportsInterface = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721SupportsInterfaceParameters,
+  { erc721, interfaceID, ...request }: GetERC721SupportsInterfaceParameters,
   type?: T,
 ): ReverseMirage<boolean, GetERC721SupportsInterfaceReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC721ABI,
-        address: args.erc721.address,
+        address: erc721.address,
         functionName: "supportsInterface",
-        args: [args.interfaceID],
+        args: [interfaceID],
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC721ABI,
-            address: args.erc721.address,
+            address: erc721.address,
             functionName: "supportsInterface",
-            args: [args.interfaceID],
+            args: [interfaceID],
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<boolean, GetERC721SupportsInterfaceReturnType, T>;
