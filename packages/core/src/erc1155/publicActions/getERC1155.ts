@@ -20,38 +20,40 @@ export const getERC1155 = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC1155Parameters,
+  { erc1155, ...request }: GetERC1155Parameters,
   type?: T,
 ): ReverseMirage<string, GetERC1155ReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC1155ABI,
-        address: args.erc1155.address,
+        address: erc1155.address,
         functionName: "uri",
-        args: [args.erc1155.id],
+        args: [erc1155.id],
+        ...request,
       }).then((data) =>
         createERC1155(
-          args.erc1155.address,
-          args.erc1155.id,
+          erc1155.address,
+          erc1155.id,
           data,
-          args.erc1155.chainID,
-          args.blockNumber,
+          erc1155.chainID,
+          erc1155.blockCreated,
         ),
       )
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC1155ABI,
-            address: args.erc1155.address,
+            address: erc1155.address,
             functionName: "uri",
-            args: [args.erc1155.id],
+            args: [erc1155.id],
+            ...request,
           }),
         parse: (data) =>
           createERC1155(
-            args.erc1155.address,
-            args.erc1155.id,
+            erc1155.address,
+            erc1155.id,
             data,
-            args.erc1155.chainID,
-            args.blockNumber,
+            erc1155.chainID,
+            erc1155.blockCreated,
           ),
       }) as ReverseMirage<string, GetERC1155ReturnType, T>;

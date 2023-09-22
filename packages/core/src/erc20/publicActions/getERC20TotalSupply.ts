@@ -19,21 +19,23 @@ export const getERC20TotalSupply = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20TotalSupplyParameters<TERC20>,
+  { erc20, ...request }: GetERC20TotalSupplyParameters<TERC20>,
   type?: T,
 ): ReverseMirage<bigint, GetERC20TotalSupplyReturnType<TERC20>, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
-        address: args.erc20.address,
+        address: erc20.address,
         functionName: "totalSupply",
-      }).then((data) => createAmountFromRaw(args.erc20, data))
+        ...request,
+      }).then((data) => createAmountFromRaw(erc20, data))
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
-            address: args.erc20.address,
+            address: erc20.address,
             functionName: "totalSupply",
+            ...request,
           }),
-        parse: (data) => createAmountFromRaw(args.erc20, data),
+        parse: (data) => createAmountFromRaw(erc20, data),
       }) as ReverseMirage<bigint, GetERC20TotalSupplyReturnType<TERC20>, T>;

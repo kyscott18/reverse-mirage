@@ -16,21 +16,23 @@ export const getERC20Decimals = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20DecimalsParameters,
+  { erc20, ...request }: GetERC20DecimalsParameters,
   type?: T,
 ): ReverseMirage<number, GetERC20DecimalsReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
-        address: args.erc20.address,
+        address: erc20.address,
         functionName: "decimals",
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
-            address: args.erc20.address,
+            address: erc20.address,
             functionName: "decimals",
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<number, GetERC20DecimalsReturnType, T>;

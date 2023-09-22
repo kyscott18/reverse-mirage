@@ -16,21 +16,23 @@ export const getERC721Name = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721NameParameters,
+  { erc721, ...request }: GetERC721NameParameters,
   type?: T,
 ): ReverseMirage<string, GetERC721NameReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC721ABI,
-        address: args.erc721.address,
+        address: erc721.address,
         functionName: "name",
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC721ABI,
-            address: args.erc721.address,
+            address: erc721.address,
             functionName: "name",
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<string, GetERC721NameReturnType, T>;

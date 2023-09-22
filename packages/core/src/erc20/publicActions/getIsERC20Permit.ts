@@ -34,7 +34,7 @@ export const getIsERC20Permit = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetIsERC20PermitParameters,
+  { erc20, ...request }: GetIsERC20PermitParameters,
   type?: T,
 ): ReverseMirage<
   [[string, string, number], Hex] | [[string, string, number]],
@@ -43,40 +43,46 @@ export const getIsERC20Permit = <
 > =>
   (type === undefined
     ? Promise.all([
-        getERC20Permit(client, args),
-        getERC20DomainSeparator(client, args),
+        getERC20Permit(client, { erc20, ...request }),
+        getERC20DomainSeparator(client, { erc20, ...request }),
       ])
         .then(([erc20]) => erc20)
-        .catch(() => getERC20(client, args))
+        .catch(() => getERC20(client, { erc20, ...request }))
     : {
         read: async () => {
           try {
             return await Promise.all([
-              getERC20Permit(client, args, "select").read(),
-              getERC20DomainSeparator(client, args, "select").read(),
+              getERC20Permit(client, { erc20, ...request }, "select").read(),
+              getERC20DomainSeparator(
+                client,
+                { erc20, ...request },
+                "select",
+              ).read(),
             ]);
           } catch {
-            return await Promise.all([getERC20(client, args, "select").read()]);
+            return await Promise.all([
+              getERC20(client, { erc20, ...request }, "select").read(),
+            ]);
           }
         },
         parse: (data) =>
           data.length === 1
             ? createERC20(
-                args.erc20.address,
+                erc20.address,
                 data[0][0],
                 data[0][1],
                 data[0][2],
-                args.erc20.chainID,
-                args.erc20.blockCreated,
+                erc20.chainID,
+                erc20.blockCreated,
               )
             : createERC20Permit(
-                args.erc20.address,
+                erc20.address,
                 data[0][0],
                 data[0][1],
                 data[0][2],
-                args.erc20.version ?? "1",
-                args.erc20.chainID,
-                args.erc20.blockCreated,
+                erc20.version ?? "1",
+                erc20.chainID,
+                erc20.blockCreated,
               ),
       }) as ReverseMirage<
     [[string, string, number], Hex] | [[string, string, number]],

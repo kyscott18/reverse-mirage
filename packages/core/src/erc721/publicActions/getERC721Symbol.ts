@@ -16,21 +16,23 @@ export const getERC721Symbol = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721SymbolParameters,
+  { erc721, ...request }: GetERC721SymbolParameters,
   type?: T,
 ): ReverseMirage<string, GetERC721SymbolReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC721ABI,
-        address: args.erc721.address,
+        address: erc721.address,
         functionName: "symbol",
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC721ABI,
-            address: args.erc721.address,
+            address: erc721.address,
             functionName: "symbol",
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<string, GetERC721SymbolReturnType, T>;

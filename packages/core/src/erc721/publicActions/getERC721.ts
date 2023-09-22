@@ -21,34 +21,34 @@ export const getERC721 = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721Parameters,
+  { erc721, ...request }: GetERC721Parameters,
   type?: T,
 ): ReverseMirage<[string, string], GetERC721ReturnType, T> =>
   (type === undefined
     ? Promise.all([
-        getERC721Name(client, args),
-        getERC721Symbol(client, args),
+        getERC721Name(client, { erc721, ...request }),
+        getERC721Symbol(client, { erc721, ...request }),
       ]).then(([name, symbol]) =>
         createERC721(
-          args.erc721.address,
+          erc721.address,
           name,
           symbol,
-          args.erc721.chainID,
-          args.blockNumber,
+          erc721.chainID,
+          erc721.blockCreated,
         ),
       )
     : {
         read: () =>
           Promise.all([
-            getERC721Name(client, args, "select").read(),
-            getERC721Symbol(client, args, "select").read(),
+            getERC721Name(client, { erc721, ...request }, "select").read(),
+            getERC721Symbol(client, { erc721, ...request }, "select").read(),
           ]),
         parse: ([name, symbol]) =>
           createERC721(
-            args.erc721.address,
+            erc721.address,
             name,
             symbol,
-            args.erc721.chainID,
-            args.blockNumber,
+            erc721.chainID,
+            erc721.blockCreated,
           ),
       }) as ReverseMirage<[string, string], GetERC721ReturnType, T>;

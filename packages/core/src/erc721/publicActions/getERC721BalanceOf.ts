@@ -22,23 +22,25 @@ export const getERC721BalanceOf = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC721BalanceOfParameters,
+  { erc721, address, ...request }: GetERC721BalanceOfParameters,
   type?: T,
 ): ReverseMirage<bigint, GetERC721BalanceOfReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC721ABI,
-        address: args.erc721.address,
+        address: erc721.address,
         functionName: "balanceOf",
-        args: [args.address],
+        args: [address],
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC721ABI,
-            address: args.erc721.address,
+            address: erc721.address,
             functionName: "balanceOf",
-            args: [args.address],
+            args: [address],
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<bigint, GetERC721BalanceOfReturnType, T>;

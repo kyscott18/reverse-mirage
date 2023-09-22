@@ -25,23 +25,25 @@ export const getERC20Allowance = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20AllowanceParameters<TERC20>,
+  { erc20, owner, spender, ...request }: GetERC20AllowanceParameters<TERC20>,
   type?: T,
 ): ReverseMirage<bigint, GetERC20AllowanceReturnType<TERC20>, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
-        address: args.erc20.address,
+        address: erc20.address,
         functionName: "allowance",
-        args: [args.owner, args.spender],
-      }).then((data) => createAmountFromRaw(args.erc20, data))
+        args: [owner, spender],
+        ...request,
+      }).then((data) => createAmountFromRaw(erc20, data))
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
-            address: args.erc20.address,
+            address: erc20.address,
             functionName: "allowance",
-            args: [args.owner, args.spender],
+            args: [owner, spender],
+            ...request,
           }),
-        parse: (data) => createAmountFromRaw(args.erc20, data),
+        parse: (data) => createAmountFromRaw(erc20, data),
       }) as ReverseMirage<bigint, GetERC20AllowanceReturnType<TERC20>, T>;

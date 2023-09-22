@@ -22,21 +22,23 @@ export const getERC20DomainSeparator = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20DomainSeparatorParameters,
+  { erc20, ...request }: GetERC20DomainSeparatorParameters,
   type?: T,
 ): ReverseMirage<Hex, GetERC20DomainSeparatorReturnType, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC20ABI,
-        address: args.erc20.address,
+        address: erc20.address,
         functionName: "DOMAIN_SEPARATOR",
+        ...request,
       })
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC20ABI,
-            address: args.erc20.address,
+            address: erc20.address,
             functionName: "DOMAIN_SEPARATOR",
+            ...request,
           }),
         parse: (data) => data,
       }) as ReverseMirage<Hex, GetERC20DomainSeparatorReturnType, T>;

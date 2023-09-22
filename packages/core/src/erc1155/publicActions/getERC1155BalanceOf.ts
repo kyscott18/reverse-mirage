@@ -25,23 +25,25 @@ export const getERC1155BalanceOf = <
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC1155BalanceOfParameters<TERC1155>,
+  { erc1155, address, ...request }: GetERC1155BalanceOfParameters<TERC1155>,
   type?: T,
 ): ReverseMirage<bigint, GetERC1155BalanceOfReturnType<TERC1155>, T> =>
   (type === undefined
     ? readContract(client, {
         abi: solmateERC1155ABI,
-        address: args.erc1155.address,
+        address: erc1155.address,
         functionName: "balanceOf",
-        args: [args.address, args.erc1155.id],
-      }).then((data) => createERC1155Data(args.erc1155, data))
+        args: [address, erc1155.id],
+        ...request,
+      }).then((data) => createERC1155Data(erc1155, data))
     : {
         read: () =>
           readContract(client, {
             abi: solmateERC1155ABI,
-            address: args.erc1155.address,
+            address: erc1155.address,
             functionName: "balanceOf",
-            args: [args.address, args.erc1155.id],
+            args: [address, erc1155.id],
+            ...request,
           }),
-        parse: (data) => createERC1155Data(args.erc1155, data),
+        parse: (data) => createERC1155Data(erc1155, data),
       }) as ReverseMirage<bigint, GetERC1155BalanceOfReturnType<TERC1155>, T>;

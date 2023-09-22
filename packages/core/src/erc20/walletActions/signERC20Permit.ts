@@ -31,6 +31,7 @@ export const signERC20Permit = <
     spender,
     deadline,
     account = client.account,
+    ...request
   }: SignERC20PermitParameters<TAccount>,
 ) => {
   const domain = {
@@ -56,5 +57,6 @@ export const signERC20Permit = <
       nonce: permitData.nonce,
     },
     account: account!,
+    ...request,
   });
 };
