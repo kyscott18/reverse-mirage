@@ -8,10 +8,10 @@ import type {
 } from "viem";
 import { simulateContract } from "viem/contract";
 import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
-import type { ERC721 } from "../types.js";
+import type { BaseERC721 } from "../types.js";
 
 export type ERC721ApproveParameters = {
-  erc721: Pick<ERC721, "address">;
+  erc721: Pick<BaseERC721, "address">;
   id: bigint;
   spender: Address;
 };

@@ -64,6 +64,7 @@ export {
 } from "./erc20/index.js";
 
 export {
+  type BaseERC721,
   type ERC721,
   type ERC721Data,
   createERC721,
@@ -85,6 +86,7 @@ export {
 } from "./erc721/index.js";
 
 export {
+  type BaseERC1155,
   type ERC1155,
   type ERC1155Data,
   createERC1155,

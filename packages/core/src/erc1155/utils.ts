@@ -1,5 +1,5 @@
 import { type Address, getAddress } from "viem";
-import type { ERC1155, ERC1155Data } from "./types.js";
+import type { BaseERC1155, ERC1155, ERC1155Data } from "./types.js";
 
 /**
  * Creates an {@link ERC1155}
@@ -22,7 +22,7 @@ export const createERC1155 = (
 /**
  * Creates an {@link ERC1155Data}
  */
-export const createERC1155Data = <TERC1155 extends ERC1155>(
+export const createERC1155Data = <TERC1155 extends BaseERC1155>(
   erc1155: TERC1155,
   amount: bigint,
 ): ERC1155Data<TERC1155> => ({

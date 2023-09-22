@@ -1,4 +1,5 @@
 export type {
+  BaseERC1155,
   ERC1155,
   ERC1155Data,
 } from "./types.js";

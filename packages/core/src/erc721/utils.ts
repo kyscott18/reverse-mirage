@@ -1,6 +1,6 @@
 import { type Address, getAddress } from "viem";
 import type { Tuple } from "../types/tuple.js";
-import type { ERC721, ERC721Data } from "./types.js";
+import type { BaseERC721, ERC721, ERC721Data } from "./types.js";
 
 /**
  * Creates an {@link ERC721}
@@ -24,7 +24,7 @@ export const createERC721 = (
  * Creates an {@link ERC721Data}
  */
 export const createERC721Data = <
-  TERC721 extends ERC721,
+  TERC721 extends BaseERC721,
   TBalance extends number,
 >(
   erc721: TERC721,

@@ -8,12 +8,12 @@ import type {
 import { readContract } from "viem/contract";
 import { solmateErc1155ABI as solmateERC1155ABI } from "../../generated.js";
 import type { ReverseMirage } from "../../types/rm.js";
-import type { ERC1155 } from "../types.js";
+import type { BaseERC1155 } from "../types.js";
 
 export type GetERC1155IsApprovedForAllParameters = Omit<
   ReadContractParameters<typeof solmateERC1155ABI, "isApprovedForAll">,
   "address" | "abi" | "functionName" | "args"
-> & { erc1155: Pick<ERC1155, "address">; owner: Address; spender: Address };
+> & { erc1155: Pick<BaseERC1155, "address">; owner: Address; spender: Address };
 
 export type GetERC1155IsApprovedForAllReturnType = boolean;
 

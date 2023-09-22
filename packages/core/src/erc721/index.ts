@@ -1,4 +1,5 @@
 export type {
+  BaseERC721,
   ERC721,
   ERC721Data,
 } from "./types.js";

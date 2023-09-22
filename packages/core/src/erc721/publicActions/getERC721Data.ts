@@ -7,21 +7,21 @@ import type {
 } from "viem";
 import { solmateErc721ABI as solmateERC721ABI } from "../../generated.js";
 import type { ReverseMirage } from "../../types/rm.js";
-import type { ERC721, ERC721Data } from "../types.js";
+import type { BaseERC721, ERC721Data } from "../types.js";
 import { createERC721Data } from "../utils.js";
 import { getERC721BalanceOf } from "./getERC721BalanceOf.js";
 
-export type GetERC721DataParameters<TERC721 extends ERC721> = Omit<
+export type GetERC721DataParameters<TERC721 extends BaseERC721> = Omit<
   ReadContractParameters<typeof solmateERC721ABI, "balanceOf">,
   "address" | "abi" | "functionName" | "args"
 > & { erc721: TERC721; address: Address };
 
-export type GetERC721DataReturnType<TERC721 extends ERC721> =
+export type GetERC721DataReturnType<TERC721 extends BaseERC721> =
   ERC721Data<TERC721>;
 
 export const getERC721Data = <
   TChain extends Chain | undefined,
-  TERC721 extends ERC721,
+  TERC721 extends BaseERC721,
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,

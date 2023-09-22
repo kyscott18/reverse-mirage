@@ -196,10 +196,6 @@ export default defineConfig({
                 text: "createERC721Data",
                 link: "",
               },
-              {
-                text: "createERC721DataID",
-                link: "",
-              },
             ],
           },
           {
@@ -243,10 +239,6 @@ export default defineConfig({
               },
               {
                 text: "getERC721Data",
-                link: "",
-              },
-              {
-                text: "getERC721DataID",
                 link: "",
               },
             ],
