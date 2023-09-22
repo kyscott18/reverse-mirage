@@ -27,14 +27,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
   } else {
     await testClient.revert({ id });
   }
@@ -44,6 +37,7 @@ beforeAll(async () => {
 test("read uri", async () => {
   const uri = await getERC721TokenURI(publicClient, {
     erc721,
+    id: 0n,
   });
   expect(uri).toBe("mitch.com");
 });
@@ -53,6 +47,7 @@ test("read uri select", async () => {
     publicClient,
     {
       erc721,
+      id: 0n,
     },
     "select",
   );

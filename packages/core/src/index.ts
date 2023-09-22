@@ -65,17 +65,14 @@ export {
 
 export {
   type ERC721,
-  type ERC721IDData,
   type ERC721Data,
   createERC721,
   createERC721Data,
-  createERC721IDData,
   solmateERC721ABI,
   getERC721,
   getERC721Approved,
   getERC721BalanceOf,
   getERC721Data,
-  getERC721IDData,
   getERC721IsApprovedForAll,
   getERC721Name,
   getERC721Symbol,

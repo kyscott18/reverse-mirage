@@ -27,14 +27,7 @@ beforeEach(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "https://mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
 
     const mintHash = await walletClient.writeContract({
       abi: erc721ABI,
@@ -54,6 +47,7 @@ test("approve", async () => {
   const { request } = await simulateERC721Approve(publicClient, {
     args: {
       erc721,
+      id: 0n,
       spender: BOB,
     },
     account: ALICE,
@@ -62,5 +56,5 @@ test("approve", async () => {
 
   await publicClient.waitForTransactionReceipt({ hash });
 
-  expect(await getERC721Approved(publicClient, { erc721 })).toBe(BOB);
+  expect(await getERC721Approved(publicClient, { erc721, id: 0n })).toBe(BOB);
 });

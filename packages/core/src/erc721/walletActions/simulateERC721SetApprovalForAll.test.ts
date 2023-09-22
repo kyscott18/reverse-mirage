@@ -27,14 +27,7 @@ beforeEach(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "https://mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
 
     const mintHash = await walletClient.writeContract({
       abi: erc721ABI,

@@ -27,14 +27,7 @@ beforeEach(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "https://mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
 
     const mintHash = await walletClient.writeContract({
       abi: erc721ABI,
@@ -55,13 +48,14 @@ test("can transfer", async () => {
     args: {
       to: BOB,
       erc721,
+      id: 0n,
     },
     account: ALICE,
   });
   const hash = await walletClient.writeContract(request);
   await publicClient.waitForTransactionReceipt({ hash });
 
-  expect(await getERC721OwnerOf(publicClient, { erc721 })).toBe(BOB);
+  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
 });
 
 test("can transfer safe", async () => {
@@ -69,6 +63,7 @@ test("can transfer safe", async () => {
     args: {
       to: BOB,
       erc721,
+      id: 0n,
       data: "safe",
     },
     account: ALICE,
@@ -76,7 +71,7 @@ test("can transfer safe", async () => {
   const hash = await walletClient.writeContract(request);
   await publicClient.waitForTransactionReceipt({ hash });
 
-  expect(await getERC721OwnerOf(publicClient, { erc721 })).toBe(BOB);
+  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
 });
 
 test("can transfer data", async () => {
@@ -84,6 +79,7 @@ test("can transfer data", async () => {
     args: {
       to: BOB,
       erc721,
+      id: 0n,
       data: "0x",
     },
     account: ALICE,
@@ -91,5 +87,5 @@ test("can transfer data", async () => {
   const hash = await walletClient.writeContract(request);
   await publicClient.waitForTransactionReceipt({ hash });
 
-  expect(await getERC721OwnerOf(publicClient, { erc721 })).toBe(BOB);
+  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
 });
