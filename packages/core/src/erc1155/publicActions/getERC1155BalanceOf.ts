@@ -8,20 +8,20 @@ import type {
 import { readContract } from "viem/contract";
 import { solmateErc1155ABI as solmateERC1155ABI } from "../../generated.js";
 import type { ReverseMirage } from "../../types/rm.js";
-import type { ERC1155, ERC1155Data } from "../types.js";
+import type { BaseERC1155, ERC1155Data } from "../types.js";
 import { createERC1155Data } from "../utils.js";
 
-export type GetERC1155BalanceOfParameters<TERC1155 extends ERC1155> = Omit<
+export type GetERC1155BalanceOfParameters<TERC1155 extends BaseERC1155> = Omit<
   ReadContractParameters<typeof solmateERC1155ABI, "balanceOf">,
   "address" | "abi" | "functionName" | "args"
 > & { erc1155: TERC1155; address: Address };
 
-export type GetERC1155BalanceOfReturnType<TERC1155 extends ERC1155> =
+export type GetERC1155BalanceOfReturnType<TERC1155 extends BaseERC1155> =
   ERC1155Data<TERC1155>;
 
 export const getERC1155BalanceOf = <
   TChain extends Chain | undefined,
-  TERC1155 extends ERC1155,
+  TERC1155 extends BaseERC1155,
   T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,

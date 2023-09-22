@@ -2,12 +2,12 @@ import type { Chain, Client, ReadContractParameters, Transport } from "viem";
 import { readContract } from "viem/contract";
 import { solmateErc721ABI as solmateERC721ABI } from "../../generated.js";
 import type { ReverseMirage } from "../../types/rm.js";
-import type { ERC721 } from "../types.js";
+import type { BaseERC721 } from "../types.js";
 
 export type GetERC721SymbolParameters = Omit<
   ReadContractParameters<typeof solmateERC721ABI, "symbol">,
   "address" | "abi" | "functionName" | "args"
-> & { erc721: Pick<ERC721, "address"> };
+> & { erc721: Pick<BaseERC721, "address"> };
 
 export type GetERC721SymbolReturnType = string;
 

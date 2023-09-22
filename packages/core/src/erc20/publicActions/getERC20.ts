@@ -4,7 +4,7 @@ import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC20, ERC20 } from "../types.js";
 import { createERC20 } from "../utils.js";
 import { getERC20Decimals } from "./getERC20Decimals.js";
-import { type GetERC20NameReturnType, getERC20Name } from "./getERC20Name.js";
+import { getERC20Name } from "./getERC20Name.js";
 import { getERC20Symbol } from "./getERC20Symbol.js";
 
 export type GetERC20Parameters = Omit<
@@ -24,7 +24,7 @@ export const getERC20 = <
   client: Client<Transport, TChain>,
   { erc20, ...request }: GetERC20Parameters,
   type?: T,
-): ReverseMirage<[string, string, number], GetERC20NameReturnType, T> =>
+): ReverseMirage<[string, string, number], GetERC20ReturnType, T> =>
   (type === undefined
     ? Promise.all([
         getERC20Name(client, { erc20, ...request }),
@@ -56,4 +56,4 @@ export const getERC20 = <
             erc20.chainID,
             erc20.blockCreated,
           ),
-      }) as ReverseMirage<[string, string, number], GetERC20NameReturnType, T>;
+      }) as ReverseMirage<[string, string, number], GetERC20ReturnType, T>;

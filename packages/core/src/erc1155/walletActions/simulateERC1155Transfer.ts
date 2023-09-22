@@ -9,10 +9,10 @@ import type {
 } from "viem";
 import { simulateContract } from "viem/contract";
 import { solmateErc1155ABI as solmateERC1155 } from "../../generated.js";
-import type { ERC1155, ERC1155Data } from "../types.js";
+import type { BaseERC1155, ERC1155Data } from "../types.js";
 
 export type ERC1155TransferParameters = {
-  erc1155Data: ERC1155Data<ERC1155>;
+  erc1155Data: ERC1155Data<BaseERC1155>;
   from?: Address;
   to: Address;
   data?: Hex;
