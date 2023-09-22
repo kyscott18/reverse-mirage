@@ -11,7 +11,8 @@ import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
 import type { ERC721 } from "../types.js";
 
 export type ERC721ApproveParameters = {
-  erc721: Pick<ERC721, "address" | "id">;
+  erc721: Pick<ERC721, "address">;
+  id: bigint;
   spender: Address;
 };
 
@@ -44,7 +45,7 @@ export const simulateERC721Approve = <
 >(
   client: Client<Transport, TChain>,
   {
-    args: { erc721, spender },
+    args: { erc721, spender, id },
     ...request
   }: SimulateERC721ApproveParameters<TChain, TChainOverride>,
 ): Promise<SimulateERC721ApproveReturnType<TChain, TChainOverride>> =>
@@ -52,7 +53,7 @@ export const simulateERC721Approve = <
     address: erc721.address,
     abi: solmateERC721,
     functionName: "approve",
-    args: [spender, erc721.id],
+    args: [spender, id],
     ...request,
   } as unknown as SimulateContractParameters<
     typeof solmateERC721,

@@ -7,7 +7,7 @@ import type { ERC721 } from "../types.js";
 export type GetERC721TokenURIParameters = Omit<
   ReadContractParameters<typeof solmateERC721ABI, "tokenURI">,
   "address" | "abi" | "functionName" | "args"
-> & { erc721: Pick<ERC721, "address" | "id"> };
+> & { erc721: Pick<ERC721, "address">; id: bigint };
 
 export type GetERC721TokenURIReturnType = string;
 
@@ -24,7 +24,7 @@ export const getERC721TokenURI = <
         abi: solmateERC721ABI,
         address: args.erc721.address,
         functionName: "tokenURI",
-        args: [args.erc721.id],
+        args: [args.id],
       })
     : {
         read: () =>
@@ -32,7 +32,7 @@ export const getERC721TokenURI = <
             abi: solmateERC721ABI,
             address: args.erc721.address,
             functionName: "tokenURI",
-            args: [args.erc721.id],
+            args: [args.id],
           }),
         parse: (data) => data,
       }) as ReverseMirage<string, GetERC721TokenURIReturnType, T>;

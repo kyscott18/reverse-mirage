@@ -13,7 +13,7 @@ import type { ERC721 } from "../types.js";
 export type GetERC721OwnerOfParameters = Omit<
   ReadContractParameters<typeof solmateERC721ABI, "ownerOf">,
   "address" | "abi" | "functionName" | "args"
-> & { erc721: Pick<ERC721, "address" | "id"> };
+> & { erc721: Pick<ERC721, "address">; id: bigint };
 
 export type GetERC721OwnerOfReturnType = Address;
 
@@ -30,7 +30,7 @@ export const getERC721OwnerOf = <
         abi: solmateERC721ABI,
         address: args.erc721.address,
         functionName: "ownerOf",
-        args: [args.erc721.id],
+        args: [args.id],
       })
     : {
         read: () =>
@@ -38,7 +38,7 @@ export const getERC721OwnerOf = <
             abi: solmateERC721ABI,
             address: args.erc721.address,
             functionName: "ownerOf",
-            args: [args.erc721.id],
+            args: [args.id],
           }),
         parse: (data) => data,
       }) as ReverseMirage<Address, GetERC721OwnerOfReturnType, T>;

@@ -20,14 +20,7 @@ test("erc721 max balance", async () => {
     hash: deployHash,
   });
   invariant(contractAddress);
-  const erc721 = createERC721(
-    contractAddress,
-    "name",
-    "symbol",
-    0n,
-    "https://mitch.com",
-    foundry.id,
-  );
+  const erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
   await expect(() =>
     getERC721Data(publicClient, { erc721, address: ALICE }),
   ).rejects.toThrowError();
