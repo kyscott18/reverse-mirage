@@ -60,21 +60,3 @@ test("read balance", async () => {
     amountEqualTo(balanceOfAlice, createAmountFromString(erc20, "1")),
   ).toBe(true);
 });
-
-test("read balance select", async () => {
-  const balanceOfRM = getERC20BalanceOf(
-    publicClient,
-    {
-      erc20,
-      address: ALICE,
-    },
-    "select",
-  );
-
-  expect(
-    amountEqualTo(
-      await balanceOfRM.read().then((data) => balanceOfRM.parse(data)),
-      createAmountFromString(erc20, "1"),
-    ),
-  ).toBe(true);
-});

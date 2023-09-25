@@ -20,17 +20,7 @@ export const useBalance = <TERC20 extends ERC20>(
     ),
     enabled: [erc20, address].some((a) => a === undefined) ? false : true,
     queryFn: () =>
-      getERC20BalanceOf(
-        publicClient,
-        { erc20: erc20!, address: address! },
-        "select",
-      ).read(),
-    select: (data) =>
-      getERC20BalanceOf(
-        publicClient,
-        { erc20: erc20!, address: address! },
-        "select",
-      ).parse(data),
+      getERC20BalanceOf(publicClient, { erc20: erc20!, address: address! }),
     staleTime: Infinity,
     refetchInterval: userRefectchInterval,
   });

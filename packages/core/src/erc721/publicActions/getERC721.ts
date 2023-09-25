@@ -1,6 +1,5 @@
 import type { Chain, Client, ReadContractParameters, Transport } from "viem";
 import { solmateErc721ABI as solmateERC721ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC721 } from "../types.js";
 import { createERC721 } from "../utils.js";
 import { getERC721Name } from "./getERC721Name.js";
@@ -16,39 +15,19 @@ export type GetERC721Parameters = Omit<
 
 export type GetERC721ReturnType = BaseERC721;
 
-export const getERC721 = <
-  TChain extends Chain | undefined,
-  T extends "select" | undefined,
->(
+export const getERC721 = <TChain extends Chain | undefined,>(
   client: Client<Transport, TChain>,
   { erc721, ...request }: GetERC721Parameters,
-  type?: T,
-): ReverseMirage<[string, string], GetERC721ReturnType, T> =>
-  (type === undefined
-    ? Promise.all([
-        getERC721Name(client, { erc721, ...request }),
-        getERC721Symbol(client, { erc721, ...request }),
-      ]).then(([name, symbol]) =>
-        createERC721(
-          erc721.address,
-          name,
-          symbol,
-          erc721.chainID,
-          erc721.blockCreated,
-        ),
-      )
-    : {
-        read: () =>
-          Promise.all([
-            getERC721Name(client, { erc721, ...request }, "select").read(),
-            getERC721Symbol(client, { erc721, ...request }, "select").read(),
-          ]),
-        parse: ([name, symbol]) =>
-          createERC721(
-            erc721.address,
-            name,
-            symbol,
-            erc721.chainID,
-            erc721.blockCreated,
-          ),
-      }) as ReverseMirage<[string, string], GetERC721ReturnType, T>;
+): Promise<GetERC721ReturnType> =>
+  Promise.all([
+    getERC721Name(client, { erc721, ...request }),
+    getERC721Symbol(client, { erc721, ...request }),
+  ]).then(([name, symbol]) =>
+    createERC721(
+      erc721.address,
+      name,
+      symbol,
+      erc721.chainID,
+      erc721.blockCreated,
+    ),
+  );

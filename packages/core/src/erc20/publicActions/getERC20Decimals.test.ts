@@ -47,15 +47,3 @@ test("read decimals", async () => {
   });
   expect(decimals).toBe(18);
 });
-
-test("read decimals select", async () => {
-  const rm = getERC20Decimals(
-    publicClient,
-    {
-      erc20,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(18);
-});

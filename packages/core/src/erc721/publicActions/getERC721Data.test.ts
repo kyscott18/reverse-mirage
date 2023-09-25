@@ -50,16 +50,3 @@ test("read balance", async () => {
   expect(data.balance).toBe(1);
   expect(data.ids).toBe(undefined);
 });
-
-test("read balance select", async () => {
-  const rm = getERC721Data(
-    publicClient,
-    {
-      erc721,
-      address: ALICE,
-    },
-    "select",
-  );
-
-  expect((await rm.read().then((data) => rm.parse(data))).balance).toBe(1);
-});

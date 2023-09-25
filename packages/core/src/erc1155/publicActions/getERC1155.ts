@@ -1,7 +1,6 @@
 import type { Chain, Client, ReadContractParameters, Transport } from "viem";
 import { readContract } from "viem/contract";
 import { solmateErc1155ABI as solmateERC1155ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC1155 } from "../types.js";
 import { createERC1155 } from "../utils.js";
 
@@ -15,45 +14,22 @@ export type GetERC1155Parameters = Omit<
 
 export type GetERC1155ReturnType = BaseERC1155;
 
-export const getERC1155 = <
-  TChain extends Chain | undefined,
-  T extends "select" | undefined,
->(
+export const getERC1155 = <TChain extends Chain | undefined,>(
   client: Client<Transport, TChain>,
   { erc1155, ...request }: GetERC1155Parameters,
-  type?: T,
-): ReverseMirage<string, GetERC1155ReturnType, T> =>
-  (type === undefined
-    ? readContract(client, {
-        abi: solmateERC1155ABI,
-        address: erc1155.address,
-        functionName: "uri",
-        args: [erc1155.id],
-        ...request,
-      }).then((data) =>
-        createERC1155(
-          erc1155.address,
-          erc1155.id,
-          data,
-          erc1155.chainID,
-          erc1155.blockCreated,
-        ),
-      )
-    : {
-        read: () =>
-          readContract(client, {
-            abi: solmateERC1155ABI,
-            address: erc1155.address,
-            functionName: "uri",
-            args: [erc1155.id],
-            ...request,
-          }),
-        parse: (data) =>
-          createERC1155(
-            erc1155.address,
-            erc1155.id,
-            data,
-            erc1155.chainID,
-            erc1155.blockCreated,
-          ),
-      }) as ReverseMirage<string, GetERC1155ReturnType, T>;
+): Promise<GetERC1155ReturnType> =>
+  readContract(client, {
+    abi: solmateERC1155ABI,
+    address: erc1155.address,
+    functionName: "uri",
+    args: [erc1155.id],
+    ...request,
+  }).then((data) =>
+    createERC1155(
+      erc1155.address,
+      erc1155.id,
+      data,
+      erc1155.chainID,
+      erc1155.blockCreated,
+    ),
+  );

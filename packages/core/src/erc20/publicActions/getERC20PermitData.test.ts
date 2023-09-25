@@ -63,21 +63,3 @@ test("read permit data", async () => {
     amountEqualTo(data, createERC20PermitDataFromString(erc20, "1", 0n)),
   ).toBe(true);
 });
-
-test("read permit data select", async () => {
-  const rm = getERC20PermitData(
-    publicClient,
-    {
-      erc20,
-      address: ALICE,
-    },
-    "select",
-  );
-
-  expect(
-    amountEqualTo(
-      await rm.read().then((data) => rm.parse(data)),
-      createERC20PermitDataFromString(erc20, "1", 0n),
-    ),
-  ).toBe(true);
-});

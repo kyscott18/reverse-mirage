@@ -150,8 +150,6 @@ export {
 
 export type {
   BigIntIsh,
-  ReverseMirage,
-  ReverseMirageRead,
   Token,
   TokenData,
   Tuple,
@@ -166,3 +164,6 @@ export {
   simulateWETHDeposit,
   simulateWETHWithdraw,
 } from "./weth/index.js";
+
+export { publicActionReverseMirage } from "./decorator/publicActions.js";
+export { walletActionReverseMirage } from "./decorator/walletActions.js";

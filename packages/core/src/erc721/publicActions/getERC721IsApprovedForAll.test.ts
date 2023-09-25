@@ -50,17 +50,3 @@ test("read is approved for all", async () => {
   });
   expect(owner).toBe(true);
 });
-
-test("read is approved for all select", async () => {
-  const rm = getERC721IsApprovedForAll(
-    publicClient,
-    {
-      erc721,
-      owner: ALICE,
-      spender: BOB,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(true);
-});

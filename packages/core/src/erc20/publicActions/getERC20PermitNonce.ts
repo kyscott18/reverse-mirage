@@ -7,7 +7,6 @@ import type {
 } from "viem";
 import { readContract } from "viem/contract";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { ERC20Permit } from "../types.js";
 
 export type GetERC20PermitNonceParameters = Omit<
@@ -17,30 +16,14 @@ export type GetERC20PermitNonceParameters = Omit<
 
 export type GetERC20PermitNonceReturnType = bigint;
 
-export const getERC20PermitNonce = <
-  TChain extends Chain | undefined,
-  T extends "select" | undefined,
->(
+export const getERC20PermitNonce = <TChain extends Chain | undefined,>(
   client: Client<Transport, TChain>,
   { erc20, address, ...request }: GetERC20PermitNonceParameters,
-  type?: T,
-): ReverseMirage<bigint, GetERC20PermitNonceReturnType, T> =>
-  (type === undefined
-    ? readContract(client, {
-        abi: solmateERC20ABI,
-        address: erc20.address,
-        functionName: "nonces",
-        args: [address],
-        ...request,
-      })
-    : {
-        read: () =>
-          readContract(client, {
-            abi: solmateERC20ABI,
-            address: erc20.address,
-            functionName: "nonces",
-            args: [address],
-            ...request,
-          }),
-        parse: (data) => data,
-      }) as ReverseMirage<bigint, GetERC20PermitNonceReturnType, T>;
+): Promise<GetERC20PermitNonceReturnType> =>
+  readContract(client, {
+    abi: solmateERC20ABI,
+    address: erc20.address,
+    functionName: "nonces",
+    args: [address],
+    ...request,
+  });

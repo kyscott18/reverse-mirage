@@ -48,15 +48,3 @@ test("read domain separator", async () => {
   expect(ds).toBeTruthy();
   assertType<Hex>(ds);
 });
-
-test("read domain separator select", async () => {
-  const rm = getERC20DomainSeparator(
-    publicClient,
-    {
-      erc20,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBeTruthy();
-});

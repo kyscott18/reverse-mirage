@@ -41,16 +41,3 @@ test("read uri", async () => {
   });
   expect(uri).toBe("mitch.com");
 });
-
-test("read uri select", async () => {
-  const rm = getERC721TokenURI(
-    publicClient,
-    {
-      erc721,
-      id: 0n,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe("mitch.com");
-});

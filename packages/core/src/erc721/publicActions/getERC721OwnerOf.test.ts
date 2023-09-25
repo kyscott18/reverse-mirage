@@ -49,16 +49,3 @@ test("read owner", async () => {
   });
   expect(owner).toBe(ALICE);
 });
-
-test("read owner select", async () => {
-  const rm = getERC721OwnerOf(
-    publicClient,
-    {
-      erc721,
-      id: 0n,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(ALICE);
-});
