@@ -40,15 +40,3 @@ test("read symbol", async () => {
   });
   expect(symbol).toBe("symbol");
 });
-
-test("read symbol select", async () => {
-  const rm = getERC721Symbol(
-    publicClient,
-    {
-      erc721,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe("symbol");
-});

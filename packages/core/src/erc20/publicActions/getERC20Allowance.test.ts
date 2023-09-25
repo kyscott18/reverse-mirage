@@ -61,22 +61,3 @@ test("read allowance", async () => {
     true,
   );
 });
-
-test("read allowance select", async () => {
-  const rm = getERC20Allowance(
-    publicClient,
-    {
-      erc20,
-      owner: ALICE,
-      spender: BOB,
-    },
-    "select",
-  );
-
-  expect(
-    amountEqualTo(
-      await rm.read().then((data) => rm.parse(data)),
-      createAmountFromString(erc20, "2"),
-    ),
-  ).toBe(true);
-});

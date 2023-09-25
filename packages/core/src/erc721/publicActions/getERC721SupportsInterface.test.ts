@@ -41,16 +41,3 @@ test("read supports interface", async () => {
   });
   expect(symbol).toBe(true);
 });
-
-test("read supports interface select", async () => {
-  const rm = getERC721SupportsInterface(
-    publicClient,
-    {
-      erc721,
-      interfaceID: "0x01ffc9a7",
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(true);
-});

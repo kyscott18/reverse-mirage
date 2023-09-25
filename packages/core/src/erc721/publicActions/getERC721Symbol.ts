@@ -1,7 +1,6 @@
 import type { Chain, Client, ReadContractParameters, Transport } from "viem";
 import { readContract } from "viem/contract";
 import { solmateErc721ABI as solmateERC721ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC721 } from "../types.js";
 
 export type GetERC721SymbolParameters = Omit<
@@ -11,28 +10,13 @@ export type GetERC721SymbolParameters = Omit<
 
 export type GetERC721SymbolReturnType = string;
 
-export const getERC721Symbol = <
-  TChain extends Chain | undefined,
-  T extends "select" | undefined,
->(
+export const getERC721Symbol = <TChain extends Chain | undefined,>(
   client: Client<Transport, TChain>,
   { erc721, ...request }: GetERC721SymbolParameters,
-  type?: T,
-): ReverseMirage<string, GetERC721SymbolReturnType, T> =>
-  (type === undefined
-    ? readContract(client, {
-        abi: solmateERC721ABI,
-        address: erc721.address,
-        functionName: "symbol",
-        ...request,
-      })
-    : {
-        read: () =>
-          readContract(client, {
-            abi: solmateERC721ABI,
-            address: erc721.address,
-            functionName: "symbol",
-            ...request,
-          }),
-        parse: (data) => data,
-      }) as ReverseMirage<string, GetERC721SymbolReturnType, T>;
+): Promise<GetERC721SymbolReturnType> =>
+  readContract(client, {
+    abi: solmateERC721ABI,
+    address: erc721.address,
+    functionName: "symbol",
+    ...request,
+  });

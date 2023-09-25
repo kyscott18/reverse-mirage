@@ -57,16 +57,3 @@ test("read approved", async () => {
   });
   expect(owner).toBe(BOB);
 });
-
-test("read approved select", async () => {
-  const rm = getERC721Approved(
-    publicClient,
-    {
-      erc721,
-      id: 0n,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(BOB);
-});

@@ -49,16 +49,3 @@ test("read balance", async () => {
   });
   expect(balanceOfAlice).toBe(1n);
 });
-
-test("read balance select", async () => {
-  const rm = getERC721BalanceOf(
-    publicClient,
-    {
-      erc721,
-      address: ALICE,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(1n);
-});

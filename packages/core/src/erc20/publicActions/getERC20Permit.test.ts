@@ -47,15 +47,3 @@ test("read erc20 permit", async () => {
   });
   expect(_erc20).toStrictEqual(erc20);
 });
-
-test("read erc20 permit select", async () => {
-  const rm = getERC20Permit(
-    publicClient,
-    {
-      erc20,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toStrictEqual(erc20);
-});

@@ -40,15 +40,3 @@ test("read erc721", async () => {
   });
   expect(_erc721).toStrictEqual(erc721);
 });
-
-test("read erc721 select", async () => {
-  const rm = getERC721(
-    publicClient,
-    {
-      erc721,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toStrictEqual(erc721);
-});

@@ -47,15 +47,3 @@ test("read name", async () => {
   });
   expect(name).toBe("name");
 });
-
-test("read name select", async () => {
-  const rm = getERC20Name(
-    publicClient,
-    {
-      erc20,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe("name");
-});

@@ -7,7 +7,6 @@ import type {
 } from "viem";
 import { readContract } from "viem/contract";
 import { solmateErc721ABI as solmateERC721ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC721 } from "../types.js";
 
 export type GetERC721SupportsInterfaceParameters = Omit<
@@ -17,30 +16,14 @@ export type GetERC721SupportsInterfaceParameters = Omit<
 
 export type GetERC721SupportsInterfaceReturnType = boolean;
 
-export const getERC721SupportsInterface = <
-  TChain extends Chain | undefined,
-  T extends "select" | undefined,
->(
+export const getERC721SupportsInterface = <TChain extends Chain | undefined,>(
   client: Client<Transport, TChain>,
   { erc721, interfaceID, ...request }: GetERC721SupportsInterfaceParameters,
-  type?: T,
-): ReverseMirage<boolean, GetERC721SupportsInterfaceReturnType, T> =>
-  (type === undefined
-    ? readContract(client, {
-        abi: solmateERC721ABI,
-        address: erc721.address,
-        functionName: "supportsInterface",
-        args: [interfaceID],
-        ...request,
-      })
-    : {
-        read: () =>
-          readContract(client, {
-            abi: solmateERC721ABI,
-            address: erc721.address,
-            functionName: "supportsInterface",
-            args: [interfaceID],
-            ...request,
-          }),
-        parse: (data) => data,
-      }) as ReverseMirage<boolean, GetERC721SupportsInterfaceReturnType, T>;
+): Promise<GetERC721SupportsInterfaceReturnType> =>
+  readContract(client, {
+    abi: solmateERC721ABI,
+    address: erc721.address,
+    functionName: "supportsInterface",
+    args: [interfaceID],
+    ...request,
+  });

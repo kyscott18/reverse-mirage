@@ -48,16 +48,3 @@ test("read nonce", async () => {
   });
   expect(nonce).toBe(0n);
 });
-
-test("read nonce select", async () => {
-  const rm = getERC20PermitNonce(
-    publicClient,
-    {
-      erc20,
-      address: ALICE,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(0n);
-});
