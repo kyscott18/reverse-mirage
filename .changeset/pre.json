@@ -5,6 +5,7 @@
     "reverse-mirage": "0.1.11"
   },
   "changesets": [
+    "good-jobs-think",
     "long-pillows-sip"
   ]
 }
