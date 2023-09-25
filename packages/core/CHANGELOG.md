@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.0-next.2
+
+### Patch Changes
+
+- 89add6a: Add decorator to extend viem
+
 ## 1.0.0-next.1
 
 ### Patch Changes
