@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.0-next.3
+
+### Patch Changes
+
+- ad4046c: Change wallet actions to write contract
+
 ## 1.0.0-next.2
 
 ### Patch Changes
