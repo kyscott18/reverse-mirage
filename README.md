@@ -67,43 +67,11 @@ $ bun run src/amount/utils.bench.ts
 
 ### Results
 
-```sh
-• amount add
------------------------------------------------------- -----------------------------
-reverse mirage    70.6 ns/iter  (67.13 ns … 154.07 ns)  68.33 ns 124.84 ns 133.01 ns
-uniswap         576.84 ns/iter (549.89 ns … 802.03 ns) 606.01 ns 802.03 ns 802.03 ns
-
-summary for amount add
-  reverse mirage
-   8.17x faster than uniswap
-
-• amount equalTo
------------------------------------------------------- -----------------------------
-reverse mirage   11.33 ns/iter    (11.2 ns … 15.59 ns)  11.22 ns  13.56 ns  13.99 ns
-uniswap         120.47 ns/iter (114.63 ns … 202.19 ns) 117.75 ns 189.68 ns 192.36 ns
-
-summary for amount equalTo
-  reverse mirage
-   10.63x faster than uniswap
-
-• amount to number
------------------------------------------------------- -----------------------------
-reverse mirage    9.42 ns/iter     (9.3 ns … 14.22 ns)   9.32 ns  11.57 ns  12.18 ns
-uniswap           1.28 µs/iter     (1.22 µs … 1.54 µs)   1.29 µs   1.54 µs   1.54 µs
-
-summary for amount to number
-  reverse mirage
-   136.14x faster than uniswap
-
-• amount to significant
------------------------------------------------------- -----------------------------
-reverse mirage    70.7 ns/iter  (68.35 ns … 144.63 ns)  71.15 ns  77.24 ns  125.2 ns
-uniswap           2.12 µs/iter        (2 µs … 2.96 µs)   2.11 µs   2.96 µs   2.96 µs
-
-summary for amount to significant
-  reverse mirage
-   30.03x faster than uniswap
-```
+* amount add: `reverse mirage` **8.17x** faster than `@uniswap/sdk-core`
+* amount equal to: `reverse-mirage` **10.63x** faster than `@uniswap/sdk-core`
+* amount to number: `reverse-mirage` **136.14x** faster than `@uniswap/sdk-core`
+* amount to significant: `reverse-mirage` **30.03x** faster than `@uniswap/sdk-core`\
+   
 ## Bundle Size
 
 `reverse-mirage`: **5.17 kB**
