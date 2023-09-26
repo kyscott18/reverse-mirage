@@ -26,11 +26,19 @@
     "test:ci": "CI=true vitest --coverage",
     "test:cov": "vitest --coverage"
   },
-  "keywords": [
-    "eth",
-    "ethereum",
-    "dapps",
-    "web3"
+  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "size-limit": [
+    {
+      "name": "reverse-mirage (cjs)",
+      "path": "./dist/index.cjs",
+      "limit": "7 kB"
+    },
+    {
+      "name": "reverse-mirage",
+      "path": "./dist/index.js",
+      "limit": "7 kB",
+      "import": "*"
+    }
   ],
   "author": "Kyle Scott",
   "license": "MIT",
@@ -50,11 +58,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
+    "@size-limit/preset-small-lib": "^9.0.0",
     "@uniswap/sdk-core": "^4.0.7",
     "@viem/anvil": "^0.0.6",
     "@vitest/coverage-v8": "^0.34.4",
     "bun": "^1.0.2",
     "mitata": "^0.1.6",
+    "size-limit": "^9.0.0",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
     "viem": "^1.10.14",
