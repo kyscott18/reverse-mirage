@@ -99,19 +99,19 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateERC20Transfer",
+                text: "writeERC20Transfer",
                 link: "",
               },
               {
-                text: "simulateERC20Approve",
+                text: "writeERC20Approve",
                 link: "",
               },
               {
-                text: "simulateERC20TransferFrom",
+                text: "writeERC20TransferFrom",
                 link: "",
               },
               {
-                text: "simulateERC20Permit",
+                text: "writeERC20Permit",
                 link: "",
               },
               {
@@ -166,11 +166,11 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateWETHDeposit",
+                text: "writeWETHDeposit",
                 link: "",
               },
               {
-                text: "simulateWETHWithdraw",
+                text: "writeWETHWithdraw",
                 link: "",
               },
             ],
@@ -244,15 +244,15 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateERC721Transfer",
+                text: "writeERC721Transfer",
                 link: "",
               },
               {
-                text: "simulateERC721Approve",
+                text: "writeERC721Approve",
                 link: "",
               },
               {
-                text: "simulateERC721SetApprovalForAll",
+                text: "writeERC721SetApprovalForAll",
                 link: "",
               },
             ],
@@ -302,15 +302,15 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateERC1155Transfer",
+                text: "writeERC1155Transfer",
                 link: "",
               },
               {
-                text: "simulateERC1155TransferBatch",
+                text: "writeERC1155TransferBatch",
                 link: "",
               },
               {
-                text: "simulateERC1155SetApprovalForAll",
+                text: "writeERC1155SetApprovalForAll",
                 link: "",
               },
             ],
