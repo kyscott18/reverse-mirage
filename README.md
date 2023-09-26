@@ -53,7 +53,7 @@ console.log(amountToNumber(vitalikBalance)) // 420.69
 ## Installation
 
 ```sh
-npm i reverse-mirage
+$ npm i reverse-mirage
 ```
 
 ## Benchmarks
@@ -61,14 +61,13 @@ npm i reverse-mirage
 Benchmarks are done with [mitata](https://github.com/evanwashere/mitata). To reproduce: 
 
 ```sh
-cd packages/core/
-bun run src/amount/utils.bench.ts
+$ cd packages/core/
+$ bun run src/amount/utils.bench.ts
 ```
 
 ### Results
 
 ```sh
-
 • amount add
 ------------------------------------------------------ -----------------------------
 reverse mirage    70.6 ns/iter  (67.13 ns … 154.07 ns)  68.33 ns 124.84 ns 133.01 ns
@@ -105,10 +104,8 @@ summary for amount to significant
   reverse mirage
    30.03x faster than uniswap
 ```
-
 ## Bundle Size
 
-```sh
-reverse-mirage: 5.17 kB
-@uniswap/sdk-core: 53.4 kB 
-```
+`reverse-mirage`: **5.17 kB**
+
+`@uniswap/sdk-core`: **53.4 kB**
