@@ -9,7 +9,7 @@ import { erc721ABI } from "../../generated.js";
 import { getERC721IsApprovedForAll } from "../publicActions/getERC721IsApprovedForAll.js";
 import type { ERC721 } from "../types.js";
 import { createERC721 } from "../utils.js";
-import { simulateERC721SetApprovalForAll } from "./simulateERC721SetApprovalForAll.js";
+import { writeERC721SetApprovalForAll } from "./writeERC721SetApprovalForAll.js";
 
 let id: Hex | undefined = undefined;
 
@@ -44,15 +44,13 @@ beforeEach(async () => {
 });
 
 test("set approval for all", async () => {
-  const { request } = await simulateERC721SetApprovalForAll(publicClient, {
+  const hash = await writeERC721SetApprovalForAll(walletClient, {
     args: {
       erc721,
       spender: BOB,
       approved: true,
     },
-    account: ALICE,
   });
-  const hash = await walletClient.writeContract(request);
 
   await publicClient.waitForTransactionReceipt({ hash });
 

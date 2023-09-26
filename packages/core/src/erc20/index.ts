@@ -32,7 +32,7 @@ export { getERC20TotalSupply } from "./publicActions/getERC20TotalSupply.js";
 export { getIsERC20Permit } from "./publicActions/getIsERC20Permit.js";
 
 export { signERC20Permit } from "./walletActions/signERC20Permit.js";
-export { simulateERC20Approve } from "./walletActions/simulateERC20Approve.js";
-export { simulateERC20Permit } from "./walletActions/simulateERC20Permit.js";
-export { simulateERC20Transfer } from "./walletActions/simulateERC20Transfer.js";
-export { simulateERC20TransferFrom } from "./walletActions/simulateERC20TransferFrom.js";
+export { writeERC20Approve } from "./walletActions/writeERC20Approve.js";
+export { writeERC20Permit } from "./walletActions/writeERC20Permit.js";
+export { writeERC20Transfer } from "./walletActions/writeERC20Transfer.js";
+export { writeERC20TransferFrom } from "./walletActions/writeERC20TransferFrom.js";

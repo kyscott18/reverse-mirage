@@ -1,12 +1,13 @@
 import type {
+  Account,
   Address,
   Chain,
   Client,
-  SimulateContractParameters,
-  SimulateContractReturnType,
   Transport,
+  WriteContractParameters,
+  WriteContractReturnType,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { writeContract } from "viem/contract";
 import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
 import type { BaseERC721 } from "../types.js";
 
@@ -16,48 +17,42 @@ export type ERC721ApproveParameters = {
   spender: Address;
 };
 
-export type SimulateERC721ApproveParameters<
+export type WriteERC721ApproveParameters<
   TChain extends Chain | undefined = Chain,
+  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  SimulateContractParameters<
+  WriteContractParameters<
     typeof solmateERC721,
     "approve",
     TChain,
+    TAccount,
     TChainOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC721ApproveParameters };
 
-export type SimulateERC721ApproveReturnType<
+export const writeERC721Approve = <
   TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
-> = SimulateContractReturnType<
-  typeof solmateERC721,
-  "approve",
-  TChain,
-  TChainOverride
->;
-
-export const simulateERC721Approve = <
-  TChain extends Chain | undefined,
+  TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, TChain, TAccount>,
   {
     args: { erc721, spender, id },
     ...request
-  }: SimulateERC721ApproveParameters<TChain, TChainOverride>,
-): Promise<SimulateERC721ApproveReturnType<TChain, TChainOverride>> =>
-  simulateContract(client, {
+  }: WriteERC721ApproveParameters<TChain, TAccount, TChainOverride>,
+): Promise<WriteContractReturnType> =>
+  writeContract(client, {
     address: erc721.address,
     abi: solmateERC721,
     functionName: "approve",
     args: [spender, id],
     ...request,
-  } as unknown as SimulateContractParameters<
+  } as unknown as WriteContractParameters<
     typeof solmateERC721,
     "approve",
     TChain,
+    TAccount,
     TChainOverride
   >);

@@ -1,13 +1,14 @@
 import type {
+  Account,
   Address,
   Chain,
   Client,
   Hex,
-  SimulateContractParameters,
-  SimulateContractReturnType,
   Transport,
+  WriteContractParameters,
+  WriteContractReturnType,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { writeContract } from "viem/contract";
 import { solmateErc1155ABI as solmateERC1155 } from "../../generated.js";
 import type { BaseERC1155, ERC1155Data } from "../types.js";
 
@@ -18,40 +19,33 @@ export type ERC1155TransferParameters = {
   data?: Hex;
 };
 
-export type SimulateERC1155TransferParameters<
+export type WriteERC1155TransferParameters<
   TChain extends Chain | undefined = Chain,
+  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  SimulateContractParameters<
+  WriteContractParameters<
     typeof solmateERC1155,
     "safeTransferFrom",
     TChain,
+    TAccount,
     TChainOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC1155TransferParameters };
 
-export type SimulateERC1155TransferReturnType<
+export const writeERC1155Transfer = <
   TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
-> = SimulateContractReturnType<
-  typeof solmateERC1155,
-  "safeTransferFrom",
-  TChain,
-  TChainOverride
->;
-
-export const simulateERC1155Transfer = <
-  TChain extends Chain | undefined,
+  TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, TChain, TAccount>,
   {
     args: { erc1155Data, to, from, data },
     ...request
-  }: SimulateERC1155TransferParameters<TChain, TChainOverride>,
-): Promise<SimulateERC1155TransferReturnType<TChain, TChainOverride>> =>
-  simulateContract(client, {
+  }: WriteERC1155TransferParameters<TChain, TAccount, TChainOverride>,
+): Promise<WriteContractReturnType> =>
+  writeContract(client, {
     address: erc1155Data.token.address,
     abi: solmateERC1155,
     functionName: "safeTransferFrom",
@@ -67,9 +61,10 @@ export const simulateERC1155Transfer = <
       data ?? "0x",
     ],
     ...request,
-  } as unknown as SimulateContractParameters<
+  } as unknown as WriteContractParameters<
     typeof solmateERC1155,
     "safeTransferFrom",
     TChain,
+    TAccount,
     TChainOverride
   >);

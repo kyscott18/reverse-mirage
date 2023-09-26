@@ -1,14 +1,15 @@
 import {
+  type Account,
   type Address,
   type Chain,
   type Client,
   type Hex,
-  type SimulateContractParameters,
-  type SimulateContractReturnType,
   type Transport,
+  type WriteContractParameters,
+  type WriteContractReturnType,
   getAddress,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { writeContract } from "viem/contract";
 import { solmateErc1155ABI as solmateERC1155 } from "../../generated.js";
 import type { BaseERC1155, ERC1155Data } from "../types.js";
 
@@ -19,39 +20,32 @@ export type ERC1155TransferBatchParameters = {
   data?: Hex;
 };
 
-export type SimulateERC1155TransferBatchParameters<
+export type WriteERC1155TransferBatchParameters<
   TChain extends Chain | undefined = Chain,
+  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  SimulateContractParameters<
+  WriteContractParameters<
     typeof solmateERC1155,
     "safeBatchTransferFrom",
     TChain,
+    TAccount,
     TChainOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC1155TransferBatchParameters };
 
-export type SimulateERC1155TransferBatchReturnType<
+export const writeERC1155TransferBatch = <
   TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
-> = SimulateContractReturnType<
-  typeof solmateERC1155,
-  "safeBatchTransferFrom",
-  TChain,
-  TChainOverride
->;
-
-export const simulateERC1155TransferBatch = <
-  TChain extends Chain | undefined,
+  TAccount extends Account | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, TChain, TAccount>,
   {
     args: { erc1155Data, to, from, data },
     ...request
-  }: SimulateERC1155TransferBatchParameters<TChain, TChainOverride>,
-): Promise<SimulateERC1155TransferBatchReturnType<TChain, TChainOverride>> => {
+  }: WriteERC1155TransferBatchParameters<TChain, TAccount, TChainOverride>,
+): Promise<WriteContractReturnType> => {
   const address = erc1155Data.reduce((addr: Address | undefined, cur) => {
     if (addr === undefined) return getAddress(cur.token.address);
     else if (addr !== getAddress(cur.token.address))
@@ -61,7 +55,7 @@ export const simulateERC1155TransferBatch = <
 
   if (address === undefined) throw Error("No tokens passed to transfer");
 
-  return simulateContract(client, {
+  return writeContract(client, {
     address,
     abi: solmateERC1155,
     functionName: "safeBatchTransferFrom",
@@ -77,10 +71,11 @@ export const simulateERC1155TransferBatch = <
       data ?? "0x",
     ],
     ...request,
-  } as unknown as SimulateContractParameters<
+  } as unknown as WriteContractParameters<
     typeof solmateERC1155,
     "safeBatchTransferFrom",
     TChain,
+    TAccount,
     TChainOverride
   >);
 };

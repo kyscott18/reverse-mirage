@@ -5,16 +5,19 @@ import { beforeEach, expect, test } from "vitest";
 import ERC20PermitBytecode from "../../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";
 import { ALICE, BOB } from "../../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../../_test/utils.js";
-import { createAmountFromString } from "../../amount/utils.js";
 import { erc20PermitABI } from "../../generated.js";
-import { getERC20BalanceOf } from "../publicActions/getERC20BalanceOf.js";
-import type { ERC20 } from "../types.js";
-import { createERC20 } from "../utils.js";
-import { simulateERC20Transfer } from "./simulateERC20Transfer.js";
+import { getERC20Allowance } from "../publicActions/getERC20Allowance.js";
+import type { ERC20Permit } from "../types.js";
+import {
+  createERC20Permit,
+  createERC20PermitDataFromString,
+} from "../utils.js";
+import { signERC20Permit } from "./signERC20Permit.js";
+import { writeERC20Permit } from "./writeERC20Permit.js";
 
 let id: Hex | undefined = undefined;
 
-let erc20: ERC20;
+let erc20: ERC20Permit;
 
 beforeEach(async () => {
   if (id === undefined || erc20 === undefined) {
@@ -29,7 +32,14 @@ beforeEach(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc20 = createERC20(contractAddress, "name", "symbol", 18, foundry.id);
+    erc20 = createERC20Permit(
+      contractAddress,
+      "name",
+      "symbol",
+      18,
+      "1",
+      foundry.id,
+    );
 
     const mintHash = await walletClient.writeContract({
       abi: erc20PermitABI,
@@ -44,21 +54,31 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("simulate transfer", async () => {
-  const { request } = await simulateERC20Transfer(publicClient, {
-    args: { amount: createAmountFromString(erc20, "1"), to: BOB },
-    account: ALICE,
+test("write permit", async () => {
+  const signature = await signERC20Permit(walletClient, {
+    permitData: createERC20PermitDataFromString(erc20, "1", 0n),
+    spender: BOB,
+    deadline: 2n ** 256n - 1n,
   });
 
-  const hash = await walletClient.writeContract(request);
+  const hash = await writeERC20Permit(walletClient, {
+    args: {
+      permitData: createERC20PermitDataFromString(erc20, "1", 0n),
+      owner: ALICE,
+      spender: BOB,
+      signature,
+      deadline: 2n ** 256n - 1n,
+    },
+  });
 
   await publicClient.waitForTransactionReceipt({ hash });
 
-  const balance = await getERC20BalanceOf(publicClient, {
+  const allowance = await getERC20Allowance(publicClient, {
     erc20,
-    address: BOB,
+    owner: ALICE,
+    spender: BOB,
   });
 
-  expect(balance.amount).toBe(10n ** 18n);
-  expect(balance.token).toStrictEqual(erc20);
+  expect(allowance.amount).toBe(10n ** 18n);
+  expect(allowance.token).toStrictEqual(erc20);
 });

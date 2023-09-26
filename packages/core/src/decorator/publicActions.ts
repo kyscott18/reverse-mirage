@@ -27,22 +27,7 @@ import type { GetERC20PermitNonceParameters } from "../erc20/publicActions/getER
 import type { GetERC20SymbolParameters } from "../erc20/publicActions/getERC20Symbol.js";
 import type { GetERC20TotalSupplyParameters } from "../erc20/publicActions/getERC20TotalSupply.js";
 import type { GetIsERC20PermitParameters } from "../erc20/publicActions/getIsERC20Permit.js";
-import {
-  type SimulateERC20ApproveParameters,
-  simulateERC20Approve,
-} from "../erc20/walletActions/simulateERC20Approve.js";
-import {
-  type SimulateERC20PermitParameters,
-  simulateERC20Permit,
-} from "../erc20/walletActions/simulateERC20Permit.js";
-import {
-  type SimulateERC20TransferParameters,
-  simulateERC20Transfer,
-} from "../erc20/walletActions/simulateERC20Transfer.js";
-import {
-  type SimulateERC20TransferFromParameters,
-  simulateERC20TransferFrom,
-} from "../erc20/walletActions/simulateERC20TransferFrom.js";
+
 import {
   type BaseERC721,
   getERC721,
@@ -67,18 +52,6 @@ import type { GetERC721SupportsInterfaceParameters } from "../erc721/publicActio
 import type { GetERC721SymbolParameters } from "../erc721/publicActions/getERC721Symbol.js";
 import type { GetERC721TokenURIParameters } from "../erc721/publicActions/getERC721TokenURI.js";
 import {
-  type SimulateERC721ApproveParameters,
-  simulateERC721Approve,
-} from "../erc721/walletActions/simulateERC721Approve.js";
-import {
-  type SimulateERC721SetApprovalForAllParameters,
-  simulateERC721SetApprovalForAll,
-} from "../erc721/walletActions/simulateERC721SetApprovalForAll.js";
-import {
-  type SimulateERC721TransferParameters,
-  simulateERC721Transfer,
-} from "../erc721/walletActions/simulateERC721Transfer.js";
-import {
   type BaseERC1155,
   getERC1155,
   getERC1155BalanceOf,
@@ -90,30 +63,10 @@ import type { GetERC1155BalanceOfParameters } from "../erc1155/publicActions/get
 import type { GetERC1155IsApprovedForAllParameters } from "../erc1155/publicActions/getERC1155IsApprovedForAll.js";
 import type { GetERC1155URIParameters } from "../erc1155/publicActions/getERC1155URI.js";
 import {
-  type SimulateERC1155SetApprovalForAllParameters,
-  simulateERC1155SetApprovalForAll,
-} from "../erc1155/walletActions/simulateERC1155SetApprovalForAll.js";
-import {
-  type SimulateERC1155TransferParameters,
-  simulateERC1155Transfer,
-} from "../erc1155/walletActions/simulateERC1155Transfer.js";
-import {
-  type SimulateERC1155TransferBatchParameters,
-  simulateERC1155TransferBatch,
-} from "../erc1155/walletActions/simulateERC1155TransferBatch.js";
-import {
   type GetNativeBalanceParameters,
+  type NativeCurrency,
   getNativeBalance,
-} from "../native/publicActions/getNativeBalance.js";
-import type { NativeCurrency } from "../native/types.js";
-import {
-  type SimulateWETHDepositParameters,
-  simulateWETHDeposit,
-} from "../weth/walletActions/simulateWETHDeposit.js";
-import {
-  type SimulateWETHWithdrawParameters,
-  simulateWETHWithdraw,
-} from "../weth/walletActions/simulateWETHWithdraw.js";
+} from "../native/index.js";
 
 export const publicActionReverseMirage = <
   TChain extends Chain | undefined = Chain | undefined,
@@ -178,35 +131,4 @@ export const publicActionReverseMirage = <
   getERC1155IsApprovedForAll: (args: GetERC1155IsApprovedForAllParameters) =>
     getERC1155IsApprovedForAll(client, args),
   getERC1155URI: (args: GetERC1155URIParameters) => getERC1155URI(client, args),
-
-  simulateWETHDeposit: (args: SimulateWETHDepositParameters<TChain>) =>
-    simulateWETHDeposit(client, args),
-  simulateWETHWithdraw: (args: SimulateWETHWithdrawParameters) =>
-    simulateWETHWithdraw(client, args),
-
-  simulateERC20Approve: (args: SimulateERC20ApproveParameters) =>
-    simulateERC20Approve(client, args),
-  simulateERC20Permit: (args: SimulateERC20PermitParameters) =>
-    simulateERC20Permit(client, args),
-  simulateERC20Transfer: (args: SimulateERC20TransferParameters) =>
-    simulateERC20Transfer(client, args),
-  simulateERC20TransferFrom: (args: SimulateERC20TransferFromParameters) =>
-    simulateERC20TransferFrom(client, args),
-
-  simulateERC721Approve: (args: SimulateERC721ApproveParameters) =>
-    simulateERC721Approve(client, args),
-  simulateERC721SetApprovalForAll: (
-    args: SimulateERC721SetApprovalForAllParameters,
-  ) => simulateERC721SetApprovalForAll(client, args),
-  simulateERC721Transfer: (args: SimulateERC721TransferParameters) =>
-    simulateERC721Transfer(client, args),
-
-  simulateERC1155SetApprovalForAll: (
-    args: SimulateERC1155SetApprovalForAllParameters,
-  ) => simulateERC1155SetApprovalForAll(client, args),
-  simulateERC1155Transfer: (args: SimulateERC1155TransferParameters) =>
-    simulateERC1155Transfer(client, args),
-  simulateERC1155TransferBatch: (
-    args: SimulateERC1155TransferBatchParameters,
-  ) => simulateERC1155TransferBatch(client, args),
 });

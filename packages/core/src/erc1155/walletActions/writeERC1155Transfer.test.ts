@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import { type Hex, getAddress, zeroAddress } from "viem";
+import { type Hex, getAddress } from "viem";
 import { foundry } from "viem/chains";
 import { beforeEach, expect, test } from "vitest";
 import ERC1155Bytecode from "../../../../../contracts/out/ERC1155.sol/ERC1155.json";
@@ -9,7 +9,7 @@ import { erc1155ABI } from "../../generated.js";
 import { getERC1155BalanceOf } from "../publicActions/getERC1155BalanceOf.js";
 import type { ERC1155 } from "../types.js";
 import { createERC1155, createERC1155Data } from "../utils.js";
-import { simulateERC1155TransferBatch } from "./simulateERC1155TransferBatch.js";
+import { writeERC1155Transfer } from "./writeERC1155Transfer.js";
 
 let id: Hex | undefined = undefined;
 
@@ -48,45 +48,21 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("can transfer batch", async () => {
-  await expect(
-    async () =>
-      await simulateERC1155TransferBatch(publicClient, {
-        args: { to: BOB, erc1155Data: [] },
-        account: ALICE,
-      }),
-  ).rejects.toThrowError();
-
-  await expect(
-    async () =>
-      await simulateERC1155TransferBatch(publicClient, {
-        account: ALICE,
-        args: {
-          to: BOB,
-          erc1155Data: [
-            createERC1155Data(erc1155, 5n),
-            createERC1155Data({ ...erc1155, address: zeroAddress }, 5n),
-          ],
-        },
-      }),
-  ).rejects.toThrowError();
-
-  const { request } = await simulateERC1155TransferBatch(publicClient, {
-    account: ALICE,
-    args: {
-      to: BOB,
-      erc1155Data: [
-        createERC1155Data(erc1155, 5n),
-        createERC1155Data(erc1155, 5n),
-      ],
-    },
+test("can transfer", async () => {
+  const hash = await writeERC1155Transfer(walletClient, {
+    args: { to: BOB, erc1155Data: createERC1155Data(erc1155, 5n) },
   });
-  const hash = await walletClient.writeContract(request);
   await publicClient.waitForTransactionReceipt({ hash });
+
+  const balanceALICE = await getERC1155BalanceOf(publicClient, {
+    erc1155,
+    address: ALICE,
+  });
+  expect(balanceALICE.amount).toBe(5n);
 
   const balanceBOB = await getERC1155BalanceOf(publicClient, {
     erc1155,
     address: BOB,
   });
-  expect(balanceBOB.amount).toBe(10n);
+  expect(balanceBOB.amount).toBe(5n);
 });
