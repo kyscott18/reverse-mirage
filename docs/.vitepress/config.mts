@@ -13,14 +13,17 @@ export default defineConfig({
     sidebar: [
       {
         text: "Introduction",
-        items: [{ text: "Getting started", link: "/" }],
+        items: [
+          { text: "Getting started", link: "/" },
+          { text: "Benchmarks", link: "benchmark" },
+          { text: "Examples", link: "example" },
+        ],
       },
       {
         text: "ERC20",
         collapsed: true,
         items: [
           { text: "Introduction", link: "erc20/introduction" },
-
           {
             text: "Utilities",
             items: [

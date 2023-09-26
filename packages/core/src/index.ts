@@ -155,8 +155,6 @@ export type {
   Tuple,
 } from "./types/index.js";
 
-export { getQueryKey } from "./utils/index.js";
-
 export {
   type WETH,
   createWETH,

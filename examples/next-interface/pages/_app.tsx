@@ -50,7 +50,6 @@ const config = createConfig({
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
-  console.log(1);
   return (
     <WagmiConfig config={config}>
       <QueryClientProvider client={queryClient}>

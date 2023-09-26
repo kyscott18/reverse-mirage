@@ -5,13 +5,13 @@ import {
   type BaseERC20,
   type ERC20Amount,
   getERC20BalanceOf,
-  getQueryKey,
   simulateERC20Transfer,
 } from "reverse-mirage";
 import { getAddress } from "viem";
 import { type Address, useWalletClient } from "wagmi";
 import type { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";
+import { getQueryKey } from "./internal/utils";
 import { useChainID } from "./useChain";
 
 export const useTransfer = <TERC20 extends BaseERC20>(

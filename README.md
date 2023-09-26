@@ -17,19 +17,19 @@ Application level typescript utilities for Ethereum.
 - ✅ Extensible to build apps and libraries
 - ✅ Seamless extension to [Viem](https://github.com/wagmi-dev/viem)
 - ✅ TypeScript ready
-- ✅ Test suite running against [forked](https://ethereum.org/en/glossary/#fork) Ethereum network
+- ✅ Test suite running against local Ethereum network
 
 ## Example
 
 ```ts
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
-import { publicActions, amountToNumber } from 'reverse-mirage'
+import { publicActionsReverseMirage, amountToNumber } from 'reverse-mirage'
 
 export const publicClient = createPublicClient({
   chain: mainnet,
   transport: http()
-}).extend(publicActions)
+}).extend(publicActionsReverseMirage)
 
 // read token metadata
 const usdc = await publicClient.getERC20({
@@ -71,7 +71,7 @@ $ bun run src/amount/utils.bench.ts
 * amount equal to: `reverse-mirage` **10.63x** faster than `@uniswap/sdk-core`
 * amount to number: `reverse-mirage` **136.14x** faster than `@uniswap/sdk-core`
 * amount to significant: `reverse-mirage` **30.03x** faster than `@uniswap/sdk-core`
-   
+
 ## Bundle Size
 
 `reverse-mirage`: **5.17 kB**
