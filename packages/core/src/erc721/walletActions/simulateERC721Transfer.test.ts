@@ -6,10 +6,10 @@ import ERC721Bytecode from "../../../../../contracts/out/ERC721.sol/ERC721.json"
 import { ALICE, BOB } from "../../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../../_test/utils.js";
 import { erc721ABI } from "../../generated.js";
-import { getERC721Approved } from "../publicActions/getERC721Approved.js";
+import { getERC721OwnerOf } from "../publicActions/getERC721OwnerOf.js";
 import type { ERC721 } from "../types.js";
 import { createERC721 } from "../utils.js";
-import { writeERC721Approve } from "./writeERC721Approve.js";
+import { simulateERC721Transfer } from "./simulateERC721Transfer.js";
 
 let id: Hex | undefined = undefined;
 
@@ -43,16 +43,49 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("approve", async () => {
-  const hash = await writeERC721Approve(walletClient, {
+test("can transfer", async () => {
+  const { request } = await simulateERC721Transfer(publicClient, {
     args: {
+      to: BOB,
       erc721,
       id: 0n,
-      spender: BOB,
     },
+    account: ALICE,
   });
-
+  const hash = await walletClient.writeContract(request);
   await publicClient.waitForTransactionReceipt({ hash });
 
-  expect(await getERC721Approved(publicClient, { erc721, id: 0n })).toBe(BOB);
+  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
+});
+
+test("can transfer safe", async () => {
+  const { request } = await simulateERC721Transfer(publicClient, {
+    args: {
+      to: BOB,
+      erc721,
+      id: 0n,
+      data: "safe",
+    },
+    account: ALICE,
+  });
+  const hash = await walletClient.writeContract(request);
+  await publicClient.waitForTransactionReceipt({ hash });
+
+  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
+});
+
+test("can transfer data", async () => {
+  const { request } = await simulateERC721Transfer(publicClient, {
+    args: {
+      to: BOB,
+      erc721,
+      id: 0n,
+      data: "0x",
+    },
+    account: ALICE,
+  });
+  const hash = await walletClient.writeContract(request);
+  await publicClient.waitForTransactionReceipt({ hash });
+
+  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
 });

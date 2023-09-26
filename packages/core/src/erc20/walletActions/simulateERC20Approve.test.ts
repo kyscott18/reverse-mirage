@@ -10,7 +10,7 @@ import { erc20PermitABI } from "../../generated.js";
 import { getERC20Allowance } from "../publicActions/getERC20Allowance.js";
 import type { ERC20 } from "../types.js";
 import { createERC20 } from "../utils.js";
-import { writeERC20Approve } from "./writeERC20Approve.js";
+import { simulateERC20Approve } from "./simulateERC20Approve.js";
 
 let id: Hex | undefined = undefined;
 
@@ -36,10 +36,13 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("Write approve", async () => {
-  const hash = await writeERC20Approve(walletClient, {
+test("simulate approve", async () => {
+  const { request } = await simulateERC20Approve(publicClient, {
     args: { amount: createAmountFromString(erc20, "1"), spender: BOB },
+    account: ALICE,
   });
+
+  const hash = await walletClient.writeContract(request);
 
   await publicClient.waitForTransactionReceipt({ hash });
 

@@ -11,13 +11,13 @@ Application level typescript utilities for Ethereum.
 
 ## Features
 
-- ✅ ~10x faster, ~3x smaller than `@uniswap/sdk-core`
-- ✅ Abstactions for commonly used token standards
+- ✅ ~30x faster than `@uniswap/sdk-core`
+- ✅ Abstactions for most commonly used token standards
 - ✅ Supports `permit`
 - ✅ Extensible to build apps and libraries
 - ✅ Seamless extension to [Viem](https://github.com/wagmi-dev/viem)
 - ✅ TypeScript ready
-- ✅ Test suite running against local Ethereum network
+- ✅ Test suite running against [forked](https://ethereum.org/en/glossary/#fork) Ethereum network
 
 ## Example
 
@@ -44,10 +44,4 @@ const vitalikBalance = await publicClient.getERC20Balance({
 })
 
 console.log(amountToNumber(vitalikBalance)) // 420.69
-```
-
-## Installation
-
-```sh
-npm i reverse-mirage
 ```

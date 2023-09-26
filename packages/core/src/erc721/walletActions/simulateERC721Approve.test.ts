@@ -6,10 +6,10 @@ import ERC721Bytecode from "../../../../../contracts/out/ERC721.sol/ERC721.json"
 import { ALICE, BOB } from "../../_test/constants.js";
 import { publicClient, testClient, walletClient } from "../../_test/utils.js";
 import { erc721ABI } from "../../generated.js";
-import { getERC721OwnerOf } from "../publicActions/getERC721OwnerOf.js";
+import { getERC721Approved } from "../publicActions/getERC721Approved.js";
 import type { ERC721 } from "../types.js";
 import { createERC721 } from "../utils.js";
-import { writeERC721Transfer } from "./writeERC721Transfer.js";
+import { simulateERC721Approve } from "./simulateERC721Approve.js";
 
 let id: Hex | undefined = undefined;
 
@@ -43,43 +43,18 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("can transfer", async () => {
-  const hash = await writeERC721Transfer(walletClient, {
+test("approve", async () => {
+  const { request } = await simulateERC721Approve(publicClient, {
     args: {
-      to: BOB,
       erc721,
       id: 0n,
+      spender: BOB,
     },
+    account: ALICE,
   });
+  const hash = await walletClient.writeContract(request);
+
   await publicClient.waitForTransactionReceipt({ hash });
 
-  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
-});
-
-test("can transfer safe", async () => {
-  const hash = await writeERC721Transfer(walletClient, {
-    args: {
-      to: BOB,
-      erc721,
-      id: 0n,
-      data: "safe",
-    },
-  });
-  await publicClient.waitForTransactionReceipt({ hash });
-
-  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
-});
-
-test("can transfer data", async () => {
-  const hash = await writeERC721Transfer(walletClient, {
-    args: {
-      to: BOB,
-      erc721,
-      id: 0n,
-      data: "0x",
-    },
-  });
-  await publicClient.waitForTransactionReceipt({ hash });
-
-  expect(await getERC721OwnerOf(publicClient, { erc721, id: 0n })).toBe(BOB);
+  expect(await getERC721Approved(publicClient, { erc721, id: 0n })).toBe(BOB);
 });

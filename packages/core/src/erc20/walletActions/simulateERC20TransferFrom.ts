@@ -1,15 +1,14 @@
 import type {
-  Account,
   Address,
   Chain,
   Client,
+  SimulateContractParameters,
+  SimulateContractReturnType,
   Transport,
-  WriteContractParameters,
-  WriteContractReturnType,
 } from "viem";
-import { writeContract } from "viem/contract";
+import { simulateContract } from "viem/contract";
+import type { BaseERC20, ERC20Amount } from "../../erc20/types.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
-import type { BaseERC20, ERC20Amount } from "../types.js";
 
 export type ERC20TransferFromParameters = {
   amount: ERC20Amount<BaseERC20>;
@@ -17,42 +16,48 @@ export type ERC20TransferFromParameters = {
   to: Address;
 };
 
-export type WriteERC20TransferFromParameters<
+export type SimulateERC20TransferFromParameters<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters<
+  SimulateContractParameters<
     typeof solmateERC20ABI,
     "transferFrom",
     TChain,
-    TAccount,
     TChainOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC20TransferFromParameters };
 
-export const writeERC20TransferFrom = <
+export type SimulateERC20TransferFromReturnType<
   TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+> = SimulateContractReturnType<
+  typeof solmateERC20ABI,
+  "transferFrom",
+  TChain,
+  TChainOverride
+>;
+
+export const simulateERC20TransferFrom = <
+  TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: Client<Transport, TChain, TAccount>,
+  client: Client<Transport, TChain>,
   {
     args: { amount, from, to },
     ...request
-  }: WriteERC20TransferFromParameters<TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> =>
-  writeContract(client, {
+  }: SimulateERC20TransferFromParameters<TChain, TChainOverride>,
+): Promise<SimulateERC20TransferFromReturnType<TChain, TChainOverride>> =>
+  simulateContract(client, {
     address: amount.token.address,
     abi: solmateERC20ABI,
     functionName: "transferFrom",
     args: [from, to, amount.amount],
     ...request,
-  } as unknown as WriteContractParameters<
+  } as unknown as SimulateContractParameters<
     typeof solmateERC20ABI,
     "transferFrom",
     TChain,
-    TAccount,
     TChainOverride
   >);

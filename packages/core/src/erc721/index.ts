@@ -19,6 +19,6 @@ export { getERC721OwnerOf } from "./publicActions/getERC721OwnerOf.js";
 export { getERC721SupportsInterface } from "./publicActions/getERC721SupportsInterface.js";
 export { getERC721TokenURI } from "./publicActions/getERC721TokenURI.js";
 
-export { writeERC721Transfer } from "./walletActions/writeERC721Transfer.js";
-export { writeERC721Approve } from "./walletActions/writeERC721Approve.js";
-export { writeERC721SetApprovalForAll } from "./walletActions/writeERC721SetApprovalForAll.js";
+export { simulateERC721Transfer } from "./walletActions/simulateERC721Transfer.js";
+export { simulateERC721Approve } from "./walletActions/simulateERC721Approve.js";
+export { simulateERC721SetApprovalForAll } from "./walletActions/simulateERC721SetApprovalForAll.js";

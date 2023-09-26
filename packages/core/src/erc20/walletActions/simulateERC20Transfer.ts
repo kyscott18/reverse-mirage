@@ -1,57 +1,62 @@
 import type {
-  Account,
   Address,
   Chain,
   Client,
+  SimulateContractParameters,
+  SimulateContractReturnType,
   Transport,
-  WriteContractParameters,
-  WriteContractReturnType,
 } from "viem";
-import { writeContract } from "viem/contract";
+import { simulateContract } from "viem/contract";
+import type { BaseERC20, ERC20Amount } from "../../erc20/types.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
-import type { BaseERC20, ERC20Amount } from "../types.js";
 
 export type ERC20TransferParameters = {
   amount: ERC20Amount<BaseERC20>;
   to: Address;
 };
 
-export type WriteERC20TransferParameters<
+export type SimulateERC20TransferParameters<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters<
+  SimulateContractParameters<
     typeof solmateERC20ABI,
     "transfer",
     TChain,
-    TAccount,
     TChainOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC20TransferParameters };
 
-export const writeERC20Transfer = <
+export type SimulateERC20TransferReturnType<
   TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+> = SimulateContractReturnType<
+  typeof solmateERC20ABI,
+  "transfer",
+  TChain,
+  TChainOverride
+>;
+
+export const simulateERC20Transfer = <
+  TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: Client<Transport, TChain, TAccount>,
+  client: Client<Transport, TChain>,
   {
     args: { amount, to },
     ...request
-  }: WriteERC20TransferParameters<TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> =>
-  writeContract(client, {
+  }: SimulateERC20TransferParameters<TChain, TChainOverride>,
+): Promise<SimulateERC20TransferReturnType<TChain, TChainOverride>> =>
+  simulateContract(client, {
     address: amount.token.address,
     abi: solmateERC20ABI,
     functionName: "transfer",
     args: [to, amount.amount],
     ...request,
-  } as unknown as WriteContractParameters<
+  } as unknown as SimulateContractParameters<
     typeof solmateERC20ABI,
     "transfer",
     TChain,
-    TAccount,
     TChainOverride
   >);

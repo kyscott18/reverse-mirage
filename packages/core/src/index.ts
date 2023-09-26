@@ -57,10 +57,10 @@ export {
   getERC20TotalSupply,
   getIsERC20Permit,
   signERC20Permit,
-  writeERC20Approve,
-  writeERC20Permit,
-  writeERC20Transfer,
-  writeERC20TransferFrom,
+  simulateERC20Approve,
+  simulateERC20Permit,
+  simulateERC20Transfer,
+  simulateERC20TransferFrom,
 } from "./erc20/index.js";
 
 export {
@@ -80,9 +80,9 @@ export {
   getERC721OwnerOf,
   getERC721SupportsInterface,
   getERC721TokenURI,
-  writeERC721Transfer,
-  writeERC721Approve,
-  writeERC721SetApprovalForAll,
+  simulateERC721Transfer,
+  simulateERC721Approve,
+  simulateERC721SetApprovalForAll,
 } from "./erc721/index.js";
 
 export {
@@ -96,9 +96,9 @@ export {
   getERC1155BalanceOf,
   getERC1155IsApprovedForAll,
   getERC1155URI,
-  writeERC1155Transfer,
-  writeERC1155TransferBatch,
-  writeERC1155SetApprovalForAll,
+  simulateERC1155Transfer,
+  simulateERC1155TransferBatch,
+  simulateERC1155SetApprovalForAll,
 } from "./erc1155/index.js";
 
 export {
@@ -161,8 +161,8 @@ export {
   type WETH,
   createWETH,
   weth9ABI,
-  writeWETHDeposit,
-  writeWETHWithdraw,
+  simulateWETHDeposit,
+  simulateWETHWithdraw,
 } from "./weth/index.js";
 
 export { publicActionReverseMirage } from "./decorator/publicActions.js";

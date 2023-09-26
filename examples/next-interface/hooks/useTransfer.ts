@@ -6,7 +6,7 @@ import {
   type ERC20Amount,
   getERC20BalanceOf,
   getQueryKey,
-  writeERC20Transfer,
+  simulateERC20Transfer,
 } from "reverse-mirage";
 import { getAddress } from "viem";
 import { type Address, useWalletClient } from "wagmi";
@@ -36,9 +36,10 @@ export const useTransfer = <TERC20 extends BaseERC20>(
     } & {
       toast: TxToast;
     }) => {
-      const hash = await writeERC20Transfer(walletClient.data!, {
+      const { request } = await simulateERC20Transfer(client, {
         args: { to, amount },
       });
+      const hash = await walletClient.data!.writeContract(request);
 
       toaster.txPending({ ...toast, hash });
 

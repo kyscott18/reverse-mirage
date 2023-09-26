@@ -10,7 +10,7 @@ import { getERC20BalanceOf } from "../../erc20/publicActions/getERC20BalanceOf.j
 import { weth9ABI } from "../../generated.js";
 import type { WETH } from "../types.js";
 import { createWETH } from "../utils.js";
-import { writeWETHDeposit } from "./writeWETHDeposit.js";
+import { simulateWETHDeposit } from "./simulateWETHDeposit.js";
 
 let id: Hex | undefined = undefined;
 
@@ -35,10 +35,13 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("write deposit", async () => {
-  const hash = await writeWETHDeposit(walletClient, {
+test("simulate deposit", async () => {
+  const { request } = await simulateWETHDeposit(publicClient, {
     args: { amount: createAmountFromString(weth, "1") },
+    account: ALICE,
   });
+
+  const hash = await walletClient.writeContract(request);
 
   await publicClient.waitForTransactionReceipt({ hash });
 

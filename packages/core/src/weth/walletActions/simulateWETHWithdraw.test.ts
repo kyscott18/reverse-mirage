@@ -10,8 +10,8 @@ import { getERC20BalanceOf } from "../../erc20/publicActions/getERC20BalanceOf.j
 import { weth9ABI } from "../../generated.js";
 import type { WETH } from "../types.js";
 import { createWETH } from "../utils.js";
-import { writeWETHDeposit } from "./writeWETHDeposit.js";
-import { writeWETHWithdraw } from "./writeWETHWithdraw.js";
+import { simulateWETHDeposit } from "./simulateWETHDeposit.js";
+import { simulateWETHWithdraw } from "./simulateWETHWithdraw.js";
 
 let id: Hex | undefined = undefined;
 
@@ -36,17 +36,25 @@ beforeEach(async () => {
   id = await testClient.snapshot();
 });
 
-test("write withdraw", async () => {
-  const hash = await writeWETHDeposit(publicClient, {
+test("simulate withdraw", async () => {
+  const { request } = await simulateWETHDeposit(publicClient, {
     args: { amount: createAmountFromString(weth, "1") },
     account: ALICE,
   });
 
+  const hash = await walletClient.writeContract(request);
+
   await publicClient.waitForTransactionReceipt({ hash });
 
-  const requestHash = await writeWETHWithdraw(walletClient, {
-    args: { amount: createAmountFromString(weth, "1") },
-  });
+  const { request: withdrawRequest } = await simulateWETHWithdraw(
+    publicClient,
+    {
+      args: { amount: createAmountFromString(weth, "1") },
+      account: ALICE,
+    },
+  );
+
+  const requestHash = await walletClient.writeContract(withdrawRequest);
 
   await publicClient.waitForTransactionReceipt({ hash: requestHash });
 

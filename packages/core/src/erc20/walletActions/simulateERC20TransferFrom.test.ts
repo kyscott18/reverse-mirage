@@ -10,7 +10,7 @@ import { erc20PermitABI } from "../../generated.js";
 import { getERC20BalanceOf } from "../publicActions/getERC20BalanceOf.js";
 import type { ERC20 } from "../types.js";
 import { createERC20 } from "../utils.js";
-import { writeERC20Transfer } from "./writeERC20Transfer.js";
+import { simulateERC20TransferFrom } from "./simulateERC20TransferFrom.js";
 
 let id: Hex | undefined = undefined;
 
@@ -38,16 +38,27 @@ beforeEach(async () => {
       args: [ALICE, parseEther("1")],
     });
     await publicClient.waitForTransactionReceipt({ hash: mintHash });
+
+    const approveHash = await walletClient.writeContract({
+      abi: erc20PermitABI,
+      functionName: "approve",
+      address: contractAddress,
+      args: [ALICE, parseEther("1")],
+    });
+    await publicClient.waitForTransactionReceipt({ hash: approveHash });
   } else {
     await testClient.revert({ id });
   }
   id = await testClient.snapshot();
 });
 
-test("write transfer", async () => {
-  const hash = await writeERC20Transfer(walletClient, {
-    args: { amount: createAmountFromString(erc20, "1"), to: BOB },
+test("simulate transfer from", async () => {
+  const { request } = await simulateERC20TransferFrom(publicClient, {
+    args: { amount: createAmountFromString(erc20, "1"), from: ALICE, to: BOB },
+    account: ALICE,
   });
+
+  const hash = await walletClient.writeContract(request);
 
   await publicClient.waitForTransactionReceipt({ hash });
 

@@ -1,14 +1,13 @@
 import type {
-  Account,
   Address,
   Chain,
   Client,
   Hex,
+  SimulateContractParameters,
+  SimulateContractReturnType,
   Transport,
-  WriteContractParameters,
-  WriteContractReturnType,
 } from "viem";
-import { writeContract } from "viem/contract";
+import { simulateContract } from "viem/contract";
 import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
 import type { BaseERC721 } from "../types.js";
 
@@ -20,34 +19,41 @@ export type ERC721TransferParameters = {
   data?: "safe" | Hex;
 };
 
-export type WriteERC721TransferParameters<
+export type SimulateERC721TransferParameters<
   TChain extends Chain | undefined = Chain,
-  TAccount extends Account | undefined = Account | undefined,
   TChainOverride extends Chain | undefined = Chain | undefined,
 > = Omit<
-  WriteContractParameters<
+  SimulateContractParameters<
     typeof solmateERC721,
     "transferFrom",
     TChain,
-    TAccount,
     TChainOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC721TransferParameters };
 
-export const writeERC721Transfer = <
+export type SimulateERC721TransferReturnType<
   TChain extends Chain | undefined,
-  TAccount extends Account | undefined,
+  TChainOverride extends Chain | undefined = undefined,
+> = SimulateContractReturnType<
+  typeof solmateERC721,
+  "transferFrom",
+  TChain,
+  TChainOverride
+>;
+
+export const simulateERC721Transfer = <
+  TChain extends Chain | undefined,
   TChainOverride extends Chain | undefined,
 >(
-  client: Client<Transport, TChain, TAccount>,
+  client: Client<Transport, TChain>,
   {
     args: { erc721, from, to, data, id },
     ...request
-  }: WriteERC721TransferParameters<TChain, TAccount, TChainOverride>,
-): Promise<WriteContractReturnType> =>
+  }: SimulateERC721TransferParameters<TChain, TChainOverride>,
+) =>
   data === undefined
-    ? writeContract(client, {
+    ? simulateContract(client, {
         address: erc721.address,
         abi: solmateERC721,
         functionName: "transferFrom",
@@ -61,15 +67,14 @@ export const writeERC721Transfer = <
           id,
         ],
         ...request,
-      } as unknown as WriteContractParameters<
+      } as unknown as SimulateContractParameters<
         typeof solmateERC721,
         "transferFrom",
         TChain,
-        TAccount,
         TChainOverride
       >)
     : data === "safe"
-    ? writeContract(client, {
+    ? simulateContract(client, {
         address: erc721.address,
         abi: solmateERC721,
         functionName: "safeTransferFrom",
@@ -83,14 +88,13 @@ export const writeERC721Transfer = <
           id,
         ],
         ...request,
-      } as unknown as WriteContractParameters<
+      } as unknown as SimulateContractParameters<
         typeof solmateERC721,
         "safeTransferFrom",
         TChain,
-        TAccount,
         TChainOverride
       >)
-    : writeContract(client, {
+    : simulateContract(client, {
         address: erc721.address,
         abi: solmateERC721,
         functionName: "safeTransferFrom",
@@ -105,10 +109,9 @@ export const writeERC721Transfer = <
           data,
         ],
         ...request,
-      } as unknown as WriteContractParameters<
+      } as unknown as SimulateContractParameters<
         typeof solmateERC721,
         "safeTransferFrom",
         TChain,
-        TAccount,
         TChainOverride
       >);
