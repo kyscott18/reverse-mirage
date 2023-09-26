@@ -18,16 +18,17 @@
 
 ```ts
 import { createPublicClient, http } from 'viem'
-import {publicActions, amountToNumber} from 'reverse-mirage'
+import {publicActionsReverseMirage, amountToNumber} from 'reverse-mirage'
 
 export const publicClient = createPublicClient({
   chain: mainnet,
   transport: http()
-}).extend(publicActions)
+}).extend(publicActionsReverseMirage)
 
 // read token metadata
 const usdc = await publicClient.getERC20({
   address: '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // usdc
+  chainID: 1 // mainnet
 })
 
 console.log(usdc.decimals) // 6
@@ -40,3 +41,21 @@ const vitalikBalance = await publicClient.getERC20Balance({
 
 console.log(amountToNumber(vitalikBalance)) // 420.69
 ```
+
+## Installation
+
+::: code-group
+
+```bash [npm]
+npm i reverse-mirage
+```
+
+```bash [pnpm]
+pnpm i reverse-mirage
+```
+
+```bash [bun]
+bun i reverse-mirage
+```
+
+:::
