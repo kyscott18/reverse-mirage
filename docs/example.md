@@ -1,10 +1,11 @@
 # Examples
 
-A beta interface has been built using `reverse-mirage` [here](https://github.com/kyscott18/reverse-mirage/tree/v1/examples/next-interface/next-interface).
+A [beta interface](https://github.com/kyscott18/reverse-mirage/tree/v1/examples/next-interface) has been built using `reverse-mirage`.
 
 ## Features
 
 * Runs on an anvil local node
+* Query balances
 * Transfer test tokens
 * Reset node state from interface
 

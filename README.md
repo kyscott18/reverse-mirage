@@ -7,7 +7,7 @@
 [bundle]: https://bundlephobia.com/result?p=reverse-mirage@latest
 [bundle-badge]:https://img.shields.io/bundlephobia/minzip/reverse-mirage/latest.svg
 
-Application level typescript utilities for Ethereum.
+Building blocks for Ethereum app development. Built using [Viem](https://viem.sh).
 
 ## Features
 

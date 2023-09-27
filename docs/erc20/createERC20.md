@@ -33,3 +33,9 @@ const usdc = createERC20({ // [!code focus:7]
 ```
 
 :::
+
+## Returns
+
+`erc20`
+
+The erc20 token that was just created.

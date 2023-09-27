@@ -23,7 +23,6 @@ export default defineConfig({
         text: "ERC20",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "erc20/introduction" },
           {
             text: "Utilities",
             items: [
@@ -129,7 +128,6 @@ export default defineConfig({
         text: "Native",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "Utilities",
             items: [
@@ -154,8 +152,6 @@ export default defineConfig({
         text: "WETH",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
-
           {
             text: "Utilities",
             items: [
@@ -184,7 +180,6 @@ export default defineConfig({
         text: "ERC721",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "Utilities",
             items: [
@@ -266,7 +261,6 @@ export default defineConfig({
         text: "ERC1155",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "Utilities",
             items: [
@@ -324,7 +318,6 @@ export default defineConfig({
         text: "Amount",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "createAmountFromString",
             link: "",
@@ -379,7 +372,6 @@ export default defineConfig({
         text: "Price",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "createPrice",
             link: "",
@@ -450,7 +442,6 @@ export default defineConfig({
         text: "Fraction",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "createFraction",
             link: "",
@@ -508,15 +499,6 @@ export default defineConfig({
       {
         text: "Chains",
         link: "",
-      },
-      {
-        text: "Utilities",
-        items: [
-          {
-            text: "getQueryKey",
-            link: "",
-          },
-        ],
       },
     ],
 

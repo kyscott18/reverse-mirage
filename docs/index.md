@@ -1,16 +1,20 @@
-# Reverse Mirage
+# `reverse-mirage`
 
 ## Overview
 
-`reverse-mirage` is a lightweight, fast, and type-safe Ethereum library built with [Viem](https://viem.sh) for working with ERC20s, prices, NFTs, Wrapped Ether, and more!
+Building blocks for Ethereum app development. Built using [Viem](https://viem.sh).
+
+::: warning
+This documentation is still under active development.
+:::
 
 ## Features
 
 - ✅ 10x-100x faster, 10.3x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
 - ✅ Abstactions for most commonly used token standards
-- ✅ Supports `permit`
 - ✅ Extensible to build apps and libraries
 - ✅ Seamless extension to [Viem](https://github.com/wagmi-dev/viem)
+- ✅ Supports `permit`
 - ✅ TypeScript ready
 - ✅ Test suite running against local Ethereum network
 
@@ -48,7 +52,6 @@ console.log(amountToNumber(vitalikBalance)) // 420.69
 ```
 
 :::
-
 
 ## Installation
 
