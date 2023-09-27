@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.0-next.4
+
+### Patch Changes
+
+- 22f43d0: Update dependencies, revert simulate changes
+
 ## 1.0.0-next.3
 
 ### Patch Changes
