@@ -10,7 +10,7 @@ This documentation is still under active development.
 
 ## Features
 
-- ✅ 10x-100x faster, 10.3x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
+- ✅ 10x-100x faster, 10.4x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
 - ✅ Abstactions for most commonly used token standards
 - ✅ Extensible to build apps and libraries
 - ✅ Seamless extension to [Viem](https://github.com/wagmi-dev/viem)

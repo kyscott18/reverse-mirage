@@ -5,7 +5,7 @@ A [beta interface](https://github.com/kyscott18/reverse-mirage/tree/v1/examples/
 ## Features
 
 * Runs on an anvil local node
-* Query balances
+* Query balances, automatically update after transactions
 * Transfer test tokens
 * Reset node state from interface
 

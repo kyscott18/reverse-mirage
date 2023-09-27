@@ -9,6 +9,6 @@
 
 ## Bundle Size
 
-`reverse-mirage`: **5.17 kB**
+`reverse-mirage`: **5.12 kB**
 
 `@uniswap/sdk-core`: **53.4 kB**

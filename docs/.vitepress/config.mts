@@ -4,19 +4,22 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Reverse Mirage",
   description: "Application level typescript utilities for Ethereum",
-  head: [["script", { src: "/_vercel/insights/script.js" }]],
+  head: [
+    ["script", { src: "https://cdn.vercel-insights.com/v1/script.debug.js" }],
+  ],
   themeConfig: {
     search: {
       provider: "local",
     },
 
     sidebar: [
+      { text: "Introduction", link: "/" },
       {
-        text: "Introduction",
+        text: "Overview",
         items: [
-          { text: "Getting started", link: "/" },
-          { text: "Benchmarks", link: "benchmark" },
-          { text: "Examples", link: "example" },
+          { text: "Getting started", link: "/start" },
+          { text: "Benchmarks", link: "/benchmark" },
+          { text: "Examples", link: "/example" },
         ],
       },
       {
@@ -28,7 +31,7 @@ export default defineConfig({
             items: [
               {
                 text: "createERC20",
-                link: "erc20/createERC20",
+                link: "/erc20/createERC20",
               },
               {
                 text: "createERC20Amount",
