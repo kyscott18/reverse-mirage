@@ -1,17 +1,15 @@
-# Reverse Mirage [![GitHub Actions][gha-badge]][gha] [![npm version][npm-badge]][npm] [![npm bundle size][bundle-badge]][bundle]
+# Reverse Mirage [![GitHub Actions][gha-badge]][gha] [![npm version][npm-badge]][npm]
 
 [gha]: https://github.com/kyscott18/reverse-mirage/actions
 [gha-badge]: https://github.com/kyscott18/reverse-mirage/actions/workflows/main.yml/badge.svg
 [npm]: https://www.npmjs.com/package/reverse-mirage/v/latest
 [npm-badge]: https://img.shields.io/npm/v/reverse-mirage/latest.svg
-[bundle]: https://bundlephobia.com/result?p=reverse-mirage@latest
-[bundle-badge]:https://img.shields.io/bundlephobia/minzip/reverse-mirage/latest.svg
 
 Building blocks for Ethereum app development. Built using [Viem](https://viem.sh).
 
 ## Features
 
-- ✅ 10x-100x faster, 10.3x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
+- ✅ 10x-100x faster, 10.4x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
 - ✅ Abstactions for most commonly used token standards
 - ✅ Supports `permit`
 - ✅ Extensible to build apps and libraries
@@ -74,6 +72,6 @@ $ bun run src/amount/utils.bench.ts
 
 ## Bundle Size
 
-`reverse-mirage`: **5.17 kB**
+`reverse-mirage`: **5.12 kB**
 
 `@uniswap/sdk-core`: **53.4 kB**
