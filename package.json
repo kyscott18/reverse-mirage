@@ -4,7 +4,9 @@
   "description": "",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*"],
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "install:packages": "pnpm --filter './packages/**' install",
     "preinstall": "npx -y only-allow pnpm",
@@ -28,9 +30,9 @@
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
     "@changesets/cli": "^2.26.2",
-    "@wagmi/cli": "^1.5.0",
+    "@wagmi/cli": "^1.5.2",
     "husky": "^8.0.3",
     "typescript": "^5.2.2",
-    "vitepress": "1.0.0-rc.14"
+    "vitepress": "1.0.0-rc.20"
   }
 }

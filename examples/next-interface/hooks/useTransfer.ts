@@ -7,7 +7,7 @@ import {
   getERC20BalanceOf,
   simulateERC20Transfer,
 } from "reverse-mirage";
-import { getAddress } from "viem";
+import { getAddress } from "viem/utils";
 import { type Address, useWalletClient } from "wagmi";
 import type { HookArg } from "./internal/types";
 import { useFastClient } from "./internal/useFastClient";

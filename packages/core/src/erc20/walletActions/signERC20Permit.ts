@@ -1,13 +1,13 @@
-import {
-  type Account,
-  type Address,
-  type Chain,
-  type Client,
-  type SignTypedDataParameters,
-  type Transport,
-  getAddress,
+import type {
+  Account,
+  Address,
+  Chain,
+  Client,
+  SignTypedDataParameters,
+  Transport,
 } from "viem";
 import { signTypedData } from "viem/actions";
+import { getAddress } from "viem/utils";
 import type { ERC20Permit, ERC20PermitData } from "../types.js";
 import { PermitType } from "../utils.js";
 

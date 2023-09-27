@@ -7,7 +7,7 @@ import type {
   SimulateContractReturnType,
   Transport,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { simulateContract } from "viem/actions";
 import type { ERC20Permit, ERC20PermitData } from "../../erc20/types.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
 

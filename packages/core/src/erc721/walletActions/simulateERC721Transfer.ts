@@ -7,7 +7,7 @@ import type {
   SimulateContractReturnType,
   Transport,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { simulateContract } from "viem/actions";
 import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
 import type { BaseERC721 } from "../types.js";
 

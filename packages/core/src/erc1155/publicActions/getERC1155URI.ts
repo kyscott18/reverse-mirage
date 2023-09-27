@@ -1,5 +1,5 @@
 import type { Chain, Client, ReadContractParameters, Transport } from "viem";
-import { readContract } from "viem/contract";
+import { readContract } from "viem/actions";
 import { solmateErc1155ABI as solmateERC1155ABI } from "../../generated.js";
 import type { BaseERC1155 } from "../types.js";
 

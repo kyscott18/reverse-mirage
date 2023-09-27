@@ -5,7 +5,7 @@ import type {
   ReadContractParameters,
   Transport,
 } from "viem";
-import { readContract } from "viem/contract";
+import { readContract } from "viem/actions";
 import { createAmountFromRaw } from "../../amount/utils.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
 import type { BaseERC20, ERC20Amount } from "../types.js";

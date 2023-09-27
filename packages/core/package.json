@@ -26,7 +26,12 @@
     "test:ci": "CI=true vitest --coverage",
     "test:cov": "vitest --coverage"
   },
-  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "web3"
+  ],
   "size-limit": [
     {
       "name": "reverse-mirage (cjs)",
@@ -61,14 +66,14 @@
     "@size-limit/preset-small-lib": "^9.0.0",
     "@uniswap/sdk-core": "^4.0.7",
     "@viem/anvil": "^0.0.6",
-    "@vitest/coverage-v8": "^0.34.4",
-    "bun": "^1.0.2",
+    "@vitest/coverage-v8": "^0.34.5",
+    "bun": "^1.0.3",
     "mitata": "^0.1.6",
     "size-limit": "^9.0.0",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
-    "viem": "^1.10.14",
-    "vitest": "^0.34.4"
+    "viem": "^1.12.2",
+    "vitest": "^0.34.5"
   },
   "packageManager": "pnpm@8.6.10"
 }
