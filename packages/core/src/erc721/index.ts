@@ -1,10 +1,10 @@
 export type {
+  BaseERC721,
   ERC721,
-  ERC721IDData,
   ERC721Data,
 } from "./types.js";
 
-export { createERC721, createERC721Data, createERC721IDData } from "./utils.js";
+export { createERC721, createERC721Data } from "./utils.js";
 
 export { solmateErc721ABI as solmateERC721ABI } from "../generated.js";
 
@@ -12,7 +12,6 @@ export { getERC721 } from "./publicActions/getERC721.js";
 export { getERC721Approved } from "./publicActions/getERC721Approved.js";
 export { getERC721BalanceOf } from "./publicActions/getERC721BalanceOf.js";
 export { getERC721Data } from "./publicActions/getERC721Data.js";
-export { getERC721IDData } from "./publicActions/getERC721IDData.js";
 export { getERC721IsApprovedForAll } from "./publicActions/getERC721IsApprovedForAll.js";
 export { getERC721Name } from "./publicActions/getERC721Name.js";
 export { getERC721Symbol } from "./publicActions/getERC721Symbol.js";

@@ -5,7 +5,7 @@ import type {
   SimulateContractReturnType,
   Transport,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { simulateContract } from "viem/actions";
 import type { ERC20Amount } from "../../erc20/types.js";
 import { weth9ABI } from "../../generated.js";
 import type { WETH } from "../types.js";

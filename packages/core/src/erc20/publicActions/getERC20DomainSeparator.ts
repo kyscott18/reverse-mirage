@@ -5,9 +5,8 @@ import type {
   ReadContractParameters,
   Transport,
 } from "viem";
-import { readContract } from "viem/contract";
+import { readContract } from "viem/actions";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC20 } from "../types.js";
 
 export type GetERC20DomainSeparatorParameters = Omit<
@@ -17,26 +16,13 @@ export type GetERC20DomainSeparatorParameters = Omit<
 
 export type GetERC20DomainSeparatorReturnType = Hex;
 
-export const getERC20DomainSeparator = <
-  TChain extends Chain | undefined,
-  T extends "select" | undefined,
->(
+export const getERC20DomainSeparator = <TChain extends Chain | undefined,>(
   client: Client<Transport, TChain>,
-  args: GetERC20DomainSeparatorParameters,
-  type?: T,
-): ReverseMirage<Hex, GetERC20DomainSeparatorReturnType, T> =>
-  (type === undefined
-    ? readContract(client, {
-        abi: solmateERC20ABI,
-        address: args.erc20.address,
-        functionName: "DOMAIN_SEPARATOR",
-      })
-    : {
-        read: () =>
-          readContract(client, {
-            abi: solmateERC20ABI,
-            address: args.erc20.address,
-            functionName: "DOMAIN_SEPARATOR",
-          }),
-        parse: (data) => data,
-      }) as ReverseMirage<Hex, GetERC20DomainSeparatorReturnType, T>;
+  { erc20, ...request }: GetERC20DomainSeparatorParameters,
+): Promise<GetERC20DomainSeparatorReturnType> =>
+  readContract(client, {
+    abi: solmateERC20ABI,
+    address: erc20.address,
+    functionName: "DOMAIN_SEPARATOR",
+    ...request,
+  });

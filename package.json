@@ -4,11 +4,10 @@
   "description": "",
   "private": true,
   "type": "module",
-  "workspaces": ["packages/*"],
   "scripts": {
     "install:packages": "pnpm --filter './packages/**' install",
     "preinstall": "npx -y only-allow pnpm",
-    "codegen": "pnpm wagmi generate",
+    "codegen": "wagmi generate",
     "changeset:publish": "pnpm codegen && pnpm build && pnpm changeset publish",
     "build": "pnpm --filter 'reverse-mirage' build && pnpm --filter !'reverse-mirage' build",
     "lint": "pnpm --parallel lint",
@@ -18,19 +17,19 @@
     "test:ci": "pnpm --parallel test:ci",
     "test:cov": "pnpm --parallel test:cov"
   },
-  "keywords": [],
-  "author": "",
-  "license": "MIT",
   "engines": {
     "node": ">=18",
     "pnpm": ">=8"
   },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "devDependencies": {
     "@biomejs/biome": "^1.2.2",
     "@changesets/cli": "^2.26.2",
-    "@wagmi/cli": "^1.5.0",
+    "@wagmi/cli": "^1.5.2",
     "husky": "^8.0.3",
     "typescript": "^5.2.2",
-    "vitepress": "1.0.0-rc.14"
+    "vitepress": "1.0.0-rc.20"
   }
 }

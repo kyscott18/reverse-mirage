@@ -27,14 +27,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
 
     const mintHash = await walletClient.writeContract({
       abi: erc721ABI,
@@ -56,17 +49,4 @@ test("read balance", async () => {
   });
   expect(data.balance).toBe(1);
   expect(data.ids).toBe(undefined);
-});
-
-test("read balance select", async () => {
-  const rm = getERC721Data(
-    publicClient,
-    {
-      erc721,
-      address: ALICE,
-    },
-    "select",
-  );
-
-  expect((await rm.read().then((data) => rm.parse(data))).balance).toBe(1);
 });

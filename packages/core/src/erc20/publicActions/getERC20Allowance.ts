@@ -5,10 +5,9 @@ import type {
   ReadContractParameters,
   Transport,
 } from "viem";
-import { readContract } from "viem/contract";
+import { readContract } from "viem/actions";
 import { createAmountFromRaw } from "../../amount/utils.js";
 import { solmateErc20ABI as solmateERC20ABI } from "../../generated.js";
-import type { ReverseMirage } from "../../types/rm.js";
 import type { BaseERC20, ERC20Amount } from "../types.js";
 
 export type GetERC20AllowanceParameters<TERC20 extends BaseERC20> = Omit<
@@ -22,26 +21,14 @@ export type GetERC20AllowanceReturnType<TERC20 extends BaseERC20> =
 export const getERC20Allowance = <
   TChain extends Chain | undefined,
   TERC20 extends BaseERC20,
-  T extends "select" | undefined,
 >(
   client: Client<Transport, TChain>,
-  args: GetERC20AllowanceParameters<TERC20>,
-  type?: T,
-): ReverseMirage<bigint, GetERC20AllowanceReturnType<TERC20>, T> =>
-  (type === undefined
-    ? readContract(client, {
-        abi: solmateERC20ABI,
-        address: args.erc20.address,
-        functionName: "allowance",
-        args: [args.owner, args.spender],
-      }).then((data) => createAmountFromRaw(args.erc20, data))
-    : {
-        read: () =>
-          readContract(client, {
-            abi: solmateERC20ABI,
-            address: args.erc20.address,
-            functionName: "allowance",
-            args: [args.owner, args.spender],
-          }),
-        parse: (data) => createAmountFromRaw(args.erc20, data),
-      }) as ReverseMirage<bigint, GetERC20AllowanceReturnType<TERC20>, T>;
+  { erc20, owner, spender, ...request }: GetERC20AllowanceParameters<TERC20>,
+): Promise<GetERC20AllowanceReturnType<TERC20>> =>
+  readContract(client, {
+    abi: solmateERC20ABI,
+    address: erc20.address,
+    functionName: "allowance",
+    args: [owner, spender],
+    ...request,
+  }).then((data) => createAmountFromRaw(erc20, data));

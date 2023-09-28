@@ -27,14 +27,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
   } else {
     await testClient.revert({ id });
   }
@@ -46,16 +39,4 @@ test("read name", async () => {
     erc721,
   });
   expect(name).toBe("name");
-});
-
-test("read name select", async () => {
-  const rm = getERC721Name(
-    publicClient,
-    {
-      erc721,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe("name");
 });

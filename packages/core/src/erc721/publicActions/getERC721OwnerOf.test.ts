@@ -27,14 +27,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
 
     const mintHash = await walletClient.writeContract({
       abi: erc721ABI,
@@ -52,18 +45,7 @@ beforeAll(async () => {
 test("read owner", async () => {
   const owner = await getERC721OwnerOf(publicClient, {
     erc721,
+    id: 0n,
   });
   expect(owner).toBe(ALICE);
-});
-
-test("read owner select", async () => {
-  const rm = getERC721OwnerOf(
-    publicClient,
-    {
-      erc721,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(ALICE);
 });

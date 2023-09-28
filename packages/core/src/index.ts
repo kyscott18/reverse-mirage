@@ -43,7 +43,7 @@ export {
   createERC20PermitDataFromRaw,
   createERC20PermitDataFromString,
   PermitType,
-  solmateERC20ABI,
+  solmateERC20ABI as erc20ABI,
   getERC20,
   getERC20Allowance,
   getERC20BalanceOf,
@@ -64,18 +64,16 @@ export {
 } from "./erc20/index.js";
 
 export {
+  type BaseERC721,
   type ERC721,
-  type ERC721IDData,
   type ERC721Data,
   createERC721,
   createERC721Data,
-  createERC721IDData,
-  solmateERC721ABI,
+  solmateERC721ABI as erc721ABI,
   getERC721,
   getERC721Approved,
   getERC721BalanceOf,
   getERC721Data,
-  getERC721IDData,
   getERC721IsApprovedForAll,
   getERC721Name,
   getERC721Symbol,
@@ -88,11 +86,12 @@ export {
 } from "./erc721/index.js";
 
 export {
+  type BaseERC1155,
   type ERC1155,
   type ERC1155Data,
   createERC1155,
   createERC1155Data,
-  solmateERC1155ABI,
+  solmateERC1155ABI as erc1155ABI,
   getERC1155,
   getERC1155BalanceOf,
   getERC1155IsApprovedForAll,
@@ -151,14 +150,10 @@ export {
 
 export type {
   BigIntIsh,
-  ReverseMirage,
-  ReverseMirageRead,
   Token,
   TokenData,
   Tuple,
 } from "./types/index.js";
-
-export { getQueryKey } from "./utils/index.js";
 
 export {
   type WETH,
@@ -167,3 +162,6 @@ export {
   simulateWETHDeposit,
   simulateWETHWithdraw,
 } from "./weth/index.js";
+
+export { publicActionReverseMirage } from "./decorator/publicActions.js";
+export { walletActionReverseMirage } from "./decorator/walletActions.js";

@@ -7,12 +7,13 @@ import type {
   SimulateContractReturnType,
   Transport,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { simulateContract } from "viem/actions";
 import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
-import type { ERC721 } from "../types.js";
+import type { BaseERC721 } from "../types.js";
 
 export type ERC721TransferParameters = {
-  erc721: Pick<ERC721, "address" | "id">;
+  erc721: Pick<BaseERC721, "address">;
+  id: bigint;
   from?: Address;
   to: Address;
   data?: "safe" | Hex;
@@ -47,7 +48,7 @@ export const simulateERC721Transfer = <
 >(
   client: Client<Transport, TChain>,
   {
-    args: { erc721, from, to, data },
+    args: { erc721, from, to, data, id },
     ...request
   }: SimulateERC721TransferParameters<TChain, TChainOverride>,
 ) =>
@@ -63,7 +64,7 @@ export const simulateERC721Transfer = <
               ? request.account.address
               : request.account))!,
           to,
-          erc721.id,
+          id,
         ],
         ...request,
       } as unknown as SimulateContractParameters<
@@ -84,7 +85,7 @@ export const simulateERC721Transfer = <
               ? request.account.address
               : request.account))!,
           to,
-          erc721.id,
+          id,
         ],
         ...request,
       } as unknown as SimulateContractParameters<
@@ -104,7 +105,7 @@ export const simulateERC721Transfer = <
               ? request.account.address
               : request.account))!,
           to,
-          erc721.id,
+          id,
           data,
         ],
         ...request,

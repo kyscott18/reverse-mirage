@@ -27,14 +27,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
   } else {
     await testClient.revert({ id });
   }
@@ -47,17 +40,4 @@ test("read supports interface", async () => {
     interfaceID: "0x01ffc9a7",
   });
   expect(symbol).toBe(true);
-});
-
-test("read supports interface select", async () => {
-  const rm = getERC721SupportsInterface(
-    publicClient,
-    {
-      erc721,
-      interfaceID: "0x01ffc9a7",
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toBe(true);
 });

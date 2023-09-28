@@ -4,32 +4,34 @@ import { defineConfig } from "vitepress";
 export default defineConfig({
   title: "Reverse Mirage",
   description: "Application level typescript utilities for Ethereum",
-  head: [["script", { src: "/_vercel/insights/script.js" }]],
+  head: [
+    ["script", { src: "https://cdn.vercel-insights.com/v1/script.debug.js" }],
+  ],
   themeConfig: {
     search: {
       provider: "local",
     },
 
     sidebar: [
+      { text: "Introduction", link: "/" },
       {
-        text: "Introduction",
+        text: "Overview",
         items: [
-          { text: "Getting started", link: "/" },
-          { text: "Installation", link: "/installation" },
+          { text: "Getting started", link: "/start" },
+          { text: "Benchmarks", link: "/benchmark" },
+          { text: "Examples", link: "/example" },
         ],
       },
       {
         text: "ERC20",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
-
           {
             text: "Utilities",
             items: [
               {
                 text: "createERC20",
-                link: "",
+                link: "/erc20/createERC20",
               },
               {
                 text: "createERC20Amount",
@@ -102,19 +104,19 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateERC20Transfer",
+                text: "writeERC20Transfer",
                 link: "",
               },
               {
-                text: "simulateERC20Approve",
+                text: "writeERC20Approve",
                 link: "",
               },
               {
-                text: "simulateERC20TransferFrom",
+                text: "writeERC20TransferFrom",
                 link: "",
               },
               {
-                text: "simulateERC20Permit",
+                text: "writeERC20Permit",
                 link: "",
               },
               {
@@ -129,7 +131,6 @@ export default defineConfig({
         text: "Native",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "Utilities",
             items: [
@@ -154,8 +155,6 @@ export default defineConfig({
         text: "WETH",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
-
           {
             text: "Utilities",
             items: [
@@ -169,11 +168,11 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateWETHDeposit",
+                text: "writeWETHDeposit",
                 link: "",
               },
               {
-                text: "simulateWETHWithdraw",
+                text: "writeWETHWithdraw",
                 link: "",
               },
             ],
@@ -184,7 +183,6 @@ export default defineConfig({
         text: "ERC721",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "Utilities",
             items: [
@@ -194,10 +192,6 @@ export default defineConfig({
               },
               {
                 text: "createERC721Data",
-                link: "",
-              },
-              {
-                text: "createERC721DataID",
                 link: "",
               },
             ],
@@ -245,25 +239,21 @@ export default defineConfig({
                 text: "getERC721Data",
                 link: "",
               },
-              {
-                text: "getERC721DataID",
-                link: "",
-              },
             ],
           },
           {
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateERC721Transfer",
+                text: "writeERC721Transfer",
                 link: "",
               },
               {
-                text: "simulateERC721Approve",
+                text: "writeERC721Approve",
                 link: "",
               },
               {
-                text: "simulateERC721SetApprovalForAll",
+                text: "writeERC721SetApprovalForAll",
                 link: "",
               },
             ],
@@ -274,7 +264,6 @@ export default defineConfig({
         text: "ERC1155",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "Utilities",
             items: [
@@ -313,15 +302,15 @@ export default defineConfig({
             text: "Wallet Actions",
             items: [
               {
-                text: "simulateERC1155Transfer",
+                text: "writeERC1155Transfer",
                 link: "",
               },
               {
-                text: "simulateERC1155TransferBatch",
+                text: "writeERC1155TransferBatch",
                 link: "",
               },
               {
-                text: "simulateERC1155SetApprovalForAll",
+                text: "writeERC1155SetApprovalForAll",
                 link: "",
               },
             ],
@@ -332,7 +321,6 @@ export default defineConfig({
         text: "Amount",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "createAmountFromString",
             link: "",
@@ -387,7 +375,6 @@ export default defineConfig({
         text: "Price",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "createPrice",
             link: "",
@@ -458,7 +445,6 @@ export default defineConfig({
         text: "Fraction",
         collapsed: true,
         items: [
-          { text: "Introduction", link: "" },
           {
             text: "createFraction",
             link: "",
@@ -516,15 +502,6 @@ export default defineConfig({
       {
         text: "Chains",
         link: "",
-      },
-      {
-        text: "Utilities",
-        items: [
-          {
-            text: "getQueryKey",
-            link: "",
-          },
-        ],
       },
     ],
 

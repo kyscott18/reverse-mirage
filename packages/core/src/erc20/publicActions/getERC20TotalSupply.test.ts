@@ -59,20 +59,3 @@ test("read total supply", async () => {
     true,
   );
 });
-
-test("read total supply select", async () => {
-  const rm = getERC20TotalSupply(
-    publicClient,
-    {
-      erc20,
-    },
-    "select",
-  );
-
-  expect(
-    amountEqualTo(
-      await rm.read().then((data) => rm.parse(data)),
-      createAmountFromString(erc20, "1"),
-    ),
-  ).toBe(true);
-});

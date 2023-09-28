@@ -6,12 +6,12 @@ import type {
   SimulateContractReturnType,
   Transport,
 } from "viem";
-import { simulateContract } from "viem/contract";
+import { simulateContract } from "viem/actions";
 import { solmateErc721ABI as solmateERC721 } from "../../generated.js";
-import type { ERC721 } from "../types.js";
+import type { BaseERC721 } from "../types.js";
 
 export type ERC721SetApprovalForAllParameters = {
-  erc721: Pick<ERC721, "address">;
+  erc721: Pick<BaseERC721, "address">;
   spender: Address;
   approved: boolean;
 };

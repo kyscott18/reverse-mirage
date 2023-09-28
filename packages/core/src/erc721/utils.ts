@@ -1,6 +1,7 @@
-import { type Address, getAddress } from "viem";
+import { type Address } from "viem";
+import { getAddress } from "viem/utils";
 import type { Tuple } from "../types/tuple.js";
-import type { ERC721, ERC721Data, ERC721IDData } from "./types.js";
+import type { BaseERC721, ERC721, ERC721Data } from "./types.js";
 
 /**
  * Creates an {@link ERC721}
@@ -9,8 +10,6 @@ export const createERC721 = (
   address: Address,
   name: string,
   symbol: string,
-  id: bigint,
-  tokenURI: string,
   chainID: number,
   blockCreated = 0n,
 ): ERC721 => ({
@@ -18,29 +17,15 @@ export const createERC721 = (
   address: getAddress(address),
   name,
   symbol,
-  id,
-  tokenURI,
   chainID,
   blockCreated,
-});
-
-/**
- * Creates an {@link ERC721IDData}
- */
-export const createERC721IDData = <TERC721 extends ERC721>(
-  erc721: TERC721,
-  owned: boolean,
-): ERC721IDData<TERC721> => ({
-  type: `${erc721.type as TERC721["type"]}IDData`,
-  token: erc721,
-  owned,
 });
 
 /**
  * Creates an {@link ERC721Data}
  */
 export const createERC721Data = <
-  TERC721 extends ERC721,
+  TERC721 extends BaseERC721,
   TBalance extends number,
 >(
   erc721: TERC721,

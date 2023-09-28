@@ -1,5 +1,48 @@
 # reverse-mirage
 
+## 1.0.0
+
+### Major Changes
+
+- 51e3d32: Restructure directory layout and extends viem client"
+
+### Patch Changes
+
+- ad4046c: Change wallet actions to write contract
+- 22f43d0: Update dependencies, revert simulate changes
+- 64ac88a: bug fixes
+- 89add6a: Add decorator to extend viem
+
+## 1.0.0-next.4
+
+### Patch Changes
+
+- 22f43d0: Update dependencies, revert simulate changes
+
+## 1.0.0-next.3
+
+### Patch Changes
+
+- ad4046c: Change wallet actions to write contract
+
+## 1.0.0-next.2
+
+### Patch Changes
+
+- 89add6a: Add decorator to extend viem
+
+## 1.0.0-next.1
+
+### Patch Changes
+
+- 64ac88a: bug fixes
+
+## 1.0.0-next.0
+
+### Major Changes
+
+- 51e3d32: Restructure directory layout and extends viem client"
+
 ## 0.1.11
 
 ### Patch Changes

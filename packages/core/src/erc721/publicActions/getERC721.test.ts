@@ -27,14 +27,7 @@ beforeAll(async () => {
       hash: deployHash,
     });
     invariant(contractAddress);
-    erc721 = createERC721(
-      contractAddress,
-      "name",
-      "symbol",
-      0n,
-      "mitch.com",
-      foundry.id,
-    );
+    erc721 = createERC721(contractAddress, "name", "symbol", foundry.id);
   } else {
     await testClient.revert({ id });
   }
@@ -46,16 +39,4 @@ test("read erc721", async () => {
     erc721,
   });
   expect(_erc721).toStrictEqual(erc721);
-});
-
-test("read erc721 select", async () => {
-  const rm = getERC721(
-    publicClient,
-    {
-      erc721,
-    },
-    "select",
-  );
-
-  expect(await rm.read().then((data) => rm.parse(data))).toStrictEqual(erc721);
 });
