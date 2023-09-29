@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.1
+
+### Patch Changes
+
+- 041bcc9: Bump deps and don't minify
+
 ## 1.0.0
 
 ### Major Changes
