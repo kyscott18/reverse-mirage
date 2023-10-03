@@ -1,5 +1,12 @@
 # reverse-mirage-next-example
 
+## 0.1.3
+
+### Patch Changes
+
+- Updated dependencies [aef4b34]
+  - reverse-mirage@1.0.2
+
 ## 0.1.2
 
 ### Patch Changes
