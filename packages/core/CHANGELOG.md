@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.2
+
+### Patch Changes
+
+- aef4b34: Update packages
+
 ## 1.0.1
 
 ### Patch Changes
