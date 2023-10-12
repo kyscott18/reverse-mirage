@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.0.3
+
+### Patch Changes
+
+- b9090d2: Update dependencies
+
 ## 1.0.2
 
 ### Patch Changes
