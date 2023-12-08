@@ -22,7 +22,7 @@ Building blocks for Ethereum app development. Built using [Viem](https://viem.sh
 ```ts
 import { createPublicClient, http } from 'viem'
 import { mainnet } from 'viem/chains'
-import { publicActionsReverseMirage, amountToNumber } from 'reverse-mirage'
+import { publicActionReverseMirage, amountToNumber } from 'reverse-mirage'
 
 export const publicClient = createPublicClient({
   chain: mainnet,
