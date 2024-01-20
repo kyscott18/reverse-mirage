@@ -1,6 +1,6 @@
 # Examples
 
-A [beta interface](https://github.com/kyscott18/reverse-mirage/tree/v1/examples/next-interface) has been built using `reverse-mirage`.
+A [beta interface](https://github.com/kyscott18/reverse-mirage/tree/main/examples/next-interface) has been built using `reverse-mirage`.
 
 ## Features
 
