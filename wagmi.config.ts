@@ -13,7 +13,7 @@ export default defineConfig([
     ],
   },
   {
-    out: "packages/core/src/generated.ts",
+    out: "src/generated.ts",
     contracts: [],
     plugins: [
       foundry({

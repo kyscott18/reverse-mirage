@@ -1,0 +1,55 @@
+{
+  "name": "reverse-mirage",
+  "version": "1.0.3",
+  "description": "Application level typescript utilities for Ethereum",
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typings": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "!dist/**/*.tsbuildinfo",
+    "src/**/*.ts",
+    "!src/**/*.test.ts",
+    "!src/**/*.bench.ts",
+    "!src/_test/**/*"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest",
+    "test:cov": "vitest --coverage"
+  },
+  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "size-limit": [
+    {
+      "name": "reverse-mirage (cjs)",
+      "path": "./dist/index.cjs",
+      "limit": "7 kB"
+    },
+    {
+      "name": "reverse-mirage",
+      "path": "./dist/index.js",
+      "limit": "7 kB",
+      "import": "*"
+    }
+  ],
+  "author": "Kyle Scott",
+  "license": "MIT",
+  "repository": "kyscott18/reverse-mirage",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "packageManager": "pnpm@8.6.10"
+}
