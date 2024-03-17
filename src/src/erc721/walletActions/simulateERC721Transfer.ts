@@ -22,15 +22,6 @@ export type ERC721TransferParameters = {
 };
 
 export type SimulateERC721TransferParameters<
-  args extends ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "transferFrom"
-  > = ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "transferFrom"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
   accountOverride extends Account | Address | undefined =
@@ -41,7 +32,11 @@ export type SimulateERC721TransferParameters<
   SimulateContractParameters<
     typeof solmateERC721Abi,
     "transferFrom",
-    args,
+    ContractFunctionArgs<
+      typeof solmateERC721Abi,
+      "nonpayable" | "payable",
+      "transferFrom"
+    >,
     chain,
     chainOverride,
     accountOverride
@@ -50,15 +45,6 @@ export type SimulateERC721TransferParameters<
 > & { args: ERC721TransferParameters };
 
 export type SimulateERC721TransferReturnType<
-  args extends ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "transferFrom"
-  > = ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "transferFrom"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   account extends Account | undefined = Account | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
@@ -69,7 +55,11 @@ export type SimulateERC721TransferReturnType<
 > = SimulateContractReturnType<
   typeof solmateERC721Abi,
   "transferFrom",
-  args,
+  ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "transferFrom"
+  >,
   chain,
   account,
   chainOverride,
@@ -77,36 +67,18 @@ export type SimulateERC721TransferReturnType<
 >;
 
 export const simulateERC721Transfer = <
-  args extends ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "transferFrom"
-  > = ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "transferFrom"
-  >,
-  chain extends Chain | undefined = Chain | undefined,
-  account extends Account | undefined = Account | undefined,
-  chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined =
-    | Account
-    | Address
-    | undefined,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
   client: Client<Transport, chain, account>,
   {
     args: { erc721, from, to, data, id },
     ...request
-  }: SimulateERC721TransferParameters<
-    args,
-    chain,
-    chainOverride,
-    accountOverride
-  >,
+  }: SimulateERC721TransferParameters<chain, chainOverride, accountOverride>,
 ): Promise<
   SimulateERC721TransferReturnType<
-    args,
     chain,
     account,
     chainOverride,
@@ -131,7 +103,11 @@ export const simulateERC721Transfer = <
       } as unknown as SimulateContractParameters<
         typeof solmateERC721Abi,
         "transferFrom",
-        args,
+        ContractFunctionArgs<
+          typeof solmateERC721Abi,
+          "nonpayable" | "payable",
+          "transferFrom"
+        >,
         chain,
         chainOverride,
         accountOverride
@@ -154,7 +130,11 @@ export const simulateERC721Transfer = <
         } as unknown as SimulateContractParameters<
           typeof solmateERC721Abi,
           "transferFrom",
-          args,
+          ContractFunctionArgs<
+            typeof solmateERC721Abi,
+            "nonpayable" | "payable",
+            "transferFrom"
+          >,
           chain,
           chainOverride,
           accountOverride
@@ -177,7 +157,11 @@ export const simulateERC721Transfer = <
         } as unknown as SimulateContractParameters<
           typeof solmateERC721Abi,
           "transferFrom",
-          args,
+          ContractFunctionArgs<
+            typeof solmateERC721Abi,
+            "nonpayable" | "payable",
+            "transferFrom"
+          >,
           chain,
           chainOverride,
           accountOverride

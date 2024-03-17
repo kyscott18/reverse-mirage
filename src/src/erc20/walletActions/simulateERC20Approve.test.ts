@@ -1,5 +1,5 @@
 import invariant from "tiny-invariant";
-import { type Hex } from "viem";
+import type { Hex } from "viem";
 import { foundry } from "viem/chains";
 import { beforeEach, expect, test } from "vitest";
 import ERC20PermitBytecode from "../../../../contracts/out/ERC20Permit.sol/ERC20Permit.json";

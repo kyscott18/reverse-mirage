@@ -1,13 +1,15 @@
 import type {
+  Account,
   Address,
   Chain,
   Client,
+  ContractFunctionArgs,
   SimulateContractParameters,
   SimulateContractReturnType,
   Transport,
 } from "viem";
 import { simulateContract } from "viem/actions";
-import { solmateErc1155Abi as solmateERC1155 } from "../../generated.js";
+import { solmateErc1155Abi as solmateERC1155Abi } from "../../generated.js";
 import type { BaseERC1155 } from "../types.js";
 
 export type ERC1155SetApprovalForAllParameters = {
@@ -17,49 +19,88 @@ export type ERC1155SetApprovalForAllParameters = {
 };
 
 export type SimulateERC1155SetApprovalForAllParameters<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
+  chain extends Chain | undefined = Chain | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = Omit<
   SimulateContractParameters<
-    typeof solmateERC1155,
+    typeof solmateERC1155Abi,
     "setApprovalForAll",
-    TChain,
-    TChainOverride
+    ContractFunctionArgs<
+      typeof solmateERC1155Abi,
+      "nonpayable" | "payable",
+      "setApprovalForAll"
+    >,
+    chain,
+    chainOverride,
+    accountOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC1155SetApprovalForAllParameters };
 
 export type SimulateERC1155SetApprovalForAllReturnType<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
+  chain extends Chain | undefined = Chain | undefined,
+  account extends Account | undefined = Account | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = SimulateContractReturnType<
-  typeof solmateERC1155,
+  typeof solmateERC1155Abi,
   "setApprovalForAll",
-  TChain,
-  TChainOverride
+  ContractFunctionArgs<
+    typeof solmateERC1155Abi,
+    "nonpayable" | "payable",
+    "setApprovalForAll"
+  >,
+  chain,
+  account,
+  chainOverride,
+  accountOverride
 >;
 
 export const simulateERC1155SetApprovalForAll = <
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, chain, account>,
   {
     args: { erc1155, spender, approved },
     ...request
-  }: SimulateERC1155SetApprovalForAllParameters<TChain, TChainOverride>,
+  }: SimulateERC1155SetApprovalForAllParameters<
+    chain,
+    chainOverride,
+    accountOverride
+  >,
 ): Promise<
-  SimulateERC1155SetApprovalForAllReturnType<TChain, TChainOverride>
+  SimulateERC1155SetApprovalForAllReturnType<
+    chain,
+    account,
+    chainOverride,
+    accountOverride
+  >
 > =>
   simulateContract(client, {
     address: erc1155.address,
-    abi: solmateERC1155,
+    abi: solmateERC1155Abi,
     functionName: "setApprovalForAll",
     args: [spender, approved],
     ...request,
   } as unknown as SimulateContractParameters<
-    typeof solmateERC1155,
+    typeof solmateERC1155Abi,
     "setApprovalForAll",
-    TChain,
-    TChainOverride
+    ContractFunctionArgs<
+      typeof solmateERC1155Abi,
+      "nonpayable" | "payable",
+      "setApprovalForAll"
+    >,
+    chain,
+    chainOverride,
+    accountOverride
   >);

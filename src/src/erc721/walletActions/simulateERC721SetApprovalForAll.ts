@@ -19,15 +19,6 @@ export type ERC721SetApprovalForAllParameters = {
 };
 
 export type SimulateERC721SetApprovalForAllParameters<
-  args extends ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "setApprovalForAll"
-  > = ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "setApprovalForAll"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
   accountOverride extends Account | Address | undefined =
@@ -38,7 +29,11 @@ export type SimulateERC721SetApprovalForAllParameters<
   SimulateContractParameters<
     typeof solmateERC721Abi,
     "setApprovalForAll",
-    args,
+    ContractFunctionArgs<
+      typeof solmateERC721Abi,
+      "nonpayable" | "payable",
+      "setApprovalForAll"
+    >,
     chain,
     chainOverride,
     accountOverride
@@ -47,15 +42,6 @@ export type SimulateERC721SetApprovalForAllParameters<
 > & { args: ERC721SetApprovalForAllParameters };
 
 export type SimulateERC721SetApprovalForAllReturnType<
-  args extends ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "setApprovalForAll"
-  > = ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "setApprovalForAll"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   account extends Account | undefined = Account | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
@@ -66,7 +52,11 @@ export type SimulateERC721SetApprovalForAllReturnType<
 > = SimulateContractReturnType<
   typeof solmateERC721Abi,
   "setApprovalForAll",
-  args,
+  ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "setApprovalForAll"
+  >,
   chain,
   account,
   chainOverride,
@@ -74,36 +64,22 @@ export type SimulateERC721SetApprovalForAllReturnType<
 >;
 
 export const simulateERC721SetApprovalForAll = <
-  args extends ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "setApprovalForAll"
-  > = ContractFunctionArgs<
-    typeof solmateERC721Abi,
-    "nonpayable" | "payable",
-    "setApprovalForAll"
-  >,
-  chain extends Chain | undefined = Chain | undefined,
-  account extends Account | undefined = Account | undefined,
-  chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined =
-    | Account
-    | Address
-    | undefined,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
   client: Client<Transport, chain, account>,
   {
     args: { erc721, spender, approved },
     ...request
   }: SimulateERC721SetApprovalForAllParameters<
-    args,
     chain,
     chainOverride,
     accountOverride
   >,
 ): Promise<
   SimulateERC721SetApprovalForAllReturnType<
-    args,
     chain,
     account,
     chainOverride,
@@ -119,7 +95,11 @@ export const simulateERC721SetApprovalForAll = <
   } as unknown as SimulateContractParameters<
     typeof solmateERC721Abi,
     "setApprovalForAll",
-    args,
+    ContractFunctionArgs<
+      typeof solmateERC721Abi,
+      "nonpayable" | "payable",
+      "setApprovalForAll"
+    >,
     chain,
     chainOverride,
     accountOverride

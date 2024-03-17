@@ -1,7 +1,9 @@
 import {
+  type Account,
   type Address,
   type Chain,
   type Client,
+  type ContractFunctionArgs,
   type Hex,
   type SimulateContractParameters,
   type SimulateContractReturnType,
@@ -9,7 +11,7 @@ import {
   getAddress,
 } from "viem";
 import { simulateContract } from "viem/actions";
-import { solmateErc1155Abi as solmateERC1155 } from "../../generated.js";
+import { solmateErc1155Abi as solmateERC1155Abi } from "../../generated.js";
 import type { BaseERC1155, ERC1155Data } from "../types.js";
 
 export type ERC1155TransferBatchParameters = {
@@ -20,50 +22,85 @@ export type ERC1155TransferBatchParameters = {
 };
 
 export type SimulateERC1155TransferBatchParameters<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
+  chain extends Chain | undefined = Chain | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = Omit<
   SimulateContractParameters<
-    typeof solmateERC1155,
+    typeof solmateERC1155Abi,
     "safeBatchTransferFrom",
-    TChain,
-    TChainOverride
+    ContractFunctionArgs<
+      typeof solmateERC1155Abi,
+      "nonpayable" | "payable",
+      "safeBatchTransferFrom"
+    >,
+    chain,
+    chainOverride,
+    accountOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC1155TransferBatchParameters };
 
 export type SimulateERC1155TransferBatchReturnType<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
+  chain extends Chain | undefined = Chain | undefined,
+  account extends Account | undefined = Account | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = SimulateContractReturnType<
-  typeof solmateERC1155,
+  typeof solmateERC1155Abi,
   "safeBatchTransferFrom",
-  TChain,
-  TChainOverride
+  ContractFunctionArgs<
+    typeof solmateERC1155Abi,
+    "nonpayable" | "payable",
+    "safeBatchTransferFrom"
+  >,
+  chain,
+  account,
+  chainOverride,
+  accountOverride
 >;
 
 export const simulateERC1155TransferBatch = <
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, chain, account>,
   {
     args: { erc1155Data, to, from, data },
     ...request
-  }: SimulateERC1155TransferBatchParameters<TChain, TChainOverride>,
-): Promise<SimulateERC1155TransferBatchReturnType<TChain, TChainOverride>> => {
+  }: SimulateERC1155TransferBatchParameters<
+    chain,
+    chainOverride,
+    accountOverride
+  >,
+): Promise<
+  SimulateERC1155TransferBatchReturnType<
+    chain,
+    account,
+    chainOverride,
+    accountOverride
+  >
+> => {
   const address = erc1155Data.reduce((addr: Address | undefined, cur) => {
     if (addr === undefined) return getAddress(cur.token.address);
-    else if (addr !== getAddress(cur.token.address))
+    if (addr !== getAddress(cur.token.address))
       throw Error("Tokens refering to different addresses");
-    else return addr;
+    return addr;
   }, undefined);
 
   if (address === undefined) throw Error("No tokens passed to transfer");
 
   return simulateContract(client, {
     address,
-    abi: solmateERC1155,
+    abi: solmateERC1155Abi,
     functionName: "safeBatchTransferFrom",
     args: [
       (from ??
@@ -78,9 +115,15 @@ export const simulateERC1155TransferBatch = <
     ],
     ...request,
   } as unknown as SimulateContractParameters<
-    typeof solmateERC1155,
+    typeof solmateERC1155Abi,
     "safeBatchTransferFrom",
-    TChain,
-    TChainOverride
+    ContractFunctionArgs<
+      typeof solmateERC1155Abi,
+      "nonpayable" | "payable",
+      "safeBatchTransferFrom"
+    >,
+    chain,
+    chainOverride,
+    accountOverride
   >);
 };

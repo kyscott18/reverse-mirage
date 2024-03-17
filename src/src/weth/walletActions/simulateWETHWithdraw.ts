@@ -16,23 +16,17 @@ import type { WETH } from "../types.js";
 export type WETHWithdrawParameters = { amount: ERC20Amount<WETH> };
 
 export type SimulateWETHWithdrawParameters<
-  args extends ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "withdraw"
-  > = ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "withdraw"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined = Account | Address,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = Omit<
   SimulateContractParameters<
     typeof weth9Abi,
     "withdraw",
-    args,
+    ContractFunctionArgs<typeof weth9Abi, "nonpayable" | "payable", "withdraw">,
     chain,
     chainOverride,
     accountOverride
@@ -41,15 +35,6 @@ export type SimulateWETHWithdrawParameters<
 > & { args: WETHWithdrawParameters };
 
 export type SimulateWETHWithdrawReturnType<
-  args extends ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "withdraw"
-  > = ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "withdraw"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   account extends Account | undefined = Account | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
@@ -57,7 +42,7 @@ export type SimulateWETHWithdrawReturnType<
 > = SimulateContractReturnType<
   typeof weth9Abi,
   "withdraw",
-  args,
+  ContractFunctionArgs<typeof weth9Abi, "nonpayable" | "payable", "withdraw">,
   chain,
   account,
   chainOverride,
@@ -65,38 +50,18 @@ export type SimulateWETHWithdrawReturnType<
 >;
 
 export const simulateWETHWithdraw = <
-  args extends ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "withdraw"
-  > = ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "withdraw"
-  >,
-  chain extends Chain | undefined = Chain | undefined,
-  account extends Account | undefined = Account | undefined,
-  chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined = Account | Address,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
   client: Client<Transport, chain, account>,
   {
     args: { amount },
     ...request
-  }: SimulateWETHWithdrawParameters<
-    args,
-    chain,
-    chainOverride,
-    accountOverride
-  >,
+  }: SimulateWETHWithdrawParameters<chain, chainOverride, accountOverride>,
 ): Promise<
-  SimulateWETHWithdrawReturnType<
-    args,
-    chain,
-    account,
-    chainOverride,
-    accountOverride
-  >
+  SimulateWETHWithdrawReturnType<chain, account, chainOverride, accountOverride>
 > =>
   simulateContract(client, {
     address: amount.token.address,
@@ -107,7 +72,7 @@ export const simulateWETHWithdraw = <
   } as unknown as SimulateContractParameters<
     typeof weth9Abi,
     "withdraw",
-    args,
+    ContractFunctionArgs<typeof weth9Abi, "nonpayable" | "payable", "withdraw">,
     chain,
     chainOverride,
     accountOverride

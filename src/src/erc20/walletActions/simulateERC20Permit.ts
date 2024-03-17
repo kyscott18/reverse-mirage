@@ -1,7 +1,9 @@
 import type {
+  Account,
   Address,
   Chain,
   Client,
+  ContractFunctionArgs,
   Hex,
   SimulateContractParameters,
   SimulateContractReturnType,
@@ -20,38 +22,64 @@ export type ERC20PermitParameters = {
 };
 
 export type SimulateERC20PermitParameters<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
+  chain extends Chain | undefined = Chain | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = Omit<
   SimulateContractParameters<
     typeof solmateERC20Abi,
     "permit",
-    TChain,
-    TChainOverride
+    ContractFunctionArgs<
+      typeof solmateERC20Abi,
+      "nonpayable" | "payable",
+      "permit"
+    >,
+    chain,
+    chainOverride,
+    accountOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC20PermitParameters };
 
 export type SimulateERC20PermitReturnType<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
+  chain extends Chain | undefined = Chain | undefined,
+  account extends Account | undefined = Account | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = SimulateContractReturnType<
   typeof solmateERC20Abi,
   "permit",
-  TChain,
-  TChainOverride
+  ContractFunctionArgs<
+    typeof solmateERC20Abi,
+    "nonpayable" | "payable",
+    "permit"
+  >,
+  chain,
+  account,
+  chainOverride,
+  accountOverride
 >;
 
 export const simulateERC20Permit = <
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, chain, account>,
   {
     args: { owner, spender, signature, permitData, deadline },
     ...request
-  }: SimulateERC20PermitParameters<TChain, TChainOverride>,
-): Promise<SimulateERC20PermitReturnType<TChain, TChainOverride>> => {
+  }: SimulateERC20PermitParameters<chain, chainOverride, accountOverride>,
+): Promise<
+  SimulateERC20PermitReturnType<chain, account, chainOverride, accountOverride>
+> => {
   const r = `0x${signature.substring(2, 2 + 64)}` as const;
   const s = `0x${signature.substring(2 + 64, 2 + 64 + 64)}` as const;
   const v = Number(`0x${signature.substring(2 + 64 + 64)}`);
@@ -65,7 +93,13 @@ export const simulateERC20Permit = <
   } as unknown as SimulateContractParameters<
     typeof solmateERC20Abi,
     "permit",
-    TChain,
-    TChainOverride
+    ContractFunctionArgs<
+      typeof solmateERC20Abi,
+      "nonpayable" | "payable",
+      "permit"
+    >,
+    chain,
+    chainOverride,
+    accountOverride
   >);
 };

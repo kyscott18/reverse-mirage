@@ -16,23 +16,17 @@ import type { WETH } from "../types.js";
 export type WETHDepositParameters = { amount: ERC20Amount<WETH> };
 
 export type SimulateWETHDepositParameters<
-  args extends ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "deposit"
-  > = ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "deposit"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined = Account | Address,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = Omit<
   SimulateContractParameters<
     typeof weth9Abi,
     "deposit",
-    args,
+    ContractFunctionArgs<typeof weth9Abi, "nonpayable" | "payable", "deposit">,
     chain,
     chainOverride,
     accountOverride
@@ -41,23 +35,17 @@ export type SimulateWETHDepositParameters<
 > & { args: WETHDepositParameters };
 
 export type SimulateWETHDepositReturnType<
-  args extends ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "deposit"
-  > = ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "deposit"
-  >,
   chain extends Chain | undefined = Chain | undefined,
   account extends Account | undefined = Account | undefined,
   chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined = Account | Address,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = SimulateContractReturnType<
   typeof weth9Abi,
   "deposit",
-  args,
+  ContractFunctionArgs<typeof weth9Abi, "nonpayable" | "payable", "deposit">,
   chain,
   account,
   chainOverride,
@@ -65,33 +53,18 @@ export type SimulateWETHDepositReturnType<
 >;
 
 export const simulateWETHDeposit = <
-  args extends ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "deposit"
-  > = ContractFunctionArgs<
-    typeof weth9Abi,
-    "nonpayable" | "payable",
-    "deposit"
-  >,
-  chain extends Chain | undefined = Chain | undefined,
-  account extends Account | undefined = Account | undefined,
-  chainOverride extends Chain | undefined = Chain | undefined,
-  accountOverride extends Account | Address | undefined = Account | Address,
+  chain extends Chain | undefined,
+  account extends Account | undefined,
+  chainOverride extends Chain | undefined = undefined,
+  accountOverride extends Account | Address | undefined = undefined,
 >(
   client: Client<Transport, chain, account>,
   {
     args: { amount },
     ...request
-  }: SimulateWETHDepositParameters<args, chain, chainOverride, accountOverride>,
+  }: SimulateWETHDepositParameters<chain, chainOverride, accountOverride>,
 ): Promise<
-  SimulateWETHDepositReturnType<
-    args,
-    chain,
-    account,
-    chainOverride,
-    accountOverride
-  >
+  SimulateWETHDepositReturnType<chain, account, chainOverride, accountOverride>
 > =>
   simulateContract(client, {
     address: amount.token.address,
@@ -102,7 +75,7 @@ export const simulateWETHDeposit = <
   } as unknown as SimulateContractParameters<
     typeof weth9Abi,
     "deposit",
-    args,
+    ContractFunctionArgs<typeof weth9Abi, "nonpayable" | "payable", "deposit">,
     chain,
     chainOverride,
     accountOverride
