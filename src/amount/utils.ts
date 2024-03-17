@@ -9,6 +9,26 @@ export const scaleUp = (token: Amount["token"], amount: bigint) =>
 export const scaleDown = (token: Amount["token"], amount: bigint) =>
   token.decimals ? amount / 10n ** BigInt(token.decimals) : amount;
 
+const isTokenEqual = (a: Amount["token"], b: Amount["token"]) => {
+  if (a === b) return true;
+
+  const keysA = Object.keys(a).sort();
+  const keysB = Object.keys(b).sort();
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (let i = 0; i < keysA.length; i++) {
+    if (keysA[i] !== keysB[i]) return false;
+    if (
+      a[keysA[i] as keyof Amount["token"]]! !==
+      b[keysB[i] as keyof Amount["token"]]
+    )
+      return false;
+  }
+
+  return true;
+};
+
 /**
  * Returns true if {@link x} is of type {@link Amount}
  */
@@ -62,8 +82,8 @@ export const amountAdd = <TAmount extends Amount>(
     : never,
 ): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot add amounts of two different tokens.");
   }
 
   return isAmount(b)
@@ -81,8 +101,8 @@ export const amountSubtract = <TAmount extends Amount>(
     : never,
 ): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot subtract amounts of two different tokens.");
   }
 
   return isAmount(b)
@@ -100,8 +120,8 @@ export const amountMultiply = <TAmount extends Amount>(
     : never,
 ): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot multiply amounts of two different tokens.");
   }
 
   return isAmount(b)
@@ -119,8 +139,8 @@ export const amountDivide = <TAmount extends Amount>(
     : never,
 ): Omit<TAmount, "amount"> & { amount: bigint } => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot divide amounts of two different tokens.");
   }
 
   return isAmount(b)
@@ -138,8 +158,8 @@ export const amountLessThan = <TAmount extends Amount>(
     : never,
 ): boolean => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot compare amounts of two different tokens.");
   }
 
   return isAmount(b)
@@ -157,8 +177,8 @@ export const amountEqualTo = <TAmount extends Amount>(
     : never,
 ): boolean => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot compare amounts of two different tokens.");
   }
 
   return isAmount(b)
@@ -176,8 +196,8 @@ export const amountGreaterThan = <TAmount extends Amount>(
     : never,
 ): boolean => {
   if (isAmount(b)) {
-    // TODO(kyle)
-    // invariant(a.token === b.token);
+    if (!isTokenEqual(a.token, b.token))
+      throw Error("Cannot compare amounts of two different tokens.");
   }
 
   return isAmount(b)
