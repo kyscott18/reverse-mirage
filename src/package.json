@@ -46,6 +46,10 @@
       "default": "./dist/index.cjs"
     }
   },
+  "peerDependencies": {
+    "typescript": ">=5.0.4",
+    "viem": ">=2"
+  },
   "peerDependenciesMeta": {
     "typescript": {
       "optional": true
