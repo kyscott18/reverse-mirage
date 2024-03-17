@@ -11,10 +11,10 @@
   "files": [
     "dist",
     "!dist/**/*.tsbuildinfo",
-    "src/**/*.ts",
-    "!src/**/*.test.ts",
-    "!src/**/*.bench.ts",
-    "!src/_test/**/*"
+    "**/*.ts",
+    "!**/*.test.ts",
+    "!**/*.bench.ts",
+    "!_test/**/*"
   ],
   "scripts": {
     "build": "tsup",

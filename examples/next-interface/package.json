@@ -6,8 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "format": "biome format . --write",
-    "lint": "biome check .",
     "typecheck": "tsc"
   },
   "dependencies": {

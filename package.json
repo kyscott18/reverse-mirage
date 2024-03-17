@@ -26,7 +26,8 @@
       "ignoreMissing": [
         "@algolia/client-search",
         "search-insights",
-        "@babel/core"
+        "@babel/core",
+        "react-native"
       ]
     }
   },

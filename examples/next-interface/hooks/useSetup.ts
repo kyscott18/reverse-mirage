@@ -4,7 +4,7 @@ import { testClient, walletClient } from "@/pages/_app";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createERC20 } from "reverse-mirage";
 import invariant from "tiny-invariant";
-import { type Hex } from "viem";
+import type { Hex } from "viem";
 import { parseEther } from "viem/utils";
 import { useChainId, usePublicClient } from "wagmi";
 import ERC20 from "../../../contracts/out/ERC20.sol/ERC20.json";

@@ -7,21 +7,20 @@ import {
   getERC20BalanceOf,
   simulateERC20Transfer,
 } from "reverse-mirage";
+import type { Address } from "viem";
 import { getAddress } from "viem/utils";
-import { type Address, useWalletClient } from "wagmi";
+import { useChainId, usePublicClient, useWalletClient } from "wagmi";
 import type { HookArg } from "./internal/types";
-import { useFastClient } from "./internal/useFastClient";
 import { getQueryKey } from "./internal/utils";
-import { useChainID } from "./useChain";
 
 export const useTransfer = <TERC20 extends BaseERC20>(
   amount: HookArg<ERC20Amount<TERC20>>,
   to: HookArg<Address>,
 ) => {
   const queryClient = useQueryClient();
-  const client = useFastClient();
+  const client = usePublicClient();
   const walletClient = useWalletClient();
-  const chainID = useChainID();
+  const chainID = useChainId();
 
   const title = "Transfer";
 
@@ -94,5 +93,5 @@ export const useTransfer = <TERC20 extends BaseERC20>(
         },
       ],
     } as const satisfies { data: readonly BeetStage[]; status: "success" };
-  }, [to, amount, mutate]);
+  }, [to, amount, mutate, walletClient.data]);
 };
