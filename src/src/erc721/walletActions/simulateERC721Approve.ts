@@ -1,13 +1,15 @@
 import type {
+  Account,
   Address,
   Chain,
   Client,
+  ContractFunctionArgs,
   SimulateContractParameters,
   SimulateContractReturnType,
   Transport,
 } from "viem";
 import { simulateContract } from "viem/actions";
-import { solmateErc721Abi as solmateERC721 } from "../../generated.js";
+import { solmateErc721Abi as solmateERC721Abi } from "../../generated.js";
 import type { BaseERC721 } from "../types.js";
 
 export type ERC721ApproveParameters = {
@@ -17,47 +19,108 @@ export type ERC721ApproveParameters = {
 };
 
 export type SimulateERC721ApproveParameters<
-  TChain extends Chain | undefined = Chain,
-  TChainOverride extends Chain | undefined = Chain | undefined,
+  args extends ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "approve"
+  > = ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "approve"
+  >,
+  chain extends Chain | undefined = Chain | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = Omit<
   SimulateContractParameters<
-    typeof solmateERC721,
+    typeof solmateERC721Abi,
     "approve",
-    TChain,
-    TChainOverride
+    args,
+    chain,
+    chainOverride,
+    accountOverride
   >,
   "args" | "address" | "abi" | "functionName"
 > & { args: ERC721ApproveParameters };
 
 export type SimulateERC721ApproveReturnType<
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined = undefined,
+  args extends ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "approve"
+  > = ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "approve"
+  >,
+  chain extends Chain | undefined = Chain | undefined,
+  account extends Account | undefined = Account | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 > = SimulateContractReturnType<
-  typeof solmateERC721,
+  typeof solmateERC721Abi,
   "approve",
-  TChain,
-  TChainOverride
+  args,
+  chain,
+  account,
+  chainOverride,
+  accountOverride
 >;
 
 export const simulateERC721Approve = <
-  TChain extends Chain | undefined,
-  TChainOverride extends Chain | undefined,
+  args extends ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "approve"
+  > = ContractFunctionArgs<
+    typeof solmateERC721Abi,
+    "nonpayable" | "payable",
+    "approve"
+  >,
+  chain extends Chain | undefined = Chain | undefined,
+  account extends Account | undefined = Account | undefined,
+  chainOverride extends Chain | undefined = Chain | undefined,
+  accountOverride extends Account | Address | undefined =
+    | Account
+    | Address
+    | undefined,
 >(
-  client: Client<Transport, TChain>,
+  client: Client<Transport, chain, account>,
   {
     args: { erc721, spender, id },
     ...request
-  }: SimulateERC721ApproveParameters<TChain, TChainOverride>,
-): Promise<SimulateERC721ApproveReturnType<TChain, TChainOverride>> =>
+  }: SimulateERC721ApproveParameters<
+    args,
+    chain,
+    chainOverride,
+    accountOverride
+  >,
+): Promise<
+  SimulateERC721ApproveReturnType<
+    args,
+    chain,
+    account,
+    chainOverride,
+    accountOverride
+  >
+> =>
   simulateContract(client, {
     address: erc721.address,
-    abi: solmateERC721,
+    abi: solmateERC721Abi,
     functionName: "approve",
     args: [spender, id],
     ...request,
   } as unknown as SimulateContractParameters<
-    typeof solmateERC721,
+    typeof solmateERC721Abi,
     "approve",
-    TChain,
-    TChainOverride
+    args,
+    chain,
+    chainOverride,
+    accountOverride
   >);
