@@ -5,7 +5,7 @@ import type {
   ReadContractParameters,
   Transport,
 } from "viem";
-import { solmateErc721Abi as solmateERC721Abi } from "../../generated.js";
+import type { solmateErc721Abi as solmateERC721Abi } from "../../generated.js";
 import type { BaseERC721, ERC721Data } from "../types.js";
 import { createERC721Data } from "../utils.js";
 import { getERC721BalanceOf } from "./getERC721BalanceOf.js";

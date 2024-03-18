@@ -15,6 +15,7 @@ export default function TokenAmountDisplay({
   // [newest, oldest]
   const [from, setFrom] = useState<[number, number]>([0, 0]);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: avoid circle
   useEffect(() => {
     from[0] !== num && setFrom([num, from[0]]);
   }, [num]);

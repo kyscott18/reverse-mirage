@@ -3,6 +3,9 @@
   "files": {
     "ignore": [
       "node_modules",
+      ".vitepress",
+      ".next",
+      "coverage",
       "dist",
       "generated.ts",
       "CHANGELOG.md",

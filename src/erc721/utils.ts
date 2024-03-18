@@ -1,4 +1,4 @@
-import { type Address } from "viem";
+import type { Address } from "viem";
 import { getAddress } from "viem/utils";
 import type { Tuple } from "../types/tuple.js";
 import type { BaseERC721, ERC721, ERC721Data } from "./types.js";

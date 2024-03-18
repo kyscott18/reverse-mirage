@@ -1,5 +1,5 @@
 import type { Chain, Client, ReadContractParameters, Transport } from "viem";
-import { solmateErc20Abi as solmateERC20Abi } from "../../generated.js";
+import type { solmateErc20Abi as solmateERC20Abi } from "../../generated.js";
 import type { BaseERC20, ERC20 } from "../types.js";
 import { createERC20 } from "../utils.js";
 import { getERC20Decimals } from "./getERC20Decimals.js";

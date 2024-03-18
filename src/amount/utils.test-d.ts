@@ -7,7 +7,7 @@ describe("amount utils types", () => {
     const c = createAmountFromString(mockToken, "1");
     c.type;
     //^?
-    assertType<typeof c["type"]>("tokenAmount");
+    assertType<(typeof c)["type"]>("tokenAmount");
   });
 
   test("math", () => {

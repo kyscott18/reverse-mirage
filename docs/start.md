@@ -15,7 +15,7 @@
 
 ### Tokens
 
-Tokens represent an asset on Ethereum. Tokens by themselves don't hold any specific state, but can be used to read from Ethereum or send a transaction. Currently `reverse-mirage` has:
+Tokens represent an asset on Ethereum. Currently `reverse-mirage` has:
 
 - **ERC20**: Fungible tokens
 - **ERC721**: Non-fungible tokens

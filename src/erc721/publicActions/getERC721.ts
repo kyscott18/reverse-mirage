@@ -1,5 +1,5 @@
 import type { Chain, Client, ReadContractParameters, Transport } from "viem";
-import { solmateErc721Abi as solmateERC721Abi } from "../../generated.js";
+import type { solmateErc721Abi as solmateERC721Abi } from "../../generated.js";
 import type { BaseERC721 } from "../types.js";
 import { createERC721 } from "../utils.js";
 import { getERC721Name } from "./getERC721Name.js";

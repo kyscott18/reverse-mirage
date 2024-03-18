@@ -65,10 +65,10 @@ $ bun run src/amount/utils.bench.ts
 
 ### Results
 
-* amount add: `reverse mirage` **8.31x** faster than `@uniswap/sdk-core`
-* amount equal to: `reverse-mirage` **18.9x** faster than `@uniswap/sdk-core`
-* amount to number: `reverse-mirage` **313x** faster than `@uniswap/sdk-core`
-* amount to significant: `reverse-mirage` **27.1x** faster than `@uniswap/sdk-core`
+- amount add: `reverse mirage` **8.31x** faster than `@uniswap/sdk-core`
+- amount equal to: `reverse-mirage` **18.9x** faster than `@uniswap/sdk-core`
+- amount to number: `reverse-mirage` **313x** faster than `@uniswap/sdk-core`
+- amount to significant: `reverse-mirage` **27.1x** faster than `@uniswap/sdk-core`
 
 ## Bundle Size
 
