@@ -1,6 +1,6 @@
 {
   "name": "reverse-mirage",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Application level typescript utilities for Ethereum",
   "type": "module",
   "sideEffects": false,
@@ -22,7 +22,12 @@
     "test": "vitest",
     "test:cov": "vitest --coverage"
   },
-  "keywords": ["eth", "ethereum", "dapps", "web3"],
+  "keywords": [
+    "eth",
+    "ethereum",
+    "dapps",
+    "web3"
+  ],
   "size-limit": [
     {
       "name": "reverse-mirage (cjs)",

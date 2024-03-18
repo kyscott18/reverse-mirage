@@ -1,5 +1,11 @@
 # reverse-mirage
 
+## 1.1.0
+
+### Minor Changes
+
+- 2643125: Migrated to peer dependency viem to v2.
+
 ## 1.0.3
 
 ### Patch Changes
