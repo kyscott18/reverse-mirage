@@ -32,7 +32,7 @@
     "noErrorTruncation": true,
     "useDefineForClassFields": true, // Not enabled by default in `strict` mode unless we bump `target` to ES2022.
     "noImplicitReturns": true, // Not enabled by default in `strict` mode.
-    "useUnknownInCatchVariables": true, // TODO: This would normally be enabled in `strict` mode but would require some adjustments to the codebase.
+    "useUnknownInCatchVariables": true // TODO: This would normally be enabled in `strict` mode but would require some adjustments to the codebase.
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

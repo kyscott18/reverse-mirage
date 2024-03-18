@@ -1,10 +1,10 @@
 import { clsx } from "clsx";
 import Link from "next/link";
-import React from "react";
+import type React from "react";
 import { toast } from "react-hot-toast";
 import type { TransactionReceipt } from "viem";
-import type { Address } from "wagmi";
-import { useNetwork } from "wagmi";
+import type { Address } from "viem";
+import { useChains } from "wagmi";
 
 export type BeetTx = {
   title: string;
@@ -68,7 +68,7 @@ export class DefaultToasterWrapper {
   txSending(tx: Omit<TxSending, "status">) {
     toast.loading(this._buildToastContainer({ ...tx, status: "sending" }), {
       id: tx.id,
-      duration: Infinity,
+      duration: Number.POSITIVE_INFINITY,
       position: "bottom-left",
     });
   }
@@ -106,15 +106,15 @@ export class DefaultToasterWrapper {
     tx: TxSending | TxSuccess | TxError | TxPending,
   ) {
     return (
-      <div className="flex w-full flex-col overflow-hidden font-mono">
-        <div className="flex items-center justify-between  w-full">
-          <p className="flex items-center p2 gap-1 text-ellipsis ma">
+      <div className="flex flex-col w-full overflow-hidden font-mono">
+        <div className="flex items-center justify-between w-full">
+          <p className="flex items-center gap-1 p2 text-ellipsis ma">
             {tx.title}
             <span className="flex p5">{tx.humanCount}</span>
           </p>
           <button
             type="button"
-            className="pointer text-xl text-secondary hover:text-black"
+            className="text-xl pointer text-secondary hover:text-black"
             onClick={() => toast.dismiss(tx.id)}
           >
             ×
@@ -149,7 +149,7 @@ export const AddressLink: React.FC<{
   data: "tx" | "address";
   className?: string;
 }> = ({ address, className, data }) => {
-  const { chain } = useNetwork();
+  const [chain] = useChains();
   return (
     <Link
       href={`${

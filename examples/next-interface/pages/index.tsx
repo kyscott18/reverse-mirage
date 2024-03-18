@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     setupMutation.mutate();
-  }, []);
+  }, [setupMutation]);
 
   const { isConnected, address } = useAccount();
   const { id, token } = useEnvironment();
@@ -24,8 +24,8 @@ export default function Home() {
         "flex min-h-screen flex-col items-center justify-center w-full font-mono px-3"
       }
     >
-      <div className="w-full max-w-md flex flex-col border-8 border-gray-200 rounded-xl bg-white p-4 gap-4">
-        <div className="w-full flex gap-1 justify-between">
+      <div className="flex flex-col w-full max-w-md gap-4 p-4 bg-white border-8 border-gray-200 rounded-xl">
+        <div className="flex justify-between w-full gap-1">
           <ConnectButton />
           <AsyncButton
             className="w-4"
@@ -39,7 +39,7 @@ export default function Home() {
         </div>
         {isConnected && (
           <>
-            <div className=" w-full border-b-2 border-gray-200" />
+            <div className="w-full border-b-2 border-gray-200 " />
             {token ? (
               <TokenAmountRow erc20={token} erc20AmountQuery={balanceQuery} />
             ) : null}

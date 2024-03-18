@@ -9,7 +9,7 @@ Building blocks for Ethereum app development. Built using [Viem](https://viem.sh
 
 ## Features
 
-- ✅ 10x-100x faster, 10.4x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
+- ✅ 10x-100x faster, 11.6x smaller than [`@uniswap/sdk-core`](https://github.com/uniswap/sdk-core)
 - ✅ Abstactions for most commonly used token standards
 - ✅ Supports `permit`
 - ✅ Extensible to build apps and libraries
@@ -56,7 +56,7 @@ $ npm i reverse-mirage
 
 ## Benchmarks
 
-Benchmarks are done with [mitata](https://github.com/evanwashere/mitata). To reproduce: 
+Benchmarks are done with [mitata](https://github.com/evanwashere/mitata). To reproduce:
 
 ```sh
 $ cd packages/core/
@@ -65,13 +65,13 @@ $ bun run src/amount/utils.bench.ts
 
 ### Results
 
-* amount add: `reverse mirage` **8.17x** faster than `@uniswap/sdk-core`
-* amount equal to: `reverse-mirage` **10.63x** faster than `@uniswap/sdk-core`
-* amount to number: `reverse-mirage` **136.14x** faster than `@uniswap/sdk-core`
-* amount to significant: `reverse-mirage` **30.03x** faster than `@uniswap/sdk-core`
+- amount add: `reverse mirage` **8.31x** faster than `@uniswap/sdk-core`
+- amount equal to: `reverse-mirage` **18.9x** faster than `@uniswap/sdk-core`
+- amount to number: `reverse-mirage` **313x** faster than `@uniswap/sdk-core`
+- amount to significant: `reverse-mirage` **27.1x** faster than `@uniswap/sdk-core`
 
 ## Bundle Size
 
-`reverse-mirage`: **5.12 kB**
+`reverse-mirage`: **4.61 kB**
 
 `@uniswap/sdk-core`: **53.4 kB**

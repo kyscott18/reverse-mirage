@@ -1,4 +1,4 @@
-import { type ERC20 } from "@/lib/types";
+import type { ERC20 } from "@/lib/types";
 import { useState } from "react";
 import { createContainer } from "unstated-next";
 import type { Hex } from "viem";

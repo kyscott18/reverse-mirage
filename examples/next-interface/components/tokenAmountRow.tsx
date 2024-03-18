@@ -2,7 +2,7 @@ import AsyncButton from "./asyncButton";
 import { Beet } from "./beet";
 
 import { useTransfer } from "@/hooks/useTransfer";
-import { type UseQueryResult } from "@tanstack/react-query";
+import type { UseQueryResult } from "@tanstack/react-query";
 import {
   type ERC20,
   type ERC20Amount,

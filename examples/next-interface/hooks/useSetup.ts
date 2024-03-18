@@ -4,11 +4,11 @@ import { testClient, walletClient } from "@/pages/_app";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createERC20 } from "reverse-mirage";
 import invariant from "tiny-invariant";
-import { type Hex } from "viem";
+import type { Hex } from "viem";
 import { parseEther } from "viem/utils";
 import { useChainId, usePublicClient } from "wagmi";
 import ERC20 from "../../../contracts/out/ERC20.sol/ERC20.json";
-import { erc20ABI } from "../generated";
+import { erc20Abi } from "../generated";
 
 export const useSetup = () => {
   const publicClient = usePublicClient();
@@ -21,7 +21,7 @@ export const useSetup = () => {
       if (id === undefined) {
         const deployHash = await walletClient.deployContract({
           account: ALICE,
-          abi: erc20ABI,
+          abi: erc20Abi,
           bytecode: ERC20.bytecode.object as Hex,
           args: ["Marshall Rogan INU", "MRI", 18],
         });
@@ -39,7 +39,7 @@ export const useSetup = () => {
         });
 
         const mintHash = await walletClient.writeContract({
-          abi: erc20ABI,
+          abi: erc20Abi,
           functionName: "mint",
           address: contractAddress,
           args: [ALICE, parseEther("10")],
